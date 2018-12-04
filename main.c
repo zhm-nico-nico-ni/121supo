@@ -16,19 +16,10 @@ int main(int argc, char *argv[]) {
     OpusEncoder *enc=NULL;
 
     int frame_size, channels = 1;
-    int use_vbr = 0;//cbr
-    int cvbr = 0;
-    int bandwidth=OPUS_BANDWIDTH_WIDEBAND;
     int application=OPUS_APPLICATION_AUDIO;
     opus_int32 sampling_rate = 16000;
     opus_int32 bitrate_bps = 32000;
-    int complexity = 4;
     int use_inbandfec = 0;
-    int forcechannels = 1;//OPUS_AUTO;
-    int use_dtx = 0;
-    int packet_loss_perc = 0;
-    opus_int32 skip=0;
-    int variable_duration=OPUS_FRAMESIZE_20_MS;
 
     frame_size = sampling_rate/50;
     int stop=0;
@@ -60,19 +51,6 @@ int main(int argc, char *argv[]) {
             fclose(fout);
             return EXIT_FAILURE;
         }
-        opus_encoder_ctl(enc, OPUS_SET_BITRATE(bitrate_bps));
-        opus_encoder_ctl(enc, OPUS_SET_BANDWIDTH(bandwidth));
-        opus_encoder_ctl(enc, OPUS_SET_VBR(use_vbr));
-        opus_encoder_ctl(enc, OPUS_SET_VBR_CONSTRAINT(cvbr));
-        opus_encoder_ctl(enc, OPUS_SET_COMPLEXITY(complexity));
-        opus_encoder_ctl(enc, OPUS_SET_INBAND_FEC(use_inbandfec));
-        opus_encoder_ctl(enc, OPUS_SET_FORCE_CHANNELS(forcechannels));
-        opus_encoder_ctl(enc, OPUS_SET_DTX(use_dtx));
-        opus_encoder_ctl(enc, OPUS_SET_PACKET_LOSS_PERC(packet_loss_perc));
-
-        opus_encoder_ctl(enc, OPUS_GET_LOOKAHEAD(&skip));
-        opus_encoder_ctl(enc, OPUS_SET_LSB_DEPTH(16));
-        opus_encoder_ctl(enc, OPUS_SET_EXPERT_FRAME_DURATION(variable_duration));
     }
 
     fprintf(stderr, "Encoding %ld Hz input at %.3f kb/s "
@@ -88,16 +66,14 @@ int main(int argc, char *argv[]) {
     , curr_mode_count=0, mode_switch_time = 48000, curr_mode=0,nb_modes_in_list=0;
     opus_uint64 tot_in;
     opus_int32 count=0, count_act=0;
-    short *in, *out;
+    short *in;
     int len[2];
     unsigned char *data[2];
-    opus_uint32 enc_final_range[2];
     double tot_samples=0, bits=0.0, bits_max=0.0, bits_act=0.0, bits2=0.0, nrg;
     int k;
 
     int max_frame_size = 48000*2;
     in = (short*)malloc(max_frame_size*channels*sizeof(short));
-    out = (short*)malloc(max_frame_size*channels*sizeof(short));
     /* We need to allocate for 16-bit PCM data, but we store it as unsigned char. */
     fbytes = (unsigned char*)malloc(max_frame_size*channels*sizeof(short));
     data[0] = (unsigned char*)calloc(MAX_PACKET,sizeof(unsigned char));
@@ -130,7 +106,7 @@ int main(int argc, char *argv[]) {
                 in[i] = in[nb_encoded*channels+i];
 
 
-            opus_encoder_ctl(enc, OPUS_GET_FINAL_RANGE(&enc_final_range[toggle]));
+//            opus_encoder_ctl(enc, OPUS_GET_FINAL_RANGE(&enc_final_range[toggle]));
             if (len[toggle] < 0)
             {
                 fprintf (stderr, "opus_encode() returned %d\n", len[toggle]);
@@ -197,7 +173,6 @@ int main(int argc, char *argv[]) {
     fclose(fin);
     fclose(fout);
     free(in);
-    free(out);
     free(fbytes);
     return 0;
 }

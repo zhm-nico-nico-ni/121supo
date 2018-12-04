@@ -76,11 +76,6 @@ int opus_repacketizer_cat(OpusRepacketizer *rp, const unsigned char *data, opus_
    return opus_repacketizer_cat_impl(rp, data, len, 0);
 }
 
-int opus_repacketizer_get_nb_frames(OpusRepacketizer *rp)
-{
-   return rp->nb_frames;
-}
-
 opus_int32 opus_repacketizer_out_range_impl(OpusRepacketizer *rp, int begin, int end,
       unsigned char *data, opus_int32 maxlen, int self_delimited, int pad)
 {
