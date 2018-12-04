@@ -1155,29 +1155,6 @@ int opus_custom_decode(CELTDecoder * OPUS_RESTRICT st, const unsigned char *data
    return celt_decode_with_ec(st, data, len, pcm, frame_size, NULL, 0);
 }
 
-#ifndef DISABLE_FLOAT_API
-int opus_custom_decode_float(CELTDecoder * OPUS_RESTRICT st, const unsigned char *data, int len, float * OPUS_RESTRICT pcm, int frame_size)
-{
-   int j, ret, C, N;
-   VARDECL(opus_int16, out);
-   ALLOC_STACK;
-
-   if (pcm==NULL)
-      return OPUS_BAD_ARG;
-
-   C = st->channels;
-   N = frame_size;
-
-   ALLOC(out, C*N, opus_int16);
-   ret=celt_decode_with_ec(st, data, len, out, frame_size, NULL, 0);
-   if (ret>0)
-      for (j=0;j<C*ret;j++)
-         pcm[j]=out[j]*(1.f/32768.f);
-
-   RESTORE_STACK;
-   return ret;
-}
-#endif /* DISABLE_FLOAT_API */
 
 #else
 

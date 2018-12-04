@@ -281,36 +281,3 @@ void init_caps(const CELTMode *m,int *cap,int LM,int C)
 }
 
 
-
-const char *opus_strerror(int error)
-{
-   static const char * const error_strings[8] = {
-      "success",
-      "invalid argument",
-      "buffer too small",
-      "internal error",
-      "corrupted stream",
-      "request not implemented",
-      "invalid state",
-      "memory allocation failed"
-   };
-   if (error > 0 || error < -7)
-      return "unknown error";
-   else
-      return error_strings[-error];
-}
-
-const char *opus_get_version_string(void)
-{
-    return "libopus " PACKAGE_VERSION
-    /* Applications may rely on the presence of this substring in the version
-       string to determine if they have a fixed-point or floating-point build
-       at runtime. */
-#ifdef FIXED_POINT
-          "-fixed"
-#endif
-#ifdef FUZZING
-          "-fuzzing"
-#endif
-          ;
-}

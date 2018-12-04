@@ -48,7 +48,7 @@
 #include "float/structs_FLP.h"
 #endif
 
-#define MAX_ENCODER_BUFFER 480
+#define MAX_ENCODER_BUFFER 120
 
 
 struct OpusEncoder {
@@ -663,7 +663,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
         int bandwidth = OPUS_BANDWIDTH_FULLBAND;
 
         voice_bandwidth_thresholds = mono_voice_bandwidth_thresholds;
-        music_bandwidth_thresholds = mono_music_bandwidth_thresholds;
+        music_bandwidth_thresholds = mono_voice_bandwidth_thresholds;//mono_music_bandwidth_thresholds;
         /* Interpolate bandwidth thresholds depending on voice estimation */
         for (i=0;i<8;i++)
         {
