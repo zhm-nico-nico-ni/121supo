@@ -31,7 +31,6 @@
 
 #include "../celt/arch.h"
 #include "opus.h"
-#include "celt.h"
 
 #include <stddef.h> /* offsetof */
 

@@ -39,7 +39,6 @@
 #include "../silk/tuning_parameters.h"
 
 #include <stdarg.h>
-#include "celt.h"
 #include "modes.h"
 #include "opus_private.h"
 #ifdef FIXED_POINT
@@ -478,7 +477,6 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
                 int analysis_channels, downmix_func downmix, int float_api)
 {
     void *silk_enc;
-    CELTEncoder *celt_enc;
     int i;
     int ret=0;
     opus_int32 nBytes;
@@ -503,7 +501,6 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     opus_val16 HB_gain;
     opus_int32 max_data_bytes; /* Max number of bytes we're allowed to use */
     int total_buffer;
-    const CELTMode *celt_mode;
 
     VARDECL(opus_val16, tmp_prefill);
 
@@ -852,27 +849,6 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
            /* Counting 1 bit for redundancy position and 20 bits for flag+size (only for hybrid). */
            st->silk_mode.maxBits -= redundancy_bytes*8 + 1;
         }
-
-        if (prefill)
-        {
-            opus_int32 zero=0;
-            int prefill_offset;
-            /* Use a smooth onset for the SILK prefill to avoid the encoder trying to encode
-               a discontinuity. The exact location is what we need to avoid leaving any "gap"
-               in the audio when mixing with the redundant CELT frame. Here we can afford to
-               overwrite st->delay_buffer because the only thing that uses it before it gets
-               rewritten is tmp_prefill[] and even then only the part after the ramp really
-               gets used (rather than sent to the encoder and discarded) */
-            prefill_offset = st->channels*(st->encoder_buffer-st->delay_compensation-st->Fs/400);
-            gain_fade(st->delay_buffer+prefill_offset, st->delay_buffer+prefill_offset,
-                  0, Q15ONE, celt_mode->overlap, st->Fs/400, st->channels, celt_mode->window, st->Fs);
-            OPUS_CLEAR(st->delay_buffer, prefill_offset);
-
-            pcm_silk = st->delay_buffer;
-
-            silk_Encode( silk_enc, &st->silk_mode, pcm_silk, st->encoder_buffer, NULL, &zero, 1 );
-        }
-
 
         pcm_silk = pcm_buf+total_buffer*st->channels;
 
