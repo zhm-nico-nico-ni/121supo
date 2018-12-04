@@ -756,7 +756,7 @@ typedef struct OpusRepacketizer OpusRepacketizer;
 /** Gets the size of an <code>OpusRepacketizer</code> structure.
   * @returns The size in bytes.
   */
-OPUS_EXPORT OPUS_WARN_UNUSED_RESULT int opus_repacketizer_get_size(void);
+OPUS_EXPORT
 
 /** (Re)initializes a previously allocated repacketizer state.
   * The state must be at least the size returned by opus_repacketizer_get_size().
@@ -780,13 +780,13 @@ OPUS_EXPORT OpusRepacketizer *opus_repacketizer_init(OpusRepacketizer *rp) OPUS_
 /** Allocates memory and initializes the new repacketizer with
  * opus_repacketizer_init().
   */
-OPUS_EXPORT OPUS_WARN_UNUSED_RESULT OpusRepacketizer *opus_repacketizer_create(void);
+OPUS_EXPORT
 
 /** Frees an <code>OpusRepacketizer</code> allocated by
   * opus_repacketizer_create().
   * @param[in] rp <tt>OpusRepacketizer*</tt>: State to be freed.
   */
-OPUS_EXPORT void opus_repacketizer_destroy(OpusRepacketizer *rp);
+OPUS_EXPORT
 
 /** Add a packet to the current repacketizer state.
   * This packet must match the configuration of any packets already submitted
@@ -869,7 +869,7 @@ OPUS_EXPORT int opus_repacketizer_cat(OpusRepacketizer *rp, const unsigned char 
   * @retval #OPUS_BUFFER_TOO_SMALL \a maxlen was insufficient to contain the
   *                                complete output packet.
   */
-OPUS_EXPORT OPUS_WARN_UNUSED_RESULT opus_int32 opus_repacketizer_out_range(OpusRepacketizer *rp, int begin, int end, unsigned char *data, opus_int32 maxlen) OPUS_ARG_NONNULL(1) OPUS_ARG_NONNULL(4);
+OPUS_EXPORT
 
 /** Return the total number of frames contained in packet data submitted to
   * the repacketizer state so far via opus_repacketizer_cat() since the last
@@ -912,7 +912,7 @@ OPUS_EXPORT OPUS_WARN_UNUSED_RESULT int opus_repacketizer_get_nb_frames(OpusRepa
   * @retval #OPUS_BUFFER_TOO_SMALL \a maxlen was insufficient to contain the
   *                                complete output packet.
   */
-OPUS_EXPORT OPUS_WARN_UNUSED_RESULT opus_int32 opus_repacketizer_out(OpusRepacketizer *rp, unsigned char *data, opus_int32 maxlen) OPUS_ARG_NONNULL(1);
+OPUS_EXPORT
 
 /** Pads a given Opus packet to a larger size (possibly changing the TOC sequence).
   * @param[in,out] data <tt>const unsigned char*</tt>: The buffer containing the
@@ -939,7 +939,7 @@ OPUS_EXPORT int opus_packet_pad(unsigned char *data, opus_int32 len, opus_int32 
   * @retval #OPUS_BAD_ARG \a len was less than 1.
   * @retval #OPUS_INVALID_PACKET \a data did not contain a valid Opus packet.
   */
-OPUS_EXPORT OPUS_WARN_UNUSED_RESULT opus_int32 opus_packet_unpad(unsigned char *data, opus_int32 len);
+OPUS_EXPORT
 
 /** Pads a given Opus multi-stream packet to a larger size (possibly changing the TOC sequence).
   * @param[in,out] data <tt>const unsigned char*</tt>: The buffer containing the
@@ -955,7 +955,7 @@ OPUS_EXPORT OPUS_WARN_UNUSED_RESULT opus_int32 opus_packet_unpad(unsigned char *
   * @retval #OPUS_BAD_ARG \a len was less than 1.
   * @retval #OPUS_INVALID_PACKET \a data did not contain a valid Opus packet.
   */
-OPUS_EXPORT int opus_multistream_packet_pad(unsigned char *data, opus_int32 len, opus_int32 new_len, int nb_streams);
+OPUS_EXPORT
 
 /** Remove all padding from a given Opus multi-stream packet and rewrite the TOC sequence to
   * minimize space usage.
@@ -970,7 +970,7 @@ OPUS_EXPORT int opus_multistream_packet_pad(unsigned char *data, opus_int32 len,
   * @retval #OPUS_BAD_ARG \a len was less than 1 or new_len was less than len.
   * @retval #OPUS_INVALID_PACKET \a data did not contain a valid Opus packet.
   */
-OPUS_EXPORT OPUS_WARN_UNUSED_RESULT opus_int32 opus_multistream_packet_unpad(unsigned char *data, opus_int32 len, int nb_streams);
+OPUS_EXPORT
 
 /**@}*/
 

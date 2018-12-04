@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 90)
 add_definitions(-DVAR_ARRAYS)
 add_definitions(-DCUSTOM_MODES)
 add_definitions(-DFIXED_POINT)
-#add_definitions(-DDISABLE_FLOAT_API)
+add_definitions(-DDISABLE_FLOAT_API)
 #add_definitions(-DEC_CLZ)
 #set(CXX_PLATFORM_DEPENDENT_FLAGS_DEBUG      "-DDEBUG -DACSDK_DEBUG_LOG_ENABLED -Wall -Werror -Wsign-compare -g")
 
@@ -20,10 +20,7 @@ file(GLOB FLOAT_SILK_SOURCES silk/float/*.c )
 set(SOURCE_FILES main.c
         src/opus.c
         src/opus_encoder.c
-        src/opus_decoder.c
         src/repacketizer.c
-        src/analysis.c
-        src/mlp.c
         "${BASE_SOURCES}"
         "${CELT_SOURCES}"
         "${SILK_SOURCES}"
