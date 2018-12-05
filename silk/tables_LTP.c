@@ -29,26 +29,11 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "config.h"
 #endif
 
+#include <stdlib.h>
 #include "tables.h"
 
 const opus_uint8 silk_LTP_per_index_iCDF[3] = {
        179,     99,      0
-};
-
-static const opus_uint8 silk_LTP_gain_iCDF_0[8] = {
-        71,     56,     43,     30,     21,     12,      6,      0
-};
-
-static const opus_uint8 silk_LTP_gain_iCDF_1[16] = {
-       199,    165,    144,    124,    109,     96,     84,     71,
-        61,     51,     42,     32,     23,     15,      8,      0
-};
-
-static const opus_uint8 silk_LTP_gain_iCDF_2[32] = {
-       241,    225,    211,    199,    187,    175,    164,    153,
-       142,    132,    123,    114,    105,     96,     88,     80,
-        72,     64,     57,     50,     44,     38,     33,     29,
-        24,     20,     16,     12,      9,      5,      2,      0
 };
 
 static const opus_uint8 silk_LTP_gain_BITS_Q5_0[8] = {
@@ -67,13 +52,63 @@ static const opus_uint8 silk_LTP_gain_BITS_Q5_2[32] = {
        182,    192,    192,    192,    205,    192,    205,    224
 };
 
-const opus_uint8 * const silk_LTP_gain_iCDF_ptrs[NB_LTP_CBKS] = {
-    silk_LTP_gain_iCDF_0,
-    silk_LTP_gain_iCDF_1,
-    silk_LTP_gain_iCDF_2
-};
 
 
+opus_uint8 ** s_silk_LTP_gain_iCDF_ptrs = 0;
+/* Structure containing NLSF codebook */
+const opus_uint8 ** get_silk_LTP_gain_iCDF_ptrs(void){
+    if(s_silk_LTP_gain_iCDF_ptrs == NULL){
+        s_silk_LTP_gain_iCDF_ptrs = malloc(sizeof(opus_uint8 *) * 3);
+
+        s_silk_LTP_gain_iCDF_ptrs[0] = malloc(sizeof(opus_uint8) * 8);
+        s_silk_LTP_gain_iCDF_ptrs[0][0] = 71;
+        s_silk_LTP_gain_iCDF_ptrs[0][1] = 56;
+        s_silk_LTP_gain_iCDF_ptrs[0][2] = 43;
+        s_silk_LTP_gain_iCDF_ptrs[0][3] = 30;
+        s_silk_LTP_gain_iCDF_ptrs[0][4] = 21;
+        s_silk_LTP_gain_iCDF_ptrs[0][5] = 12;
+        s_silk_LTP_gain_iCDF_ptrs[0][6] = 6;
+        s_silk_LTP_gain_iCDF_ptrs[0][7] = 0;
+
+        s_silk_LTP_gain_iCDF_ptrs[1] = malloc(sizeof(opus_uint8) * 16);
+        s_silk_LTP_gain_iCDF_ptrs[1][0] = 199;
+        s_silk_LTP_gain_iCDF_ptrs[1][1] = 165;
+        s_silk_LTP_gain_iCDF_ptrs[1][2] = 144;
+        s_silk_LTP_gain_iCDF_ptrs[1][3] = 124;
+        s_silk_LTP_gain_iCDF_ptrs[1][4] = 109;
+        s_silk_LTP_gain_iCDF_ptrs[1][5] = 96;
+        s_silk_LTP_gain_iCDF_ptrs[1][6] = 84;
+        s_silk_LTP_gain_iCDF_ptrs[1][7] = 71;
+        s_silk_LTP_gain_iCDF_ptrs[1][8] = 61;
+        s_silk_LTP_gain_iCDF_ptrs[1][9] = 51;
+        s_silk_LTP_gain_iCDF_ptrs[1][10] = 42;
+        s_silk_LTP_gain_iCDF_ptrs[1][11] = 32;
+        s_silk_LTP_gain_iCDF_ptrs[1][12] = 23;
+        s_silk_LTP_gain_iCDF_ptrs[1][13] = 15;
+        s_silk_LTP_gain_iCDF_ptrs[1][14] = 8;
+        s_silk_LTP_gain_iCDF_ptrs[1][15] = 0;
+
+        s_silk_LTP_gain_iCDF_ptrs[2] = malloc(sizeof(opus_uint8) * 32);
+        s_silk_LTP_gain_iCDF_ptrs[2][0] = 241; s_silk_LTP_gain_iCDF_ptrs[2][16] = 72;
+        s_silk_LTP_gain_iCDF_ptrs[2][1] = 225; s_silk_LTP_gain_iCDF_ptrs[2][17] = 64;
+        s_silk_LTP_gain_iCDF_ptrs[2][2] = 211; s_silk_LTP_gain_iCDF_ptrs[2][18] = 57;
+        s_silk_LTP_gain_iCDF_ptrs[2][3] = 199; s_silk_LTP_gain_iCDF_ptrs[2][19] = 50;
+        s_silk_LTP_gain_iCDF_ptrs[2][4] = 187; s_silk_LTP_gain_iCDF_ptrs[2][20] = 44;
+        s_silk_LTP_gain_iCDF_ptrs[2][5] = 175; s_silk_LTP_gain_iCDF_ptrs[2][21] = 38;
+        s_silk_LTP_gain_iCDF_ptrs[2][6] = 164; s_silk_LTP_gain_iCDF_ptrs[2][22] = 33;
+        s_silk_LTP_gain_iCDF_ptrs[2][7] = 153; s_silk_LTP_gain_iCDF_ptrs[2][23] = 29;
+        s_silk_LTP_gain_iCDF_ptrs[2][8] = 142; s_silk_LTP_gain_iCDF_ptrs[2][24] = 24;
+        s_silk_LTP_gain_iCDF_ptrs[2][9] = 132; s_silk_LTP_gain_iCDF_ptrs[2][25] = 20;
+        s_silk_LTP_gain_iCDF_ptrs[2][10] =123; s_silk_LTP_gain_iCDF_ptrs[2][26] = 16;
+        s_silk_LTP_gain_iCDF_ptrs[2][11] =114; s_silk_LTP_gain_iCDF_ptrs[2][27] = 12;
+        s_silk_LTP_gain_iCDF_ptrs[2][12] =105; s_silk_LTP_gain_iCDF_ptrs[2][28] = 9;
+        s_silk_LTP_gain_iCDF_ptrs[2][13] = 96; s_silk_LTP_gain_iCDF_ptrs[2][29] = 5;
+        s_silk_LTP_gain_iCDF_ptrs[2][14] = 88; s_silk_LTP_gain_iCDF_ptrs[2][30] = 2;
+        s_silk_LTP_gain_iCDF_ptrs[2][15] = 80; s_silk_LTP_gain_iCDF_ptrs[2][31] = 0;
+    }
+
+    return s_silk_LTP_gain_iCDF_ptrs;
+}
 
 const opus_uint8 * const silk_LTP_gain_BITS_Q5_ptrs[NB_LTP_CBKS] = {
     silk_LTP_gain_BITS_Q5_0,

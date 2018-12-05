@@ -158,7 +158,7 @@ void silk_encode_indices(
         /* Codebook Indices */
         for( k = 0; k < psEncC->nb_subfr; k++ ) {
             silk_assert( psIndices->LTPIndex[ k ] >= 0 && psIndices->LTPIndex[ k ] < ( 8 << psIndices->PERIndex ) );
-            ec_enc_icdf( psRangeEnc, psIndices->LTPIndex[ k ], silk_LTP_gain_iCDF_ptrs[ psIndices->PERIndex ], 8 );
+            ec_enc_icdf( psRangeEnc, psIndices->LTPIndex[ k ], get_silk_LTP_gain_iCDF_ptrs()[ psIndices->PERIndex ], 8 );
         }
 
         /**********************/
