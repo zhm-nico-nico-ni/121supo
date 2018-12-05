@@ -66,9 +66,9 @@ void silk_quant_LTP_gains(
            such as state rescaling/rewhitening. */
         opus_int32 gain_safety = SILK_FIX_CONST( 0.4, 7 );
 
-        cl_ptr_Q5  = silk_LTP_gain_BITS_Q5_ptrs[ k ];
-        cbk_ptr_Q7 = silk_LTP_vq_ptrs_Q7[        k ];
-        cbk_gain_ptr_Q7 = silk_LTP_vq_gain_ptrs_Q7[ k ];
+        cl_ptr_Q5  = get_silk_LTP_gain_BITS_Q5_ptrs()[ k ];
+        cbk_ptr_Q7 = get_silk_LTP_vq_ptrs_Q7()[        k ];
+        cbk_gain_ptr_Q7 = get_silk_LTP_vq_gain_ptrs_Q7()[ k ];
         cbk_size   = silk_LTP_vq_sizes[          k ];
 
         /* Set up pointers to first subframe */
@@ -114,7 +114,7 @@ void silk_quant_LTP_gains(
         }
     }
 
-    cbk_ptr_Q7 = silk_LTP_vq_ptrs_Q7[ *periodicity_index ];
+    cbk_ptr_Q7 = get_silk_LTP_vq_ptrs_Q7()[ *periodicity_index ];
     for( j = 0; j < nb_subfr; j++ ) {
         for( k = 0; k < LTP_ORDER; k++ ) {
             B_Q14[ j * LTP_ORDER + k ] = silk_LSHIFT( cbk_ptr_Q7[ cbk_index[ j ] * LTP_ORDER + k ], 7 );
