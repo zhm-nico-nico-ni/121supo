@@ -246,14 +246,6 @@ void silk_autocorr(
     int                         arch                /* I    Run-time architecture                                       */
 );
 
-void silk_decode_pitch(
-    opus_int16                  lagIndex,           /* I                                                                */
-    opus_int8                   contourIndex,       /* O                                                                */
-    opus_int                    pitch_lags[],       /* O    4 pitch values                                              */
-    const opus_int              Fs_kHz,             /* I    sampling frequency (kHz)                                    */
-    const opus_int              nb_subfr            /* I    number of sub frames                                        */
-);
-
 opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 voiced, 1 unvoiced                      */
     const opus_int16            *frame,             /* I    Signal of length PE_FRAME_LENGTH_MS*Fs_kHz                  */
     opus_int                    *pitch_out,         /* O    4 pitch lag values                                          */
@@ -596,8 +588,6 @@ static OPUS_INLINE opus_int64 silk_max_64(opus_int64 a, opus_int64 b)
 
 
 #include "Inlines.h"
-#include "MacroCount.h"
-#include "MacroDebug.h"
 
 #ifdef OPUS_ARM_INLINE_ASM
 #include "arm/SigProc_FIX_armv4.h"

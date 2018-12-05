@@ -200,7 +200,6 @@ extern "C"
 /* NLSF quantizer */
 /******************/
 #define NLSF_W_Q                                2
-#define NLSF_VQ_MAX_VECTORS                     32
 #define NLSF_QUANT_MAX_AMPLITUDE                4
 #define NLSF_QUANT_MAX_AMPLITUDE_EXT            10
 #define NLSF_QUANT_LEVEL_ADJ                    0.1
@@ -215,13 +214,7 @@ extern "C"
 #define TRANSITION_FRAMES                       ( TRANSITION_TIME_MS / MAX_FRAME_LENGTH_MS )
 #define TRANSITION_INT_STEPS                    ( TRANSITION_FRAMES  / ( TRANSITION_INT_NUM - 1 ) )
 
-/* BWE factors to apply after packet loss */
-#define BWE_AFTER_LOSS_Q16                      63570
 
-/* Defines for CN generation */
-#define CNG_BUF_MASK_MAX                        255     /* 2^floor(log2(MAX_FRAME_LENGTH))-1    */
-#define CNG_GAIN_SMTH_Q16                       4634    /* 0.25^(1/4)                           */
-#define CNG_NLSF_SMTH_Q16                       16348   /* 0.25                                 */
 
 #ifdef __cplusplus
 }

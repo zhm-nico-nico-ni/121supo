@@ -34,7 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "main_FLP.h"
 #endif
 #include "tuning_parameters.h"
-#include "cpu_support.h"
+
 
 /*********************************/
 /* Initialize Silk Encoder state */

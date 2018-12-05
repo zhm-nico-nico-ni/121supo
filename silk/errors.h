@@ -75,21 +75,6 @@ extern "C"
 /* Internal encoder error */
 #define SILK_ENC_INVALID_NUMBER_OF_CHANNELS_ERROR   -111
 
-/**************************/
-/* Decoder error messages */
-/**************************/
-
-/* Output sampling frequency lower than internal decoded sampling frequency */
-#define SILK_DEC_INVALID_SAMPLING_FREQUENCY         -200
-
-/* Payload size exceeded the maximum allowed 1024 bytes */
-#define SILK_DEC_PAYLOAD_TOO_LARGE                  -201
-
-/* Payload has bit errors */
-#define SILK_DEC_PAYLOAD_ERROR                      -202
-
-/* Payload has bit errors */
-#define SILK_DEC_INVALID_FRAME_SIZE                 -203
 
 #ifdef __cplusplus
 }
