@@ -49,9 +49,6 @@ void ec_enc_init(ec_enc *_this,unsigned char *_buf,opus_uint32 _size);
   _ft: The sum of the frequencies of all the symbols*/
 void ec_encode(ec_enc *_this,unsigned _fl,unsigned _fh,unsigned _ft);
 
-/*Equivalent to ec_encode() with _ft==1<<_bits.*/
-void ec_encode_bin(ec_enc *_this,unsigned _fl,unsigned _fh,unsigned _bits);
-
 /* Encode a bit that has a 1/(1<<_logp) probability of being a one */
 void ec_enc_bit_logp(ec_enc *_this,int _val,unsigned _logp);
 
@@ -63,18 +60,6 @@ void ec_enc_bit_logp(ec_enc *_this,int _val,unsigned _logp);
           must be 0.
   _ftb: The number of bits of precision in the cumulative distribution.*/
 void ec_enc_icdf(ec_enc *_this,int _s,const unsigned char *_icdf,unsigned _ftb);
-
-/*Encodes a raw unsigned integer in the stream.
-  _fl: The integer to encode.
-  _ft: The number of integers that can be encoded (one more than the max).
-       This must be at least one, and no more than 2**32-1.*/
-void ec_enc_uint(ec_enc *_this,opus_uint32 _fl,opus_uint32 _ft);
-
-/*Encodes a sequence of raw bits in the stream.
-  _fl:  The bits to encode.
-  _ftb: The number of bits to encode.
-        This must be between 1 and 25, inclusive.*/
-void ec_enc_bits(ec_enc *_this,opus_uint32 _fl,unsigned _ftb);
 
 /*Overwrites a few bits at the very start of an existing stream, after they
    have already been encoded.
@@ -91,16 +76,6 @@ void ec_enc_bits(ec_enc *_this,opus_uint32 _fl,unsigned _ftb);
   _nbits: The number of bits to overwrite.
           This must be no more than 8.*/
 void ec_enc_patch_initial_bits(ec_enc *_this,unsigned _val,unsigned _nbits);
-
-/*Compacts the data to fit in the target size.
-  This moves up the raw bits at the end of the current buffer so they are at
-   the end of the new buffer size.
-  The caller must ensure that the amount of data that's already been written
-   will fit in the new size.
-  _size: The number of bytes in the new buffer.
-         This must be large enough to contain the bits already written, and
-          must be no larger than the existing size.*/
-void ec_enc_shrink(ec_enc *_this,opus_uint32 _size);
 
 /*Indicates that there are no more symbols to encode.
   All reamining output bytes are flushed to the output buffer.

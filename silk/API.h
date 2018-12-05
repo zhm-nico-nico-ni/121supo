@@ -83,49 +83,8 @@ opus_int silk_Encode(                                   /* O    Returns error co
     const opus_int                  prefillFlag         /* I    Flag to indicate prefilling buffers no coding   */
 );
 
-/****************************************/
-/* Decoder functions                    */
-/****************************************/
 
-/***********************************************/
-/* Get size in bytes of the Silk decoder state */
-/***********************************************/
-opus_int silk_Get_Decoder_Size(                         /* O    Returns error code                              */
-    opus_int                        *decSizeBytes       /* O    Number of bytes in SILK decoder state           */
-);
 
-/*************************/
-/* Init or Reset decoder */
-/*************************/
-opus_int silk_InitDecoder(                              /* O    Returns error code                              */
-    void                            *decState           /* I/O  State                                           */
-);
-
-/******************/
-/* Decode a frame */
-/******************/
-opus_int silk_Decode(                                   /* O    Returns error code                              */
-    void*                           decState,           /* I/O  State                                           */
-    silk_DecControlStruct*          decControl,         /* I/O  Control Structure                               */
-    opus_int                        lostFlag,           /* I    0: no loss, 1 loss, 2 decode fec                */
-    opus_int                        newPacketFlag,      /* I    Indicates first decoder call for this packet    */
-    ec_dec                          *psRangeDec,        /* I/O  Compressor data structure                       */
-    opus_int16                      *samplesOut,        /* O    Decoded output speech vector                    */
-    opus_int32                      *nSamplesOut,       /* O    Number of samples decoded                       */
-    int                             arch                /* I    Run-time architecture                           */
-);
-
-#if 0
-/**************************************/
-/* Get table of contents for a packet */
-/**************************************/
-opus_int silk_get_TOC(
-    const opus_uint8                *payload,           /* I    Payload data                                */
-    const opus_int                  nBytesIn,           /* I    Number of input bytes                       */
-    const opus_int                  nFramesPerPayload,  /* I    Number of SILK frames per payload           */
-    silk_TOC_struct                 *Silk_TOC           /* O    Type of content                             */
-);
-#endif
 
 #ifdef __cplusplus
 }

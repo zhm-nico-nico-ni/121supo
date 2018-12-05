@@ -32,7 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "structs_FIX.h"
 #include "control.h"
 #include "main.h"
-#include "PLC.h"
+
 #include "debug.h"
 #include "entenc.h"
 

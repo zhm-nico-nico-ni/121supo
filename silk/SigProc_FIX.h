@@ -43,14 +43,9 @@ extern "C"
 #include "macros.h"
 #include "cpu_support.h"
 
-#if defined(OPUS_X86_MAY_HAVE_SSE4_1)
-#include "x86/SigProc_FIX_sse.h"
-#endif
 
-#if (defined(OPUS_ARM_ASM) || defined(OPUS_ARM_MAY_HAVE_NEON_INTR))
-#include "arm/biquad_alt_arm.h"
-#include "arm/LPC_inv_pred_gain_arm.h"
-#endif
+
+
 
 /********************************************************************/
 /*                    SIGNAL PROCESSING FUNCTIONS                   */
@@ -159,13 +154,13 @@ void silk_ana_filt_bank_1(
     const opus_int32            N                   /* I    Number of input samples                                     */
 );
 
-#if !defined(OVERRIDE_silk_biquad_alt_stride2)
-#define silk_biquad_alt_stride2(in, B_Q28, A_Q28, S, out, len, arch) ((void)(arch), silk_biquad_alt_stride2_c(in, B_Q28, A_Q28, S, out, len))
-#endif
 
-#if !defined(OVERRIDE_silk_LPC_inverse_pred_gain)
+#define silk_biquad_alt_stride2(in, B_Q28, A_Q28, S, out, len, arch) ((void)(arch), silk_biquad_alt_stride2_c(in, B_Q28, A_Q28, S, out, len))
+
+
+
 #define silk_LPC_inverse_pred_gain(A_Q12, order, arch)     ((void)(arch), silk_LPC_inverse_pred_gain_c(A_Q12, order))
-#endif
+
 
 /********************************************************************/
 /*                        SCALAR FUNCTIONS                          */
@@ -353,13 +348,6 @@ void silk_scale_copy_vector16(
     const opus_int              dataSize            /* I    Length                                                      */
 );
 
-/* Some for the LTP related function requires Q26 to work.*/
-void silk_scale_vector32_Q26_lshift_18(
-    opus_int32                  *data1,             /* I/O  Q0/Q18                                                      */
-    opus_int32                  gain_Q26,           /* I    Q26                                                         */
-    opus_int                    dataSize            /* I    length                                                      */
-);
-
 /********************************************************************/
 /*                        INLINE ARM MATH                           */
 /********************************************************************/
@@ -409,12 +397,9 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
     }
 }
 
-/* Allocate opus_int16 aligned to 4-byte memory address */
-#if EMBEDDED_ARM
-#define silk_DWORD_ALIGN __attribute__((aligned(4)))
-#else
+
 #define silk_DWORD_ALIGN
-#endif
+
 
 /* Useful Macros that can be adjusted to other platforms */
 #define silk_memcpy(dest, src, size)        memcpy((dest), (src), (size))
@@ -531,11 +516,6 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
 #define silk_RSHIFT_ROUND(a, shift)         ((shift) == 1 ? ((a) >> 1) + ((a) & 1) : (((a) >> ((shift) - 1)) + 1) >> 1)
 #define silk_RSHIFT_ROUND64(a, shift)       ((shift) == 1 ? ((a) >> 1) + ((a) & 1) : (((a) >> ((shift) - 1)) + 1) >> 1)
 
-/* Number of rightshift required to fit the multiplication */
-#define silk_NSHIFT_MUL_32_32(a, b)         ( -(31- (32-silk_CLZ32(silk_abs(a)) + (32-silk_CLZ32(silk_abs(b))))) )
-#define silk_NSHIFT_MUL_16_16(a, b)         ( -(15- (16-silk_CLZ16(silk_abs(a)) + (16-silk_CLZ16(silk_abs(b))))) )
-
-
 #define silk_min(a, b)                      (((a) < (b)) ? (a) : (b))
 #define silk_max(a, b)                      (((a) > (b)) ? (a) : (b))
 
@@ -586,7 +566,6 @@ static OPUS_INLINE opus_int64 silk_max_64(opus_int64 a, opus_int64 b)
 #define silk_LIMIT_32                       silk_LIMIT
 
 #define silk_abs(a)                         (((a) >  0)  ? (a) : -(a))            /* Be careful, silk_abs returns wrong when input equals to silk_intXX_MIN */
-#define silk_abs_int(a)                     (((a) ^ ((a) >> (8 * sizeof(a) - 1))) - ((a) >> (8 * sizeof(a) - 1)))
 #define silk_abs_int32(a)                   (((a) ^ ((a) >> 31)) - ((a) >> 31))
 #define silk_abs_int64(a)                   (((a) >  0)  ? (a) : -(a))
 
@@ -605,17 +584,16 @@ static OPUS_INLINE opus_int64 silk_max_64(opus_int64 a, opus_int64 b)
 /*    silk_SMMUL: Signed top word multiply.
           ARMv6        2 instruction cycles.
           ARMv3M+      3 instruction cycles. use SMULL and ignore LSB registers.(except xM)*/
-/*#define silk_SMMUL(a32, b32)                (opus_int32)silk_RSHIFT(silk_SMLAL(silk_SMULWB((a32), (b32)), (a32), silk_RSHIFT_ROUND((b32), 16)), 16)*/
 /* the following seems faster on x86 */
 #define silk_SMMUL(a32, b32)                (opus_int32)silk_RSHIFT64(silk_SMULL((a32), (b32)), 32)
 
-#if !defined(OPUS_X86_MAY_HAVE_SSE4_1)
+
 #define silk_burg_modified(res_nrg, res_nrg_Q, A_Q16, x, minInvGain_Q30, subfr_length, nb_subfr, D, arch) \
     ((void)(arch), silk_burg_modified_c(res_nrg, res_nrg_Q, A_Q16, x, minInvGain_Q30, subfr_length, nb_subfr, D, arch))
 
 #define silk_inner_prod16_aligned_64(inVec1, inVec2, len, arch) \
     ((void)(arch),silk_inner_prod16_aligned_64_c(inVec1, inVec2, len))
-#endif
+
 
 #include "Inlines.h"
 #include "MacroCount.h"

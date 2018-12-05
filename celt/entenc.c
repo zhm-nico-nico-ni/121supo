@@ -136,17 +136,6 @@ void ec_encode(ec_enc *_this,unsigned _fl,unsigned _fh,unsigned _ft){
   ec_enc_normalize(_this);
 }
 
-void ec_encode_bin(ec_enc *_this,unsigned _fl,unsigned _fh,unsigned _bits){
-  opus_uint32 r;
-  r=_this->rng>>_bits;
-  if(_fl>0){
-    _this->val+=_this->rng-IMUL32(r,((1U<<_bits)-_fl));
-    _this->rng=IMUL32(r,(_fh-_fl));
-  }
-  else _this->rng-=IMUL32(r,((1U<<_bits)-_fh));
-  ec_enc_normalize(_this);
-}
-
 /*The probability of having a "one" is 1/(1<<_logp).*/
 void ec_enc_bit_logp(ec_enc *_this,int _val,unsigned _logp){
   opus_uint32 r;
@@ -172,45 +161,6 @@ void ec_enc_icdf(ec_enc *_this,int _s,const unsigned char *_icdf,unsigned _ftb){
   ec_enc_normalize(_this);
 }
 
-void ec_enc_uint(ec_enc *_this,opus_uint32 _fl,opus_uint32 _ft){
-  unsigned  ft;
-  unsigned  fl;
-  int       ftb;
-  /*In order to optimize EC_ILOG(), it is undefined for the value 0.*/
-  celt_assert(_ft>1);
-  _ft--;
-  ftb=EC_ILOG(_ft);
-  if(ftb>EC_UINT_BITS){
-    ftb-=EC_UINT_BITS;
-    ft=(_ft>>ftb)+1;
-    fl=(unsigned)(_fl>>ftb);
-    ec_encode(_this,fl,fl+1,ft);
-    ec_enc_bits(_this,_fl&(((opus_uint32)1<<ftb)-1U),ftb);
-  }
-  else ec_encode(_this,_fl,_fl+1,_ft+1);
-}
-
-void ec_enc_bits(ec_enc *_this,opus_uint32 _fl,unsigned _bits){
-  ec_window window;
-  int       used;
-  window=_this->end_window;
-  used=_this->nend_bits;
-  celt_assert(_bits>0);
-  if(used+_bits>EC_WINDOW_SIZE){
-    do{
-      _this->error|=ec_write_byte_at_end(_this,(unsigned)window&EC_SYM_MAX);
-      window>>=EC_SYM_BITS;
-      used-=EC_SYM_BITS;
-    }
-    while(used>=EC_SYM_BITS);
-  }
-  window|=(ec_window)_fl<<used;
-  used+=_bits;
-  _this->end_window=window;
-  _this->nend_bits=used;
-  _this->nbits_total+=_bits;
-}
-
 void ec_enc_patch_initial_bits(ec_enc *_this,unsigned _val,unsigned _nbits){
   int      shift;
   unsigned mask;
@@ -232,13 +182,6 @@ void ec_enc_patch_initial_bits(ec_enc *_this,unsigned _val,unsigned _nbits){
   }
   /*The encoder hasn't even encoded _nbits of data yet.*/
   else _this->error=-1;
-}
-
-void ec_enc_shrink(ec_enc *_this,opus_uint32 _size){
-  celt_assert(_this->offs+_this->end_offs<=_size);
-  OPUS_MOVE(_this->buf+_size-_this->end_offs,
-   _this->buf+_this->storage-_this->end_offs,_this->end_offs);
-  _this->storage=_size;
 }
 
 void ec_enc_done(ec_enc *_this){

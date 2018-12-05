@@ -39,7 +39,7 @@
 #include "../silk/tuning_parameters.h"
 
 #include <stdarg.h>
-#include "modes.h"
+
 #include "opus_private.h"
 #ifdef FIXED_POINT
 #include "../silk/fixed/structs_FIX.h"

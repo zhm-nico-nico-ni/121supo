@@ -49,20 +49,6 @@ void silk_scale_copy_vector16(
     }
 }
 
-/* Multiply a vector by a constant */
-void silk_scale_vector32_Q26_lshift_18(
-    opus_int32                  *data1,             /* I/O  Q0/Q18                                                      */
-    opus_int32                  gain_Q26,           /* I    Q26                                                         */
-    opus_int                    dataSize            /* I    length                                                      */
-)
-{
-    opus_int  i;
-
-    for( i = 0; i < dataSize; i++ ) {
-        data1[ i ] = (opus_int32)silk_CHECK_FIT32( silk_RSHIFT64( silk_SMULL( data1[ i ], gain_Q26 ), 8 ) );    /* OUTPUT: Q18 */
-    }
-}
-
 /* sum = for(i=0;i<len;i++)inVec1[i]*inVec2[i];      ---        inner product   */
 /* Note for ARM asm:                                                            */
 /*        * inVec1 and inVec2 should be at least 2 byte aligned.                */

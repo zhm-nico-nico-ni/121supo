@@ -7,6 +7,7 @@ add_definitions(-DVAR_ARRAYS)
 add_definitions(-DCUSTOM_MODES)
 add_definitions(-DFIXED_POINT)
 add_definitions(-DDISABLE_FLOAT_API)
+add_definitions(-DUSE_SMALL_DIV_TABLE)
 #add_definitions(-DEC_CLZ)
 #set(CXX_PLATFORM_DEPENDENT_FLAGS_DEBUG      "-DDEBUG -DACSDK_DEBUG_LOG_ENABLED -Wall -Werror -Wsign-compare -g")
 

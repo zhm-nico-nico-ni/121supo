@@ -32,19 +32,14 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "define.h"
 #include "structs.h"
 #include "tables.h"
-#include "PLC.h"
+
 #include "control.h"
 #include "debug.h"
 #include "entenc.h"
 #include "entdec.h"
 
-#if defined(OPUS_X86_MAY_HAVE_SSE4_1)
-#include "x86/main_sse.h"
-#endif
 
-#if (defined(OPUS_ARM_ASM) || defined(OPUS_ARM_MAY_HAVE_NEON_INTR))
-#include "arm/NSQ_del_dec_arm.h"
-#endif
+
 
 /* Convert Left/Right stereo signal to adaptive Mid/Side representation */
 void silk_stereo_LR_to_MS(
@@ -58,16 +53,6 @@ void silk_stereo_LR_to_MS(
     opus_int                    prev_speech_act_Q8,             /* I    Speech activity level in previous frame     */
     opus_int                    toMono,                         /* I    Last frame before a stereo->mono transition */
     opus_int                    fs_kHz,                         /* I    Sample rate (kHz)                           */
-    opus_int                    frame_length                    /* I    Number of samples                           */
-);
-
-/* Convert adaptive Mid/Side representation to Left/Right stereo signal */
-void silk_stereo_MS_to_LR(
-    stereo_dec_state            *state,                         /* I/O  State                                       */
-    opus_int16                  x1[],                           /* I/O  Left input signal, becomes mid signal       */
-    opus_int16                  x2[],                           /* I/O  Right input signal, becomes side signal     */
-    const opus_int32            pred_Q13[],                     /* I    Predictors                                  */
-    opus_int                    fs_kHz,                         /* I    Samples rate (kHz)                          */
     opus_int                    frame_length                    /* I    Number of samples                           */
 );
 
@@ -99,32 +84,10 @@ void silk_stereo_encode_mid_only(
     opus_int8                   mid_only_flag
 );
 
-/* Decode mid/side predictors */
-void silk_stereo_decode_pred(
-    ec_dec                      *psRangeDec,                    /* I/O  Compressor data structure                   */
-    opus_int32                  pred_Q13[]                      /* O    Predictors                                  */
-);
-
-/* Decode mid-only flag */
-void silk_stereo_decode_mid_only(
-    ec_dec                      *psRangeDec,                    /* I/O  Compressor data structure                   */
-    opus_int                    *decode_only_mid                /* O    Flag that only mid channel has been coded   */
-);
-
 /* Encodes signs of excitation */
 void silk_encode_signs(
     ec_enc                      *psRangeEnc,                        /* I/O  Compressor data structure               */
     const opus_int8             pulses[],                           /* I    pulse signal                            */
-    opus_int                    length,                             /* I    length of input                         */
-    const opus_int              signalType,                         /* I    Signal type                             */
-    const opus_int              quantOffsetType,                    /* I    Quantization offset type                */
-    const opus_int              sum_pulses[ MAX_NB_SHELL_BLOCKS ]   /* I    Sum of absolute pulses per block        */
-);
-
-/* Decodes signs of excitation */
-void silk_decode_signs(
-    ec_dec                      *psRangeDec,                        /* I/O  Compressor data structure               */
-    opus_int16                  pulses[],                           /* I/O  pulse signal                            */
     opus_int                    length,                             /* I    length of input                         */
     const opus_int              signalType,                         /* I    Signal type                             */
     const opus_int              quantOffsetType,                    /* I    Quantization offset type                */
@@ -165,13 +128,6 @@ void silk_encode_pulses(
 void silk_shell_encoder(
     ec_enc                      *psRangeEnc,                    /* I/O  compressor data structure                   */
     const opus_int              *pulses0                        /* I    data: nonnegative pulse amplitudes          */
-);
-
-/* Shell decoder, operates on one shell code frame of 16 pulses */
-void silk_shell_decoder(
-    opus_int16                  *pulses0,                       /* O    data: nonnegative pulse amplitudes          */
-    ec_dec                      *psRangeDec,                    /* I/O  Compressor data structure                   */
-    const opus_int              pulses4                         /* I    number of pulses per pulse-subframe         */
 );
 
 /* Gain scalar quantization with hysteresis, uniform on log scale */
@@ -386,83 +342,11 @@ void silk_NLSF_decode(
     const silk_NLSF_CB_struct   *psNLSF_CB                      /* I    Codebook object                             */
 );
 
-/****************************************************/
-/* Decoder Functions                                */
-/****************************************************/
-opus_int silk_init_decoder(
-    silk_decoder_state          *psDec                          /* I/O  Decoder state pointer                       */
-);
 
-/* Set decoder sampling rate */
-opus_int silk_decoder_set_fs(
-    silk_decoder_state          *psDec,                         /* I/O  Decoder state pointer                       */
-    opus_int                    fs_kHz,                         /* I    Sampling frequency (kHz)                    */
-    opus_int32                  fs_API_Hz                       /* I    API Sampling frequency (Hz)                 */
-);
-
-/****************/
-/* Decode frame */
-/****************/
-opus_int silk_decode_frame(
-    silk_decoder_state          *psDec,                         /* I/O  Pointer to Silk decoder state               */
-    ec_dec                      *psRangeDec,                    /* I/O  Compressor data structure                   */
-    opus_int16                  pOut[],                         /* O    Pointer to output speech frame              */
-    opus_int32                  *pN,                            /* O    Pointer to size of output frame             */
-    opus_int                    lostFlag,                       /* I    0: no loss, 1 loss, 2 decode fec            */
-    opus_int                    condCoding,                     /* I    The type of conditional coding to use       */
-    int                         arch                            /* I    Run-time architecture                       */
-);
-
-/* Decode indices from bitstream */
-void silk_decode_indices(
-    silk_decoder_state          *psDec,                         /* I/O  State                                       */
-    ec_dec                      *psRangeDec,                    /* I/O  Compressor data structure                   */
-    opus_int                    FrameIndex,                     /* I    Frame number                                */
-    opus_int                    decode_LBRR,                    /* I    Flag indicating LBRR data is being decoded  */
-    opus_int                    condCoding                      /* I    The type of conditional coding to use       */
-);
-
-/* Decode parameters from payload */
-void silk_decode_parameters(
-    silk_decoder_state          *psDec,                         /* I/O  State                                       */
-    silk_decoder_control        *psDecCtrl,                     /* I/O  Decoder control                             */
-    opus_int                    condCoding                      /* I    The type of conditional coding to use       */
-);
-
-/* Core decoder. Performs inverse NSQ operation LTP + LPC */
-void silk_decode_core(
-    silk_decoder_state          *psDec,                         /* I/O  Decoder state                               */
-    silk_decoder_control        *psDecCtrl,                     /* I    Decoder control                             */
-    opus_int16                  xq[],                           /* O    Decoded speech                              */
-    const opus_int16            pulses[ MAX_FRAME_LENGTH ],     /* I    Pulse signal                                */
-    int                         arch                            /* I    Run-time architecture                       */
-);
-
-/* Decode quantization indices of excitation (Shell coding) */
-void silk_decode_pulses(
-    ec_dec                      *psRangeDec,                    /* I/O  Compressor data structure                   */
-    opus_int16                  pulses[],                       /* O    Excitation signal                           */
-    const opus_int              signalType,                     /* I    Sigtype                                     */
-    const opus_int              quantOffsetType,                /* I    quantOffsetType                             */
-    const opus_int              frame_length                    /* I    Frame length                                */
-);
 
 /******************/
 /* CNG */
 /******************/
-
-/* Reset CNG */
-void silk_CNG_Reset(
-    silk_decoder_state          *psDec                          /* I/O  Decoder state                               */
-);
-
-/* Updates CNG estimate, and applies the CNG when packet was lost */
-void silk_CNG(
-    silk_decoder_state          *psDec,                         /* I/O  Decoder state                               */
-    silk_decoder_control        *psDecCtrl,                     /* I/O  Decoder control                             */
-    opus_int16                  frame[],                        /* I/O  Signal                                      */
-    opus_int                    length                          /* I    Length of residual                          */
-);
 
 /* Encoding of various parameters */
 void silk_encode_indices(
