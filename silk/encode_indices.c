@@ -116,18 +116,18 @@ void silk_encode_indices(
         /*********************/
         /* lag index */
         encode_absolute_lagIndex = 1;
-        if( condCoding == CODE_CONDITIONALLY && psEncC->ec_prevSignalType == TYPE_VOICED ) {
+//        if( condCoding == CODE_CONDITIONALLY && psEncC->ec_prevSignalType == TYPE_VOICED ) {
             /* Delta Encoding */
-            delta_lagIndex = psIndices->lagIndex - psEncC->ec_prevLagIndex;
-            if( delta_lagIndex < -8 || delta_lagIndex > 11 ) {
-                delta_lagIndex = 0;
-            } else {
-                delta_lagIndex = delta_lagIndex + 9;
-                encode_absolute_lagIndex = 0; /* Only use delta */
-            }
-            silk_assert( delta_lagIndex >= 0 && delta_lagIndex < 21 );
-            ec_enc_icdf( psRangeEnc, delta_lagIndex, silk_pitch_delta_iCDF, 8 );
-        }
+//            delta_lagIndex = psIndices->lagIndex - psEncC->ec_prevLagIndex;
+//            if( delta_lagIndex < -8 || delta_lagIndex > 11 ) {
+//                delta_lagIndex = 0;
+//            } else {
+//                delta_lagIndex = delta_lagIndex + 9;
+//                encode_absolute_lagIndex = 0; /* Only use delta */
+//            }
+//            silk_assert( delta_lagIndex >= 0 && delta_lagIndex < 21 );
+//            ec_enc_icdf( psRangeEnc, delta_lagIndex, silk_pitch_delta_iCDF, 8 );
+//        }
         if( encode_absolute_lagIndex ) {
             /* Absolute encoding */
             opus_int32 pitch_high_bits, pitch_low_bits;

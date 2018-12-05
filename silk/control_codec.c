@@ -264,7 +264,8 @@ static opus_int silk_setup_fs(
 //            psEnc->sCmn.psNLSF_CB  = &silk_NLSF_CB_NB_MB;
         } else {
             psEnc->sCmn.predictLPCOrder = MAX_LPC_ORDER;
-            psEnc->sCmn.psNLSF_CB  = &silk_NLSF_CB_WB;
+            psEnc->sCmn.psNLSF_CB  = getSilk_NLSF_CB_WB();
+            psEnc->sCmn.psNLSF_CB  = getSilk_NLSF_CB_WB();
         }
         psEnc->sCmn.subfr_length   = SUB_FRAME_LENGTH_MS * fs_kHz;
         psEnc->sCmn.frame_length   = silk_SMULBB( psEnc->sCmn.subfr_length, psEnc->sCmn.nb_subfr );

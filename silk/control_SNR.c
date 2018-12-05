@@ -49,9 +49,9 @@ opus_int silk_control_SNR(
 
         /* If new TargetRate_bps, translate to SNR_dB value */
         if( psEncC->fs_kHz == 8 ) {
-            rateTable = silk_TargetRate_table_NB;
+//            rateTable = silk_TargetRate_table_NB;
         } else if( psEncC->fs_kHz == 12 ) {
-            rateTable = silk_TargetRate_table_MB;
+//            rateTable = silk_TargetRate_table_MB;
         } else {
             rateTable = silk_TargetRate_table_WB;
         }

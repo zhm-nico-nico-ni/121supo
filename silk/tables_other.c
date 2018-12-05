@@ -39,12 +39,12 @@ extern "C"
 #endif
 
 /* Piece-wise linear mapping from bitrate in kbps to coding quality in dB SNR */
-const opus_int32 silk_TargetRate_table_NB[ TARGET_RATE_TAB_SZ ] = {
-    0,      8000,   9400,   11500,  13500,  17500,  25000,  MAX_TARGET_RATE_BPS
-};
-const opus_int32 silk_TargetRate_table_MB[ TARGET_RATE_TAB_SZ ] = {
-    0,      9000,   12000,  14500,  18500,  24500,  35500,  MAX_TARGET_RATE_BPS
-};
+//const opus_int32 silk_TargetRate_table_NB[ TARGET_RATE_TAB_SZ ] = {
+//    0,      8000,   9400,   11500,  13500,  17500,  25000,  MAX_TARGET_RATE_BPS
+//};
+//const opus_int32 silk_TargetRate_table_MB[ TARGET_RATE_TAB_SZ ] = {
+//    0,      9000,   12000,  14500,  18500,  24500,  35500,  MAX_TARGET_RATE_BPS
+//};
 const opus_int32 silk_TargetRate_table_WB[ TARGET_RATE_TAB_SZ ] = {
     0,      10500,  14000,  17000,  21500,  28500,  42000,  MAX_TARGET_RATE_BPS
 };
@@ -54,12 +54,12 @@ const opus_int16 silk_SNR_table_Q1[ TARGET_RATE_TAB_SZ ] = {
 
 
 /* Tables for LBRR flags */
-static const opus_uint8 silk_LBRR_flags_2_iCDF[ 3 ] = { 203, 150, 0 };
-static const opus_uint8 silk_LBRR_flags_3_iCDF[ 7 ] = { 215, 195, 166, 125, 110, 82, 0 };
-const opus_uint8 * const silk_LBRR_flags_iCDF_ptr[ 2 ] = {
-    silk_LBRR_flags_2_iCDF,
-    silk_LBRR_flags_3_iCDF
-};
+//static const opus_uint8 silk_LBRR_flags_2_iCDF[ 3 ] = { 203, 150, 0 };
+//static const opus_uint8 silk_LBRR_flags_3_iCDF[ 7 ] = { 215, 195, 166, 125, 110, 82, 0 };
+//const opus_uint8 * const silk_LBRR_flags_iCDF_ptr[ 2 ] = {
+//    silk_LBRR_flags_2_iCDF,
+//    silk_LBRR_flags_3_iCDF
+//};
 
 /* Table for LSB coding */
 const opus_uint8 silk_lsb_iCDF[ 2 ] = { 120, 0 };
@@ -92,11 +92,6 @@ const opus_uint8 silk_uniform6_iCDF[ 6 ] = { 213, 171, 128, 85, 43, 0 };
 const opus_uint8 silk_uniform8_iCDF[ 8 ] = { 224, 192, 160, 128, 96, 64, 32, 0 };
 
 const opus_uint8 silk_NLSF_EXT_iCDF[ 7 ] = { 100, 40, 16, 7, 3, 1, 0 };
-
-/*  Elliptic/Cauer filters designed with 0.1 dB passband ripple,
-        80 dB minimum stopband attenuation, and
-        [0.95 : 0.15 : 0.35] normalized cut off frequencies. */
-
 
 
 #ifdef __cplusplus

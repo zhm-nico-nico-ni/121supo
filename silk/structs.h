@@ -81,10 +81,10 @@ typedef struct {
 
 /* Structure containing NLSF codebook */
 typedef struct {
-    const opus_int16             nVectors;
-    const opus_int16             order;
-    const opus_int16             quantStepSize_Q16;
-    const opus_int16             invQuantStepSize_Q6;
+     opus_int16             nVectors;
+     opus_int16             order;
+     opus_int16             quantStepSize_Q16;
+     opus_int16             invQuantStepSize_Q6;
     const opus_uint8             *CB1_NLSF_Q8;
     const opus_int16             *CB1_Wght_Q9;
     const opus_uint8             *CB1_iCDF;

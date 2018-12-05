@@ -73,6 +73,8 @@ const opus_uint8 * const silk_LTP_gain_iCDF_ptrs[NB_LTP_CBKS] = {
     silk_LTP_gain_iCDF_2
 };
 
+
+
 const opus_uint8 * const silk_LTP_gain_BITS_Q5_ptrs[NB_LTP_CBKS] = {
     silk_LTP_gain_BITS_Q5_0,
     silk_LTP_gain_BITS_Q5_1,

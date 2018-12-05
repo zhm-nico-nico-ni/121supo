@@ -3,7 +3,8 @@ project(my_opus_121)
 
 set(CMAKE_C_STANDARD 90)
 
-add_definitions(-DVAR_ARRAYS)
+#add_definitions(-DVAR_ARRAYS)
+add_definitions(-DUSE_ALLOCA)
 add_definitions(-DCUSTOM_MODES)
 add_definitions(-DFIXED_POINT)
 add_definitions(-DDISABLE_FLOAT_API)

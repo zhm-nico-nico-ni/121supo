@@ -38,11 +38,11 @@ const opus_uint8 silk_pitch_lag_iCDF[ 2 * ( PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN
          7,      6,      5,      4,      3,      2,      1,      0
 };
 
-const opus_uint8 silk_pitch_delta_iCDF[21] = {
-       210,    208,    206,    203,    199,    193,    183,    168,
-       142,    104,     74,     52,     37,     27,     20,     14,
-        10,      6,      4,      2,      0
-};
+//const opus_uint8 silk_pitch_delta_iCDF[21] = {
+//       210,    208,    206,    203,    199,    193,    183,    168,
+//       142,    104,     74,     52,     37,     27,     20,     14,
+//        10,      6,      4,      2,      0
+//};
 
 const opus_uint8 silk_pitch_contour_iCDF[34] = {
        223,    201,    183,    167,    152,    138,    124,    111,
