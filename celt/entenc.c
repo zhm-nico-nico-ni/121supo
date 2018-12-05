@@ -125,31 +125,6 @@ void ec_enc_init(ec_enc *_this,unsigned char *_buf,opus_uint32 _size){
   _this->error=0;
 }
 
-void ec_encode(ec_enc *_this,unsigned _fl,unsigned _fh,unsigned _ft){
-  opus_uint32 r;
-  r=celt_udiv(_this->rng,_ft);
-  if(_fl>0){
-    _this->val+=_this->rng-IMUL32(r,(_ft-_fl));
-    _this->rng=IMUL32(r,(_fh-_fl));
-  }
-  else _this->rng-=IMUL32(r,(_ft-_fh));
-  ec_enc_normalize(_this);
-}
-
-/*The probability of having a "one" is 1/(1<<_logp).*/
-void ec_enc_bit_logp(ec_enc *_this,int _val,unsigned _logp){
-  opus_uint32 r;
-  opus_uint32 s;
-  opus_uint32 l;
-  r=_this->rng;
-  l=_this->val;
-  s=r>>_logp;
-  r-=s;
-  if(_val)_this->val=l+r;
-  _this->rng=_val?s:r;
-  ec_enc_normalize(_this);
-}
-
 void ec_enc_icdf(ec_enc *_this,int _s,const unsigned char *_icdf,unsigned _ftb){
   opus_uint32 r;
   r=_this->rng>>_ftb;

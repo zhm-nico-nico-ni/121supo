@@ -36,7 +36,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "control.h"
 #include "debug.h"
 #include "entenc.h"
-#include "entdec.h"
 
 
 

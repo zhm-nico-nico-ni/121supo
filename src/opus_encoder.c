@@ -897,35 +897,13 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     if (st->stream_channels==1)
        st->silk_mode.stereoWidth_Q14 = IMIN((1<<14),2*IMAX(0,equiv_rate-24000));
 
-    if ( ec_tell(&enc)+17 <= 8*(max_data_bytes-1))
-    {
-        /* For SILK mode, the redundancy is inferred from the length */
-        if (redundancy)
-        {
-            int max_redundancy;
-            ec_enc_bit_logp(&enc, celt_to_silk, 1);
 
-            max_redundancy = (max_data_bytes-1)-((ec_tell(&enc)+7)>>3);
-            /* Target the same bit-rate for redundancy as for the rest,
-               up to a max of 257 bytes */
-            redundancy_bytes = IMIN(max_redundancy, redundancy_bytes);
-            redundancy_bytes = IMIN(257, IMAX(2, redundancy_bytes));
-        }
-    } else {
-        redundancy = 0;
-    }
-
-    if (!redundancy)
-    {
-       st->silk_bw_switch = 0;
-       redundancy_bytes = 0;
-    }
-    start_band=17;
+    redundancy = 0;
+    redundancy_bytes = 0;
 
     {
         ret = (ec_tell(&enc)+7)>>3;
         ec_enc_done(&enc);
-        nb_compr_bytes = ret;
     }
 
 

@@ -44,5 +44,4 @@
 /*Low-order bit of the high-order range symbol.*/
 # define EC_CODE_BOT   (EC_CODE_TOP>>EC_SYM_BITS)
 /*The number of bits available for the last, partial symbol in the code field.*/
-# define EC_CODE_EXTRA ((EC_CODE_BITS-2)%EC_SYM_BITS+1)
 #endif

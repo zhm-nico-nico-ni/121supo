@@ -32,19 +32,6 @@
 #include "cpu_support.h"
 
 
-void celt_fir_c(
-         const opus_val16 *x,
-         const opus_val16 *num,
-         opus_val16 *y,
-         int N,
-         int ord,
-         int arch);
-
-
-#define celt_fir(x, num, y, N, ord, arch) \
-    (celt_fir_c(x, num, y, N, ord, arch))
-
-
 int _celt_autocorr(const opus_val16 *x, opus_val32 *ac,
          const opus_val16 *window, int overlap, int lag, int n, int arch);
 

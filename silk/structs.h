@@ -32,7 +32,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "SigProc_FIX.h"
 #include "define.h"
 #include "entenc.h"
-#include "entdec.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -107,12 +106,6 @@ typedef struct {
     opus_int8                    predIx[ MAX_FRAMES_PER_PACKET ][ 2 ][ 3 ];
     opus_int8                    mid_only_flags[ MAX_FRAMES_PER_PACKET ];
 } stereo_enc_state;
-
-typedef struct {
-    opus_int16                   pred_prev_Q13[ 2 ];
-    opus_int16                   sMid[ 2 ];
-    opus_int16                   sSide[ 2 ];
-} stereo_dec_state;
 
 typedef struct {
     opus_int8                    GainsIndices[ MAX_NB_SUBFR ];
@@ -225,100 +218,6 @@ typedef struct {
     SideInfoIndices              indices_LBRR[ MAX_FRAMES_PER_PACKET ];
     opus_int8                    pulses_LBRR[ MAX_FRAMES_PER_PACKET ][ MAX_FRAME_LENGTH ];
 } silk_encoder_state;
-
-
-/* Struct for Packet Loss Concealment */
-typedef struct {
-    opus_int32                  pitchL_Q8;                          /* Pitch lag to use for voiced concealment                          */
-    opus_int16                  LTPCoef_Q14[ LTP_ORDER ];           /* LTP coeficients to use for voiced concealment                    */
-    opus_int16                  prevLPC_Q12[ MAX_LPC_ORDER ];
-    opus_int                    last_frame_lost;                    /* Was previous frame lost                                          */
-    opus_int32                  rand_seed;                          /* Seed for unvoiced signal generation                              */
-    opus_int16                  randScale_Q14;                      /* Scaling of unvoiced random signal                                */
-    opus_int32                  conc_energy;
-    opus_int                    conc_energy_shift;
-    opus_int16                  prevLTP_scale_Q14;
-    opus_int32                  prevGain_Q16[ 2 ];
-    opus_int                    fs_kHz;
-    opus_int                    nb_subfr;
-    opus_int                    subfr_length;
-} silk_PLC_struct;
-
-/* Struct for CNG */
-typedef struct {
-    opus_int32                  CNG_exc_buf_Q14[ MAX_FRAME_LENGTH ];
-    opus_int16                  CNG_smth_NLSF_Q15[ MAX_LPC_ORDER ];
-    opus_int32                  CNG_synth_state[ MAX_LPC_ORDER ];
-    opus_int32                  CNG_smth_Gain_Q16;
-    opus_int32                  rand_seed;
-    opus_int                    fs_kHz;
-} silk_CNG_struct;
-
-/********************************/
-/* Decoder state                */
-/********************************/
-typedef struct {
-    opus_int32                  prev_gain_Q16;
-    opus_int32                  exc_Q14[ MAX_FRAME_LENGTH ];
-    opus_int32                  sLPC_Q14_buf[ MAX_LPC_ORDER ];
-    opus_int16                  outBuf[ MAX_FRAME_LENGTH + 2 * MAX_SUB_FRAME_LENGTH ];  /* Buffer for output signal                     */
-    opus_int                    lagPrev;                            /* Previous Lag                                                     */
-    opus_int8                   LastGainIndex;                      /* Previous gain index                                              */
-    opus_int                    fs_kHz;                             /* Sampling frequency in kHz                                        */
-    opus_int32                  fs_API_hz;                          /* API sample frequency (Hz)                                        */
-    opus_int                    nb_subfr;                           /* Number of 5 ms subframes in a frame                              */
-    opus_int                    frame_length;                       /* Frame length (samples)                                           */
-    opus_int                    subfr_length;                       /* Subframe length (samples)                                        */
-    opus_int                    ltp_mem_length;                     /* Length of LTP memory                                             */
-    opus_int                    LPC_order;                          /* LPC order                                                        */
-    opus_int16                  prevNLSF_Q15[ MAX_LPC_ORDER ];      /* Used to interpolate LSFs                                         */
-    opus_int                    first_frame_after_reset;            /* Flag for deactivating NLSF interpolation                         */
-    const opus_uint8            *pitch_lag_low_bits_iCDF;           /* Pointer to iCDF table for low bits of pitch lag index            */
-    const opus_uint8            *pitch_contour_iCDF;                /* Pointer to iCDF table for pitch contour index                    */
-
-    /* For buffering payload in case of more frames per packet */
-    opus_int                    nFramesDecoded;
-    opus_int                    nFramesPerPacket;
-
-    /* Specifically for entropy coding */
-    opus_int                    ec_prevSignalType;
-    opus_int16                  ec_prevLagIndex;
-
-    opus_int                    VAD_flags[ MAX_FRAMES_PER_PACKET ];
-    opus_int                    LBRR_flag;
-    opus_int                    LBRR_flags[ MAX_FRAMES_PER_PACKET ];
-
-    silk_resampler_state_struct resampler_state;
-
-    const silk_NLSF_CB_struct   *psNLSF_CB;                         /* Pointer to NLSF codebook                                         */
-
-    /* Quantization indices */
-    SideInfoIndices             indices;
-
-    /* CNG state */
-    silk_CNG_struct             sCNG;
-
-    /* Stuff used for PLC */
-    opus_int                    lossCnt;
-    opus_int                    prevSignalType;
-    int                         arch;
-
-    silk_PLC_struct sPLC;
-
-} silk_decoder_state;
-
-/************************/
-/* Decoder control      */
-/************************/
-typedef struct {
-    /* Prediction and coding parameters */
-    opus_int                    pitchL[ MAX_NB_SUBFR ];
-    opus_int32                  Gains_Q16[ MAX_NB_SUBFR ];
-    /* Holds interpolated and final coefficients, 4-byte aligned */
-    silk_DWORD_ALIGN opus_int16 PredCoef_Q12[ 2 ][ MAX_LPC_ORDER ];
-    opus_int16                  LTPCoef_Q14[ LTP_ORDER * MAX_NB_SUBFR ];
-    opus_int                    LTP_scale_Q14;
-} silk_decoder_control;
 
 
 #ifdef __cplusplus

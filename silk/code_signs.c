@@ -35,7 +35,6 @@ POSSIBILITY OF SUCH DAMAGE.
 /*#define silk_dec_map(a)                ((a) > 0 ? 1 : -1)*/
 /* shifting avoids if-statement */
 #define silk_enc_map(a)                  ( silk_RSHIFT( (a), 15 ) + 1 )
-#define silk_dec_map(a)                  ( silk_LSHIFT( (a),  1 ) - 1 )
 
 /* Encodes signs of excitation */
 void silk_encode_signs(

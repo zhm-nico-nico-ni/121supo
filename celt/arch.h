@@ -71,16 +71,14 @@
 #define IMAX(a,b) ((a) > (b) ? (a) : (b))   /**< Maximum int value.   */
 
 
-#define OPUS_FAST_INT64 0 //FIXME change to 0
 
 
 typedef opus_int16 opus_val16;
 typedef opus_int32 opus_val32;
-//typedef opus_int64 opus_val64;
+
 
 #define Q15ONE 32767
 
-#define SIG_SHIFT 12
 /* Safe saturation value for 32-bit signals. Should be less than
    2^31*(1-0.85) to avoid blowing up on DC at deemphasis.*/
 

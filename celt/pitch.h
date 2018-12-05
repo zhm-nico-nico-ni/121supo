@@ -37,10 +37,7 @@
 #include "cpu_support.h"
 #include "arch.h"
 
-#if (defined(OPUS_X86_MAY_HAVE_SSE) && !defined(FIXED_POINT)) \
-  || ((defined(OPUS_X86_MAY_HAVE_SSE4_1) || defined(OPUS_X86_MAY_HAVE_SSE2)) && defined(FIXED_POINT))
-#include "x86/pitch_sse.h"
-#endif
+
 
 #if defined(MIPSr1_ASM)
 #include "mips/pitch_mipsr1.h"
@@ -114,10 +111,10 @@ static OPUS_INLINE void xcorr_kernel_c(const opus_val16 * x, const opus_val16 * 
    }
 }
 
-#ifndef OVERRIDE_XCORR_KERNEL
+//#ifndef OVERRIDE_XCORR_KERNEL
 #define xcorr_kernel(x, y, sum, len, arch) \
     ((void)(arch),xcorr_kernel_c(x, y, sum, len))
-#endif /* OVERRIDE_XCORR_KERNEL */
+//#endif /* OVERRIDE_XCORR_KERNEL */
 
 
 /*We make sure a C version is always available for cases where the overhead of

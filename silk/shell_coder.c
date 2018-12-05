@@ -57,23 +57,6 @@ static OPUS_INLINE void encode_split(
     }
 }
 
-static OPUS_INLINE void decode_split(
-    opus_int16                  *p_child1,      /* O    pulse amplitude of first child subframe     */
-    opus_int16                  *p_child2,      /* O    pulse amplitude of second child subframe    */
-    ec_dec                      *psRangeDec,    /* I/O  Compressor data structure                   */
-    const opus_int              p,              /* I    pulse amplitude of current subframe         */
-    const opus_uint8            *shell_table    /* I    table of shell cdfs                         */
-)
-{
-    if( p > 0 ) {
-        p_child1[ 0 ] = ec_dec_icdf( psRangeDec, &shell_table[ silk_shell_code_table_offsets[ p ] ], 8 );
-        p_child2[ 0 ] = p - p_child1[ 0 ];
-    } else {
-        p_child1[ 0 ] = 0;
-        p_child2[ 0 ] = 0;
-    }
-}
-
 /* Shell encoder, operates on one shell code frame of 16 pulses */
 void silk_shell_encoder(
     ec_enc                      *psRangeEnc,                    /* I/O  compressor data structure                   */

@@ -32,7 +32,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "typedef.h"
 #include "errors.h"
 #include "entenc.h"
-#include "entdec.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -40,13 +39,6 @@ extern "C"
 #endif
 
 #define SILK_MAX_FRAMES_PER_PACKET  3
-
-/* Struct for TOC (Table of Contents) */
-typedef struct {
-    opus_int    VADFlag;                                /* Voice activity for packet                            */
-    opus_int    VADFlags[ SILK_MAX_FRAMES_PER_PACKET ]; /* Voice activity for each frame in packet              */
-    opus_int    inbandFECFlag;                          /* Flag indicating if packet contains in-band FEC       */
-} silk_TOC_struct;
 
 /****************************************/
 /* Encoder functions                    */

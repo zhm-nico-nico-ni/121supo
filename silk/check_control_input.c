@@ -30,8 +30,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include "main.h"
-#include "control.h"
-#include "errors.h"
 
 /* Check encoder control struct */
 opus_int check_control_input(

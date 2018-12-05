@@ -34,23 +34,6 @@
   _buf:  The buffer to store output bytes in.
   _size: The size of the buffer, in chars.*/
 void ec_enc_init(ec_enc *_this,unsigned char *_buf,opus_uint32 _size);
-/*Encodes a symbol given its frequency information.
-  The frequency information must be discernable by the decoder, assuming it
-   has read only the previous symbols from the stream.
-  It is allowable to change the frequency information, or even the entire
-   source alphabet, so long as the decoder can tell from the context of the
-   previously encoded information that it is supposed to do so as well.
-  _fl: The cumulative frequency of all symbols that come before the one to be
-        encoded.
-  _fh: The cumulative frequency of all symbols up to and including the one to
-        be encoded.
-       Together with _fl, this defines the range [_fl,_fh) in which the
-        decoded value will fall.
-  _ft: The sum of the frequencies of all the symbols*/
-void ec_encode(ec_enc *_this,unsigned _fl,unsigned _fh,unsigned _ft);
-
-/* Encode a bit that has a 1/(1<<_logp) probability of being a one */
-void ec_enc_bit_logp(ec_enc *_this,int _val,unsigned _logp);
 
 /*Encodes a symbol given an "inverse" CDF table.
   _s:    The index of the symbol to encode.
