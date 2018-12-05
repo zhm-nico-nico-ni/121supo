@@ -38,8 +38,6 @@ extern "C"
 
 /* Max number of encoder channels (1/2) */
 #define ENCODER_NUM_CHANNELS                    2
-/* Number of decoder channels (1/2) */
-#define DECODER_NUM_CHANNELS                    2
 
 #define MAX_FRAMES_PER_PACKET                   3
 
@@ -49,18 +47,18 @@ extern "C"
 #define TARGET_RATE_TAB_SZ                      8
 
 /* LBRR thresholds */
-#define LBRR_NB_MIN_RATE_BPS                    12000
-#define LBRR_MB_MIN_RATE_BPS                    14000
-#define LBRR_WB_MIN_RATE_BPS                    16000
+//#define LBRR_NB_MIN_RATE_BPS                    12000
+//#define LBRR_MB_MIN_RATE_BPS                    14000
+//#define LBRR_WB_MIN_RATE_BPS                    16000
 
 /* DTX settings */
 #define NB_SPEECH_FRAMES_BEFORE_DTX             10      /* eq 200 ms */
 #define MAX_CONSECUTIVE_DTX                     20      /* eq 400 ms */
-#define DTX_ACTIVITY_THRESHOLD                  0.1f
+//#define DTX_ACTIVITY_THRESHOLD                  0.1f
 
 /* Maximum sampling frequency */
 #define MAX_FS_KHZ                              16
-#define MAX_API_FS_KHZ                          48
+//#define MAX_API_FS_KHZ                          48
 
 /* Signal types */
 #define TYPE_NO_VOICE_ACTIVITY                  0
@@ -73,10 +71,10 @@ extern "C"
 #define CODE_CONDITIONALLY                      2
 
 /* Settings for stereo processing */
-#define STEREO_QUANT_TAB_SIZE                   16
-#define STEREO_QUANT_SUB_STEPS                  5
-#define STEREO_INTERP_LEN_MS                    8       /* must be even */
-#define STEREO_RATIO_SMOOTH_COEF                0.01    /* smoothing coef for signal norms and stereo width */
+//#define STEREO_QUANT_TAB_SIZE                   16
+//#define STEREO_QUANT_SUB_STEPS                  5
+//#define STEREO_INTERP_LEN_MS                    8       /* must be even */
+//#define STEREO_RATIO_SMOOTH_COEF                0.01    /* smoothing coef for signal norms and stereo width */
 
 /* Range of pitch lag estimates */
 #define PITCH_EST_MIN_LAG_MS                    2       /* 2 ms -> 500 Hz */
@@ -94,7 +92,7 @@ extern "C"
 
 /* Milliseconds of lookahead for pitch analysis */
 #define LA_PITCH_MS                             2
-#define LA_PITCH_MAX                            ( LA_PITCH_MS * MAX_FS_KHZ )
+//#define LA_PITCH_MAX                            ( LA_PITCH_MS * MAX_FS_KHZ )
 
 /* Order of LPC used in find pitch */
 #define MAX_FIND_PITCH_LPC_ORDER                16
@@ -102,7 +100,7 @@ extern "C"
 /* Length of LPC window used in find pitch */
 #define FIND_PITCH_LPC_WIN_MS                   ( 20 + (LA_PITCH_MS << 1) )
 #define FIND_PITCH_LPC_WIN_MS_2_SF              ( 10 + (LA_PITCH_MS << 1) )
-#define FIND_PITCH_LPC_WIN_MAX                  ( FIND_PITCH_LPC_WIN_MS * MAX_FS_KHZ )
+//#define FIND_PITCH_LPC_WIN_MAX                  ( FIND_PITCH_LPC_WIN_MS * MAX_FS_KHZ )
 
 /* Milliseconds of lookahead for noise shape analysis */
 #define LA_SHAPE_MS                             5
@@ -136,7 +134,7 @@ extern "C"
 #define MAX_PREDICTION_POWER_GAIN_AFTER_RESET   1e2f
 
 #define MAX_LPC_ORDER                           16
-#define MIN_LPC_ORDER                           10
+//#define MIN_LPC_ORDER                           10
 
 /* Find Pred Coef defines */
 #define LTP_ORDER                               5
@@ -156,7 +154,7 @@ extern "C"
 #define MAX_DEL_DEC_STATES                      4
 
 #define LTP_BUF_LENGTH                          512
-#define LTP_MASK                                ( LTP_BUF_LENGTH - 1 )
+//#define LTP_MASK                                ( LTP_BUF_LENGTH - 1 )
 
 #define DECISION_DELAY                          40
 
@@ -208,11 +206,11 @@ extern "C"
 
 /* Transition filtering for mode switching */
 #define TRANSITION_TIME_MS                      5120    /* 5120 = 64 * FRAME_LENGTH_MS * ( TRANSITION_INT_NUM - 1 ) = 64*(20*4)*/
-#define TRANSITION_NB                           3       /* Hardcoded in tables */
-#define TRANSITION_NA                           2       /* Hardcoded in tables */
+//#define TRANSITION_NB                           3       /* Hardcoded in tables */
+//#define TRANSITION_NA                           2       /* Hardcoded in tables */
 #define TRANSITION_INT_NUM                      5       /* Hardcoded in tables */
 #define TRANSITION_FRAMES                       ( TRANSITION_TIME_MS / MAX_FRAME_LENGTH_MS )
-#define TRANSITION_INT_STEPS                    ( TRANSITION_FRAMES  / ( TRANSITION_INT_NUM - 1 ) )
+//#define TRANSITION_INT_STEPS                    ( TRANSITION_FRAMES  / ( TRANSITION_INT_NUM - 1 ) )
 
 
 

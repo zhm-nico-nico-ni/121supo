@@ -54,7 +54,6 @@
 #define opus_unlikely(x)     (!!(x))
 #endif
 
-#define CELT_SIG_SCALE 32768.f
 
 
 #define celt_assert(cond)
@@ -65,7 +64,7 @@
 
 #define MIN16(a,b) ((a) < (b) ? (a) : (b))   /**< Minimum 16-bit value.   */
 #define MAX16(a,b) ((a) > (b) ? (a) : (b))   /**< Maximum 16-bit value.   */
-#define MIN32(a,b) ((a) < (b) ? (a) : (b))   /**< Minimum 32-bit value.   */
+//#define MIN32(a,b) ((a) < (b) ? (a) : (b))   /**< Minimum 32-bit value.   */
 #define MAX32(a,b) ((a) > (b) ? (a) : (b))   /**< Maximum 32-bit value.   */
 #define IMIN(a,b) ((a) < (b) ? (a) : (b))   /**< Minimum int value.   */
 #define IMAX(a,b) ((a) > (b) ? (a) : (b))   /**< Maximum int value.   */
@@ -77,7 +76,6 @@ typedef opus_int16 opus_val16;
 typedef opus_int32 opus_val32;
 
 
-#define Q15ONE 32767
 
 /* Safe saturation value for 32-bit signals. Should be less than
    2^31*(1-0.85) to avoid blowing up on DC at deemphasis.*/

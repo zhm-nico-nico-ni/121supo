@@ -38,8 +38,6 @@
 #include "entcode.h"
 #include "os_support.h"
 
-#define PI 3.141592653f
-
 /* Multiplies two 16-bit fractional values. Bit-exactness of this macro is important */
 
 #include "os_support.h"

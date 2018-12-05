@@ -30,7 +30,6 @@
 #endif
 
 #include "entcode.h"
-#include "arch.h"
 
 
 int ec_ilog(opus_uint32 _v){
@@ -40,7 +39,7 @@ int ec_ilog(opus_uint32 _v){
   int ret;
   int m;
   ret=!!_v;
-  m=!!(_v&0xFFFF0000)<<4;
+  m=!!(_v&0xFFFF0000L)<<4;
   _v>>=m;
   ret|=m;
   m=!!(_v&0xFF00)<<3;

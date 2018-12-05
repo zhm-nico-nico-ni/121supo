@@ -65,7 +65,7 @@ POSSIBILITY OF SUCH DAMAGE.
 //};
 
 /* Simple way to make [8000, 12000, 16000, 24000, 48000] to [0, 1, 2, 3, 4] */
-#define rateID(R) ( ( ( ((R)>>12) - ((R)>16000) ) >> ((R)>24000) ) - 1 )
+//#define rateID(R) ( ( ( ((R)>>12) - ((R)>16000) ) >> ((R)>24000) ) - 1 )
 
 #define USE_silk_resampler_copy                     (0)
 

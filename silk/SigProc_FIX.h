@@ -145,7 +145,7 @@ void silk_ana_filt_bank_1(
 );
 
 
-#define silk_biquad_alt_stride2(in, B_Q28, A_Q28, S, out, len, arch) ((void)(arch), silk_biquad_alt_stride2_c(in, B_Q28, A_Q28, S, out, len))
+//#define silk_biquad_alt_stride2(in, B_Q28, A_Q28, S, out, len, arch) ((void)(arch), silk_biquad_alt_stride2_c(in, B_Q28, A_Q28, S, out, len))
 
 
 
@@ -396,10 +396,10 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
 //#define silk_MLA_uint(a32, b32, c32)        silk_MLA(a32, b32, c32)
 
 /* ((a32 >> 16)  * (b32 >> 16)) output have to be 32bit int */
-#define silk_SMULTT(a32, b32)               (((a32) >> 16) * ((b32) >> 16))
+//#define silk_SMULTT(a32, b32)               (((a32) >> 16) * ((b32) >> 16))
 
 /* a32 + ((a32 >> 16)  * (b32 >> 16)) output have to be 32bit int */
-#define silk_SMLATT(a32, b32, c32)          silk_ADD32((a32),((b32) >> 16) * ((c32) >> 16))
+//#define silk_SMLATT(a32, b32, c32)          silk_ADD32((a32),((b32) >> 16) * ((c32) >> 16))
 
 #define silk_SMLALBB(a64, b16, c16)         silk_ADD64((a64),(opus_int64)((opus_int32)(b16) * (opus_int32)(c16)))
 
@@ -458,7 +458,7 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
                                                     silk_RSHIFT32( silk_int32_MAX, (shift) ) ), (shift) ))
 
 #define silk_LSHIFT_ovflw(a, shift)         ((opus_int32)((opus_uint32)(a) << (shift)))     /* shift >= 0, allowed to overflow */
-#define silk_LSHIFT_uint(a, shift)          ((a) << (shift))                                /* shift >= 0 */
+//#define silk_LSHIFT_uint(a, shift)          ((a) << (shift))                                /* shift >= 0 */
 #define silk_RSHIFT_uint(a, shift)          ((a) >> (shift))                                /* shift >= 0 */
 
 #define silk_ADD_LSHIFT(a, b, shift)        ((a) + silk_LSHIFT((b), (shift)))               /* shift >= 0 */

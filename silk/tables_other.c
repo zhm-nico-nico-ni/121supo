@@ -30,7 +30,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include "structs.h"
-#include "define.h"
+
 #include "tables.h"
 
 #ifdef __cplusplus

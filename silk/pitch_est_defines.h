@@ -34,15 +34,15 @@ POSSIBILITY OF SUCH DAMAGE.
 /* Definitions for pitch estimator                      */
 /********************************************************/
 
-#define PE_MAX_FS_KHZ               16 /* Maximum sampling frequency used */
+//#define PE_MAX_FS_KHZ               16 /* Maximum sampling frequency used */
 
 #define PE_MAX_NB_SUBFR             4
 #define PE_SUBFR_LENGTH_MS          5   /* 5 ms */
 
 #define PE_LTP_MEM_LENGTH_MS        ( 4 * PE_SUBFR_LENGTH_MS )
 
-#define PE_MAX_FRAME_LENGTH_MS      ( PE_LTP_MEM_LENGTH_MS + PE_MAX_NB_SUBFR * PE_SUBFR_LENGTH_MS )
-#define PE_MAX_FRAME_LENGTH         ( PE_MAX_FRAME_LENGTH_MS * PE_MAX_FS_KHZ )
+//#define PE_MAX_FRAME_LENGTH_MS      ( PE_LTP_MEM_LENGTH_MS + PE_MAX_NB_SUBFR * PE_SUBFR_LENGTH_MS )
+//#define PE_MAX_FRAME_LENGTH         ( PE_MAX_FRAME_LENGTH_MS * PE_MAX_FS_KHZ )
 //#define PE_MAX_FRAME_LENGTH_ST_1    ( PE_MAX_FRAME_LENGTH >> 2 )
 //#define PE_MAX_FRAME_LENGTH_ST_2    ( PE_MAX_FRAME_LENGTH >> 1 )
 

@@ -30,7 +30,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include "SigProc_FIX.h"
-#include "define.h"
 #include "tuning_parameters.h"
 #include "pitch.h"
 

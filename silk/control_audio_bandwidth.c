@@ -30,7 +30,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include "main.h"
-#include "tuning_parameters.h"
+
 
 /* Control internal sampling rate */
 opus_int silk_control_audio_bandwidth(

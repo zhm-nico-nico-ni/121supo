@@ -37,7 +37,7 @@ extern "C" {
 #include "resampler_rom.h"
 
 /* Number of input samples to process in the inner loop */
-#define RESAMPLER_MAX_BATCH_SIZE_MS             10
+//#define RESAMPLER_MAX_BATCH_SIZE_MS             10
 
 #ifdef __cplusplus
 }

@@ -62,7 +62,7 @@
 
 /** Divide by two */
 #define HALF16(x)  (SHR16(x,1))
-#define HALF32(x)  (SHR32(x,1))
+//#define HALF32(x)  (SHR32(x,1))
 
 /** Add two 32-bit values */
 #define ADD32(a,b) ((opus_val32)(a)+(opus_val32)(b))

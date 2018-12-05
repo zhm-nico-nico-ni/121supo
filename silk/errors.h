@@ -52,7 +52,7 @@ extern "C"
 #define SILK_ENC_PACKET_SIZE_NOT_SUPPORTED          -103
 
 /* Allocated payload buffer too short */
-#define SILK_ENC_PAYLOAD_BUF_TOO_SHORT              -104
+//#define SILK_ENC_PAYLOAD_BUF_TOO_SHORT              -104
 
 /* Loss rate not between 0 and 100 percent */
 #define SILK_ENC_INVALID_LOSS_RATE                  -105
@@ -70,7 +70,7 @@ extern "C"
 #define SILK_ENC_INVALID_CBR_SETTING                -109
 
 /* Internal encoder error */
-#define SILK_ENC_INTERNAL_ERROR                     -110
+//#define SILK_ENC_INTERNAL_ERROR                     -110
 
 /* Internal encoder error */
 #define SILK_ENC_INVALID_NUMBER_OF_CHANNELS_ERROR   -111

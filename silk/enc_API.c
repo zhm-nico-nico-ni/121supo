@@ -30,16 +30,13 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 #include "define.h"
 #include "API.h"
-#include "control.h"
-#include "typedef.h"
+
 #include "stack_alloc.h"
 #include "structs.h"
 #include "tuning_parameters.h"
-#ifdef FIXED_POINT
+
 #include "main_FIX.h"
-#else
-#include "main_FLP.h"
-#endif
+
 
 /***************************************/
 /* Read control structure from encoder */
