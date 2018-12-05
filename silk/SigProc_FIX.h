@@ -82,37 +82,27 @@ void silk_resampler_down2(
 );
 
 /*!
- * Downsample by a factor 2/3, low quality
-*/
-void silk_resampler_down2_3(
-    opus_int32                  *S,                 /* I/O  State vector [ 6 ]                                          */
-    opus_int16                  *out,               /* O    Output signal [ floor(2*inLen/3) ]                          */
-    const opus_int16            *in,                /* I    Input signal [ inLen ]                                      */
-    opus_int32                  inLen               /* I    Number of input samples                                     */
-);
-
-/*!
  * second order ARMA filter;
  * slower than biquad() but uses more precise coefficients
  * can handle (slowly) varying coefficients
  */
-void silk_biquad_alt_stride1(
-    const opus_int16            *in,                /* I     input signal                                               */
-    const opus_int32            *B_Q28,             /* I     MA coefficients [3]                                        */
-    const opus_int32            *A_Q28,             /* I     AR coefficients [2]                                        */
-    opus_int32                  *S,                 /* I/O   State vector [2]                                           */
-    opus_int16                  *out,               /* O     output signal                                              */
-    const opus_int32            len                 /* I     signal length (must be even)                               */
-);
+//void silk_biquad_alt_stride1(
+//    const opus_int16            *in,                /* I     input signal                                               */
+//    const opus_int32            *B_Q28,             /* I     MA coefficients [3]                                        */
+//    const opus_int32            *A_Q28,             /* I     AR coefficients [2]                                        */
+//    opus_int32                  *S,                 /* I/O   State vector [2]                                           */
+//    opus_int16                  *out,               /* O     output signal                                              */
+//    const opus_int32            len                 /* I     signal length (must be even)                               */
+//);
 
-void silk_biquad_alt_stride2_c(
-    const opus_int16            *in,                /* I     input signal                                               */
-    const opus_int32            *B_Q28,             /* I     MA coefficients [3]                                        */
-    const opus_int32            *A_Q28,             /* I     AR coefficients [2]                                        */
-    opus_int32                  *S,                 /* I/O   State vector [4]                                           */
-    opus_int16                  *out,               /* O     output signal                                              */
-    const opus_int32            len                 /* I     signal length (must be even)                               */
-);
+//void silk_biquad_alt_stride2_c(
+//    const opus_int16            *in,                /* I     input signal                                               */
+//    const opus_int32            *B_Q28,             /* I     MA coefficients [3]                                        */
+//    const opus_int32            *A_Q28,             /* I     AR coefficients [2]                                        */
+//    opus_int32                  *S,                 /* I/O   State vector [4]                                           */
+//    opus_int16                  *out,               /* O     output signal                                              */
+//    const opus_int32            len                 /* I     signal length (must be even)                               */
+//);
 
 /* Variable order MA prediction error filter. */
 void silk_LPC_analysis_filter(
@@ -354,13 +344,6 @@ opus_int32 silk_inner_prod_aligned(
 );
 
 
-opus_int32 silk_inner_prod_aligned_scale(
-    const opus_int16 *const     inVec1,             /*    I input vector 1                                              */
-    const opus_int16 *const     inVec2,             /*    I input vector 2                                              */
-    const opus_int              scale,              /*    I number of bits to shift                                     */
-    const opus_int              len                 /*    I vector lengths                                              */
-);
-
 opus_int64 silk_inner_prod16_aligned_64_c(
     const opus_int16            *inVec1,            /*    I input vector 1                                              */
     const opus_int16            *inVec2,            /*    I input vector 2                                              */
@@ -404,13 +387,13 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
 #define silk_MUL(a32, b32)                  ((a32) * (b32))
 
 /* (a32 * b32) output have to be 32bit uint */
-#define silk_MUL_uint(a32, b32)             silk_MUL(a32, b32)
+//#define silk_MUL_uint(a32, b32)             silk_MUL(a32, b32)
 
 /* a32 + (b32 * c32) output have to be 32bit int */
 #define silk_MLA(a32, b32, c32)             silk_ADD32((a32),((b32) * (c32)))
 
 /* a32 + (b32 * c32) output have to be 32bit uint */
-#define silk_MLA_uint(a32, b32, c32)        silk_MLA(a32, b32, c32)
+//#define silk_MLA_uint(a32, b32, c32)        silk_MLA(a32, b32, c32)
 
 /* ((a32 >> 16)  * (b32 >> 16)) output have to be 32bit int */
 #define silk_SMULTT(a32, b32)               (((a32) >> 16) * ((b32) >> 16))
@@ -444,45 +427,28 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
 
 #define silk_SUB16(a, b)                    ((a) - (b))
 #define silk_SUB32(a, b)                    ((a) - (b))
-#define silk_SUB64(a, b)                    ((a) - (b))
+//#define silk_SUB64(a, b)                    ((a) - (b))
 
-#define silk_SAT8(a)                        ((a) > silk_int8_MAX ? silk_int8_MAX  :       \
+//#define silk_SAT8(a)                        ((a) > silk_int8_MAX ? silk_int8_MAX  :       \
                                             ((a) < silk_int8_MIN ? silk_int8_MIN  : (a)))
 #define silk_SAT16(a)                       ((a) > silk_int16_MAX ? silk_int16_MAX :      \
                                             ((a) < silk_int16_MIN ? silk_int16_MIN : (a)))
-#define silk_SAT32(a)                       ((a) > silk_int32_MAX ? silk_int32_MAX :      \
+//#define silk_SAT32(a)                       ((a) > silk_int32_MAX ? silk_int32_MAX :      \
                                             ((a) < silk_int32_MIN ? silk_int32_MIN : (a)))
 
-#define silk_CHECK_FIT8(a)                  (a)
+//#define silk_CHECK_FIT8(a)                  (a)
 #define silk_CHECK_FIT16(a)                 (a)
 #define silk_CHECK_FIT32(a)                 (a)
 
 #define silk_ADD_SAT16(a, b)                (opus_int16)silk_SAT16( silk_ADD32( (opus_int32)(a), (b) ) )
-#define silk_ADD_SAT64(a, b)                ((((a) + (b)) & 0x8000000000000000LL) == 0 ?                            \
-                                            ((((a) & (b)) & 0x8000000000000000LL) != 0 ? silk_int64_MIN : (a)+(b)) : \
-                                            ((((a) | (b)) & 0x8000000000000000LL) == 0 ? silk_int64_MAX : (a)+(b)) )
 
-#define silk_SUB_SAT16(a, b)                (opus_int16)silk_SAT16( silk_SUB32( (opus_int32)(a), (b) ) )
-#define silk_SUB_SAT64(a, b)                ((((a)-(b)) & 0x8000000000000000LL) == 0 ?                                               \
-                                            (( (a) & ((b)^0x8000000000000000LL) & 0x8000000000000000LL) ? silk_int64_MIN : (a)-(b)) : \
-                                            ((((a)^0x8000000000000000LL) & (b)  & 0x8000000000000000LL) ? silk_int64_MAX : (a)-(b)) )
-
-/* Saturation for positive input values */
-#define silk_POS_SAT32(a)                   ((a) > silk_int32_MAX ? silk_int32_MAX : (a))
-
-/* Add with saturation for positive input values */
-#define silk_ADD_POS_SAT8(a, b)             ((((a)+(b)) & 0x80)                 ? silk_int8_MAX  : ((a)+(b)))
-#define silk_ADD_POS_SAT16(a, b)            ((((a)+(b)) & 0x8000)               ? silk_int16_MAX : ((a)+(b)))
 #define silk_ADD_POS_SAT32(a, b)            ((((opus_uint32)(a)+(opus_uint32)(b)) & 0x80000000) ? silk_int32_MAX : ((a)+(b)))
 
-#define silk_LSHIFT8(a, shift)              ((opus_int8)((opus_uint8)(a)<<(shift)))         /* shift >= 0, shift < 8  */
 #define silk_LSHIFT16(a, shift)             ((opus_int16)((opus_uint16)(a)<<(shift)))       /* shift >= 0, shift < 16 */
 #define silk_LSHIFT32(a, shift)             ((opus_int32)((opus_uint32)(a)<<(shift)))       /* shift >= 0, shift < 32 */
 #define silk_LSHIFT64(a, shift)             ((opus_int64)((opus_uint64)(a)<<(shift)))       /* shift >= 0, shift < 64 */
 #define silk_LSHIFT(a, shift)               silk_LSHIFT32(a, shift)                         /* shift >= 0, shift < 32 */
 
-#define silk_RSHIFT8(a, shift)              ((a)>>(shift))                                  /* shift >= 0, shift < 8  */
-#define silk_RSHIFT16(a, shift)             ((a)>>(shift))                                  /* shift >= 0, shift < 16 */
 #define silk_RSHIFT32(a, shift)             ((a)>>(shift))                                  /* shift >= 0, shift < 32 */
 #define silk_RSHIFT64(a, shift)             ((a)>>(shift))                                  /* shift >= 0, shift < 64 */
 #define silk_RSHIFT(a, shift)               silk_RSHIFT32(a, shift)                         /* shift >= 0, shift < 32 */
@@ -497,7 +463,6 @@ static OPUS_INLINE opus_int32 silk_ROR32( opus_int32 a32, opus_int rot )
 
 #define silk_ADD_LSHIFT(a, b, shift)        ((a) + silk_LSHIFT((b), (shift)))               /* shift >= 0 */
 #define silk_ADD_LSHIFT32(a, b, shift)      silk_ADD32((a), silk_LSHIFT32((b), (shift)))    /* shift >= 0 */
-#define silk_ADD_LSHIFT_uint(a, b, shift)   ((a) + silk_LSHIFT_uint((b), (shift)))          /* shift >= 0 */
 #define silk_ADD_RSHIFT(a, b, shift)        ((a) + silk_RSHIFT((b), (shift)))               /* shift >= 0 */
 #define silk_ADD_RSHIFT32(a, b, shift)      silk_ADD32((a), silk_RSHIFT32((b), (shift)))    /* shift >= 0 */
 #define silk_ADD_RSHIFT_uint(a, b, shift)   ((a) + silk_RSHIFT_uint((b), (shift)))          /* shift >= 0 */
@@ -519,15 +484,8 @@ static OPUS_INLINE opus_int silk_min_int(opus_int a, opus_int b)
 {
     return (((a) < (b)) ? (a) : (b));
 }
-static OPUS_INLINE opus_int16 silk_min_16(opus_int16 a, opus_int16 b)
-{
-    return (((a) < (b)) ? (a) : (b));
-}
+
 static OPUS_INLINE opus_int32 silk_min_32(opus_int32 a, opus_int32 b)
-{
-    return (((a) < (b)) ? (a) : (b));
-}
-static OPUS_INLINE opus_int64 silk_min_64(opus_int64 a, opus_int64 b)
 {
     return (((a) < (b)) ? (a) : (b));
 }
@@ -537,10 +495,7 @@ static OPUS_INLINE opus_int silk_max_int(opus_int a, opus_int b)
 {
     return (((a) > (b)) ? (a) : (b));
 }
-static OPUS_INLINE opus_int16 silk_max_16(opus_int16 a, opus_int16 b)
-{
-    return (((a) > (b)) ? (a) : (b));
-}
+
 static OPUS_INLINE opus_int32 silk_max_32(opus_int32 a, opus_int32 b)
 {
     return (((a) > (b)) ? (a) : (b));
@@ -554,14 +509,11 @@ static OPUS_INLINE opus_int64 silk_max_64(opus_int64 a, opus_int64 b)
                                                                  : ((a) > (limit2) ? (limit2) : ((a) < (limit1) ? (limit1) : (a))))
 
 #define silk_LIMIT_int                      silk_LIMIT
-#define silk_LIMIT_16                       silk_LIMIT
 #define silk_LIMIT_32                       silk_LIMIT
 
 #define silk_abs(a)                         (((a) >  0)  ? (a) : -(a))            /* Be careful, silk_abs returns wrong when input equals to silk_intXX_MIN */
 #define silk_abs_int32(a)                   (((a) ^ ((a) >> 31)) - ((a) >> 31))
-#define silk_abs_int64(a)                   (((a) >  0)  ? (a) : -(a))
 
-#define silk_sign(a)                        ((a) > 0 ? 1 : ( (a) < 0 ? -1 : 0 ))
 
 /* PSEUDO-RANDOM GENERATOR                                                          */
 /* Make sure to store the result as the seed for the next call (also in between     */

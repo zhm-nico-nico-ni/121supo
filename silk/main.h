@@ -38,51 +38,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "entenc.h"
 
 
-
-
-/* Convert Left/Right stereo signal to adaptive Mid/Side representation */
-void silk_stereo_LR_to_MS(
-    stereo_enc_state            *state,                         /* I/O  State                                       */
-    opus_int16                  x1[],                           /* I/O  Left input signal, becomes mid signal       */
-    opus_int16                  x2[],                           /* I/O  Right input signal, becomes side signal     */
-    opus_int8                   ix[ 2 ][ 3 ],                   /* O    Quantization indices                        */
-    opus_int8                   *mid_only_flag,                 /* O    Flag: only mid signal coded                 */
-    opus_int32                  mid_side_rates_bps[],           /* O    Bitrates for mid and side signals           */
-    opus_int32                  total_rate_bps,                 /* I    Total bitrate                               */
-    opus_int                    prev_speech_act_Q8,             /* I    Speech activity level in previous frame     */
-    opus_int                    toMono,                         /* I    Last frame before a stereo->mono transition */
-    opus_int                    fs_kHz,                         /* I    Sample rate (kHz)                           */
-    opus_int                    frame_length                    /* I    Number of samples                           */
-);
-
-/* Find least-squares prediction gain for one signal based on another and quantize it */
-opus_int32 silk_stereo_find_predictor(                          /* O    Returns predictor in Q13                    */
-    opus_int32                  *ratio_Q14,                     /* O    Ratio of residual and mid energies          */
-    const opus_int16            x[],                            /* I    Basis signal                                */
-    const opus_int16            y[],                            /* I    Target signal                               */
-    opus_int32                  mid_res_amp_Q0[],               /* I/O  Smoothed mid, residual norms                */
-    opus_int                    length,                         /* I    Number of samples                           */
-    opus_int                    smooth_coef_Q16                 /* I    Smoothing coefficient                       */
-);
-
-/* Quantize mid/side predictors */
-void silk_stereo_quant_pred(
-    opus_int32                  pred_Q13[],                     /* I/O  Predictors (out: quantized)                 */
-    opus_int8                   ix[ 2 ][ 3 ]                    /* O    Quantization indices                        */
-);
-
-/* Entropy code the mid/side quantization indices */
-void silk_stereo_encode_pred(
-    ec_enc                      *psRangeEnc,                    /* I/O  Compressor data structure                   */
-    opus_int8                   ix[ 2 ][ 3 ]                    /* I    Quantization indices                        */
-);
-
-/* Entropy code the mid-only flag */
-void silk_stereo_encode_mid_only(
-    ec_enc                      *psRangeEnc,                    /* I/O  Compressor data structure                   */
-    opus_int8                   mid_only_flag
-);
-
 /* Encodes signs of excitation */
 void silk_encode_signs(
     ec_enc                      *psRangeEnc,                        /* I/O  Compressor data structure               */
@@ -197,34 +152,6 @@ void silk_VQ_WMat_EC_c(
     ((void)(arch),silk_VQ_WMat_EC_c(ind, res_nrg_Q15, rate_dist_Q8, gain_Q7, XX_Q17, xX_Q17, cb_Q7, cb_gain_Q7, cl_Q5, subfr_len, max_gain_Q7, L))
 #endif
 
-/************************************/
-/* Noise shaping quantization (NSQ) */
-/************************************/
-
-void silk_NSQ_c(
-    const silk_encoder_state    *psEncC,                                    /* I    Encoder State                   */
-    silk_nsq_state              *NSQ,                                       /* I/O  NSQ state                       */
-    SideInfoIndices             *psIndices,                                 /* I/O  Quantization Indices            */
-    const opus_int16            x16[],                                      /* I    Input                           */
-    opus_int8                   pulses[],                                   /* O    Quantized pulse signal          */
-    const opus_int16            PredCoef_Q12[ 2 * MAX_LPC_ORDER ],          /* I    Short term prediction coefs     */
-    const opus_int16            LTPCoef_Q14[ LTP_ORDER * MAX_NB_SUBFR ],    /* I    Long term prediction coefs      */
-    const opus_int16            AR_Q13[ MAX_NB_SUBFR * MAX_SHAPE_LPC_ORDER ], /* I  Noise shaping coefs             */
-    const opus_int              HarmShapeGain_Q14[ MAX_NB_SUBFR ],          /* I    Long term shaping coefs         */
-    const opus_int              Tilt_Q14[ MAX_NB_SUBFR ],                   /* I    Spectral tilt                   */
-    const opus_int32            LF_shp_Q14[ MAX_NB_SUBFR ],                 /* I    Low frequency shaping coefs     */
-    const opus_int32            Gains_Q16[ MAX_NB_SUBFR ],                  /* I    Quantization step sizes         */
-    const opus_int              pitchL[ MAX_NB_SUBFR ],                     /* I    Pitch lags                      */
-    const opus_int              Lambda_Q10,                                 /* I    Rate/distortion tradeoff        */
-    const opus_int              LTP_scale_Q14                               /* I    LTP state scaling               */
-);
-
-#if !defined(OVERRIDE_silk_NSQ)
-#define silk_NSQ(psEncC, NSQ, psIndices, x16, pulses, PredCoef_Q12, LTPCoef_Q14, AR_Q13, \
-                   HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, pitchL, Lambda_Q10, LTP_scale_Q14, arch) \
-    ((void)(arch),silk_NSQ_c(psEncC, NSQ, psIndices, x16, pulses, PredCoef_Q12, LTPCoef_Q14, AR_Q13, \
-                   HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, pitchL, Lambda_Q10, LTP_scale_Q14))
-#endif
 
 /* Noise shaping using delayed decision */
 void silk_NSQ_del_dec_c(
@@ -272,12 +199,6 @@ opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return v
 
 /* Low-pass filter with variable cutoff frequency based on  */
 /* piece-wise linear interpolation between elliptic filters */
-/* Start by setting transition_frame_no = 1;                */
-void silk_LP_variable_cutoff(
-    silk_LP_state               *psLP,                          /* I/O  LP filter state                             */
-    opus_int16                  *frame,                         /* I/O  Low-pass filtered output signal             */
-    const opus_int              frame_length                    /* I    Frame length                                */
-);
 
 /******************/
 /* NLSF Quantizer */

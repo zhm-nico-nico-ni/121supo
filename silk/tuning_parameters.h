@@ -79,8 +79,6 @@ extern "C"
 /* VAD threshold */
 #define SPEECH_ACTIVITY_DTX_THRES                       0.05f
 
-/* Speech Activity LBRR enable threshold */
-#define LBRR_SPEECH_ACTIVITY_THRES                      0.3f
 
 /*************************/
 /* Perceptual parameters */
@@ -91,9 +89,6 @@ extern "C"
 
 /* factor for reducing quantization noise during voiced speech */
 #define HARM_SNR_INCR_dB                                2.0f
-
-/* factor for reducing quantization noise for unvoiced sparse signals */
-#define SPARSE_SNR_INCR_dB                              2.0f
 
 /* threshold for sparseness measure above which to use lower quantization offset during unvoiced */
 #define ENERGY_VARIATION_THRESHOLD_QNT_OFFSET           0.6f
@@ -119,11 +114,6 @@ extern "C"
 /* parameter for shaping noise even more towards higher frequencies during voiced speech */
 #define HARM_HP_NOISE_COEF                              0.35f
 
-/* parameter for applying a high-pass tilt to the input signal */
-#define INPUT_TILT                                      0.05f
-
-/* parameter for extra high-pass tilt to the input signal at high rates */
-#define HIGH_RATE_INPUT_TILT                            0.1f
 
 /* parameter for reducing noise at the very low frequencies */
 #define LOW_FREQ_SHAPING                                4.0f

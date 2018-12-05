@@ -166,7 +166,7 @@ int opus_encoder_init(OpusEncoder* st, opus_int32 Fs, int channels, int applicat
     st->application = application;
     st->signal_type = OPUS_AUTO;
     st->user_bandwidth = OPUS_AUTO;
-    st->max_bandwidth = OPUS_BANDWIDTH_FULLBAND;
+    st->max_bandwidth = OPUS_BANDWIDTH_WIDEBAND ;
     st->user_forced_mode = OPUS_AUTO;
     st->voice_ratio = -1;
     st->encoder_buffer = st->Fs/100;
@@ -215,38 +215,6 @@ static unsigned char gen_toc(int mode, int framerate, int bandwidth, int channel
    return toc;
 }
 
-static void hp_cutoff(const opus_val16 *in, opus_int32 cutoff_Hz, opus_val16 *out, opus_val32 *hp_mem, int len, int channels, opus_int32 Fs, int arch)
-{
-   opus_int32 B_Q28[ 3 ], A_Q28[ 2 ];
-   opus_int32 Fc_Q19, r_Q28, r_Q22;
-   (void)arch;
-
-   silk_assert( cutoff_Hz <= silk_int32_MAX / SILK_FIX_CONST( 1.5 * 3.14159 / 1000, 19 ) );
-   Fc_Q19 = silk_DIV32_16( silk_SMULBB( SILK_FIX_CONST( 1.5 * 3.14159 / 1000, 19 ), cutoff_Hz ), Fs/1000 );
-   silk_assert( Fc_Q19 > 0 && Fc_Q19 < 32768 );
-
-   r_Q28 = SILK_FIX_CONST( 1.0, 28 ) - silk_MUL( SILK_FIX_CONST( 0.92, 9 ), Fc_Q19 );
-
-   /* b = r * [ 1; -2; 1 ]; */
-   /* a = [ 1; -2 * r * ( 1 - 0.5 * Fc^2 ); r^2 ]; */
-   B_Q28[ 0 ] = r_Q28;
-   B_Q28[ 1 ] = silk_LSHIFT( -r_Q28, 1 );
-   B_Q28[ 2 ] = r_Q28;
-
-   /* -r * ( 2 - Fc * Fc ); */
-   r_Q22  = silk_RSHIFT( r_Q28, 6 );
-   A_Q28[ 0 ] = silk_SMULWW( r_Q22, silk_SMULWW( Fc_Q19, Fc_Q19 ) - SILK_FIX_CONST( 2.0,  22 ) );
-   A_Q28[ 1 ] = silk_SMULWW( r_Q22, r_Q22 );
-
-
-   if( channels == 1 ) {
-      silk_biquad_alt_stride1( in, B_Q28, A_Q28, hp_mem, out, len );
-   } else {
-      silk_biquad_alt_stride2( in, B_Q28, A_Q28, hp_mem, out, len, arch );
-   }
-
-}
-
 
 static void dc_reject(const opus_val16 *in, opus_int32 cutoff_Hz, opus_val16 *out, opus_val32 *hp_mem, int len, int channels, opus_int32 Fs)
 {
@@ -272,78 +240,6 @@ static void dc_reject(const opus_val16 *in, opus_int32 cutoff_Hz, opus_val16 *ou
    }
 }
 
-
-
-static void stereo_fade(const opus_val16 *in, opus_val16 *out, opus_val16 g1, opus_val16 g2,
-        int overlap48, int frame_size, int channels, const opus_val16 *window, opus_int32 Fs)
-{
-    int i;
-    int overlap;
-    int inc;
-    inc = 48000/Fs;
-    overlap=overlap48/inc;
-    g1 = Q15ONE-g1;
-    g2 = Q15ONE-g2;
-    for (i=0;i<overlap;i++)
-    {
-       opus_val32 diff;
-       opus_val16 g, w;
-       w = MULT16_16_Q15(window[i*inc], window[i*inc]);
-       g = SHR32(MAC16_16(MULT16_16(w,g2),
-             Q15ONE-w, g1), 15);
-       diff = EXTRACT16(HALF32((opus_val32)in[i*channels] - (opus_val32)in[i*channels+1]));
-       diff = MULT16_16_Q15(g, diff);
-       out[i*channels] = out[i*channels] - diff;
-       out[i*channels+1] = out[i*channels+1] + diff;
-    }
-    for (;i<frame_size;i++)
-    {
-       opus_val32 diff;
-       diff = EXTRACT16(HALF32((opus_val32)in[i*channels] - (opus_val32)in[i*channels+1]));
-       diff = MULT16_16_Q15(g2, diff);
-       out[i*channels] = out[i*channels] - diff;
-       out[i*channels+1] = out[i*channels+1] + diff;
-    }
-}
-
-static void gain_fade(const opus_val16 *in, opus_val16 *out, opus_val16 g1, opus_val16 g2,
-        int overlap48, int frame_size, int channels, const opus_val16 *window, opus_int32 Fs)
-{
-    int i;
-    int inc;
-    int overlap;
-    int c;
-    inc = 48000/Fs;
-    overlap=overlap48/inc;
-    if (channels==1)
-    {
-       for (i=0;i<overlap;i++)
-       {
-          opus_val16 g, w;
-          w = MULT16_16_Q15(window[i*inc], window[i*inc]);
-          g = SHR32(MAC16_16(MULT16_16(w,g2),
-                Q15ONE-w, g1), 15);
-          out[i] = MULT16_16_Q15(g, in[i]);
-       }
-    } else {
-       for (i=0;i<overlap;i++)
-       {
-          opus_val16 g, w;
-          w = MULT16_16_Q15(window[i*inc], window[i*inc]);
-          g = SHR32(MAC16_16(MULT16_16(w,g2),
-                Q15ONE-w, g1), 15);
-          out[i*2] = MULT16_16_Q15(g, in[i*2]);
-          out[i*2+1] = MULT16_16_Q15(g, in[i*2+1]);
-       }
-    }
-    c=0;do {
-       for (i=overlap;i<frame_size;i++)
-       {
-          out[i*channels+c] = MULT16_16_Q15(g2, in[i*channels+c]);
-       }
-    }
-    while (++c<channels);
-}
 
 OpusEncoder *opus_encoder_create(opus_int32 Fs, int channels, int application, int *error)
 {

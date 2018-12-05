@@ -52,19 +52,6 @@ const opus_int16 silk_SNR_table_Q1[ TARGET_RATE_TAB_SZ ] = {
     18,     29,     38,     40,     46,     52,     62,     84
 };
 
-/* Tables for stereo predictor coding */
-const opus_int16 silk_stereo_pred_quant_Q13[ STEREO_QUANT_TAB_SIZE ] = {
-    -13732, -10050, -8266, -7526, -6500, -5000, -2950,  -820,
-       820,   2950,  5000,  6500,  7526,  8266, 10050, 13732
-};
-const opus_uint8  silk_stereo_pred_joint_iCDF[ 25 ] = {
-    249, 247, 246, 245, 244,
-    234, 210, 202, 201, 200,
-    197, 174,  82,  59,  56,
-     55,  54,  46,  22,  12,
-     11,  10,   9,   7,   0
-};
-const opus_uint8  silk_stereo_only_code_mid_iCDF[ 2 ] = { 64, 0 };
 
 /* Tables for LBRR flags */
 static const opus_uint8 silk_LBRR_flags_2_iCDF[ 3 ] = { 203, 150, 0 };
@@ -100,9 +87,7 @@ const opus_int16  silk_Quantization_Offsets_Q10[ 2 ][ 2 ] = {
 const opus_int16 silk_LTPScales_table_Q14[ 3 ] = { 15565, 12288, 8192 };
 
 /* Uniform entropy tables */
-const opus_uint8 silk_uniform3_iCDF[ 3 ] = { 171, 85, 0 };
 const opus_uint8 silk_uniform4_iCDF[ 4 ] = { 192, 128, 64, 0 };
-const opus_uint8 silk_uniform5_iCDF[ 5 ] = { 205, 154, 102, 51, 0 };
 const opus_uint8 silk_uniform6_iCDF[ 6 ] = { 213, 171, 128, 85, 43, 0 };
 const opus_uint8 silk_uniform8_iCDF[ 8 ] = { 224, 192, 160, 128, 96, 64, 32, 0 };
 
@@ -112,25 +97,7 @@ const opus_uint8 silk_NLSF_EXT_iCDF[ 7 ] = { 100, 40, 16, 7, 3, 1, 0 };
         80 dB minimum stopband attenuation, and
         [0.95 : 0.15 : 0.35] normalized cut off frequencies. */
 
-/* Interpolation points for filter coefficients used in the bandwidth transition smoother */
-const opus_int32 silk_Transition_LP_B_Q28[ TRANSITION_INT_NUM ][ TRANSITION_NB ] =
-{
-{    250767114,  501534038,  250767114  },
-{    209867381,  419732057,  209867381  },
-{    170987846,  341967853,  170987846  },
-{    131531482,  263046905,  131531482  },
-{     89306658,  178584282,   89306658  }
-};
 
-/* Interpolation points for filter coefficients used in the bandwidth transition smoother */
-const opus_int32 silk_Transition_LP_A_Q28[ TRANSITION_INT_NUM ][ TRANSITION_NA ] =
-{
-{    506393414,  239854379  },
-{    411067935,  169683996  },
-{    306733530,  116694253  },
-{    185807084,   77959395  },
-{     35497197,   57401098  }
-};
 
 #ifdef __cplusplus
 }

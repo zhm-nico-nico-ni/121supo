@@ -38,7 +38,7 @@ extern "C"
 {
 #endif
 
-#define SILK_MAX_FRAMES_PER_PACKET  3
+//#define SILK_MAX_FRAMES_PER_PACKET  3
 
 /****************************************/
 /* Encoder functions                    */

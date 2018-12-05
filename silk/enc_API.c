@@ -351,13 +351,13 @@ opus_int silk_Encode(                                   /* O    Returns error co
                         if( psEnc->state_Fxx[ n ].sCmn.LBRR_flags[ i ] ) {
                             opus_int condCoding;
 
-                            if( encControl->nChannelsInternal == 2 && n == 0 ) {
-                                silk_stereo_encode_pred( psRangeEnc, psEnc->sStereo.predIx[ i ] );
-                                /* For LBRR data there's no need to code the mid-only flag if the side-channel LBRR flag is set */
-                                if( psEnc->state_Fxx[ 1 ].sCmn.LBRR_flags[ i ] == 0 ) {
-                                    silk_stereo_encode_mid_only( psRangeEnc, psEnc->sStereo.mid_only_flags[ i ] );
-                                }
-                            }
+//                            if( encControl->nChannelsInternal == 2 && n == 0 ) {
+//                                silk_stereo_encode_pred( psRangeEnc, psEnc->sStereo.predIx[ i ] );
+//                                /* For LBRR data there's no need to code the mid-only flag if the side-channel LBRR flag is set */
+//                                if( psEnc->state_Fxx[ 1 ].sCmn.LBRR_flags[ i ] == 0 ) {
+//                                    silk_stereo_encode_mid_only( psRangeEnc, psEnc->sStereo.mid_only_flags[ i ] );
+//                                }
+//                            }
                             /* Use conditional coding if previous frame available */
                             if( i > 0 && psEnc->state_Fxx[ n ].sCmn.LBRR_flags[ i - 1 ] ) {
                                 condCoding = CODE_CONDITIONALLY;
@@ -406,36 +406,7 @@ opus_int silk_Encode(                                   /* O    Returns error co
             TargetRate_bps = silk_LIMIT( TargetRate_bps, encControl->bitRate, 5000 );
 
             /* Convert Left/Right to Mid/Side */
-            if( encControl->nChannelsInternal == 2 ) {
-                silk_stereo_LR_to_MS( &psEnc->sStereo, &psEnc->state_Fxx[ 0 ].sCmn.inputBuf[ 2 ], &psEnc->state_Fxx[ 1 ].sCmn.inputBuf[ 2 ],
-                    psEnc->sStereo.predIx[ psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded ], &psEnc->sStereo.mid_only_flags[ psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded ],
-                    MStargetRates_bps, TargetRate_bps, psEnc->state_Fxx[ 0 ].sCmn.speech_activity_Q8, encControl->toMono,
-                    psEnc->state_Fxx[ 0 ].sCmn.fs_kHz, psEnc->state_Fxx[ 0 ].sCmn.frame_length );
-                if( psEnc->sStereo.mid_only_flags[ psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded ] == 0 ) {
-                    /* Reset side channel encoder memory for first frame with side coding */
-                    if( psEnc->prev_decode_only_middle == 1 ) {
-                        silk_memset( &psEnc->state_Fxx[ 1 ].sShape,               0, sizeof( psEnc->state_Fxx[ 1 ].sShape ) );
-                        silk_memset( &psEnc->state_Fxx[ 1 ].sCmn.sNSQ,            0, sizeof( psEnc->state_Fxx[ 1 ].sCmn.sNSQ ) );
-                        silk_memset( psEnc->state_Fxx[ 1 ].sCmn.prev_NLSFq_Q15,   0, sizeof( psEnc->state_Fxx[ 1 ].sCmn.prev_NLSFq_Q15 ) );
-                        silk_memset( &psEnc->state_Fxx[ 1 ].sCmn.sLP.In_LP_State, 0, sizeof( psEnc->state_Fxx[ 1 ].sCmn.sLP.In_LP_State ) );
-                        psEnc->state_Fxx[ 1 ].sCmn.prevLag                 = 100;
-                        psEnc->state_Fxx[ 1 ].sCmn.sNSQ.lagPrev            = 100;
-                        psEnc->state_Fxx[ 1 ].sShape.LastGainIndex         = 10;
-                        psEnc->state_Fxx[ 1 ].sCmn.prevSignalType          = TYPE_NO_VOICE_ACTIVITY;
-                        psEnc->state_Fxx[ 1 ].sCmn.sNSQ.prev_gain_Q16      = 65536;
-                        psEnc->state_Fxx[ 1 ].sCmn.first_frame_after_reset = 1;
-                    }
-                    silk_encode_do_VAD_Fxx( &psEnc->state_Fxx[ 1 ] );
-                } else {
-                    psEnc->state_Fxx[ 1 ].sCmn.VAD_flags[ psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded ] = 0;
-                }
-                if( !prefillFlag ) {
-                    silk_stereo_encode_pred( psRangeEnc, psEnc->sStereo.predIx[ psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded ] );
-                    if( psEnc->state_Fxx[ 1 ].sCmn.VAD_flags[ psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded ] == 0 ) {
-                        silk_stereo_encode_mid_only( psRangeEnc, psEnc->sStereo.mid_only_flags[ psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded ] );
-                    }
-                }
-            } else {
+            {
                 /* Buffering */
                 silk_memcpy( psEnc->state_Fxx[ 0 ].sCmn.inputBuf, psEnc->sStereo.sMid, 2 * sizeof( opus_int16 ) );
                 silk_memcpy( psEnc->sStereo.sMid, &psEnc->state_Fxx[ 0 ].sCmn.inputBuf[ psEnc->state_Fxx[ 0 ].sCmn.frame_length ], 2 * sizeof( opus_int16 ) );

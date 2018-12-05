@@ -52,18 +52,5 @@ const opus_uint8 silk_pitch_contour_iCDF[34] = {
          1,      0
 };
 
-const opus_uint8 silk_pitch_contour_NB_iCDF[11] = {
-       188,    176,    155,    138,    119,     97,     67,     43,
-        26,     10,      0
-};
-
-const opus_uint8 silk_pitch_contour_10_ms_iCDF[12] = {
-       165,    119,     80,     61,     47,     35,     27,     20,
-        14,      9,      4,      0
-};
-
-const opus_uint8 silk_pitch_contour_10_ms_NB_iCDF[3] = {
-       113,     63,      0
-};
 
 

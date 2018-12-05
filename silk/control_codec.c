@@ -200,22 +200,22 @@ static opus_int silk_setup_fs(
             ret = SILK_ENC_PACKET_SIZE_NOT_SUPPORTED;
         }
         if( PacketSize_ms <= 10 ) {
-            psEnc->sCmn.nFramesPerPacket = 1;
-            psEnc->sCmn.nb_subfr = PacketSize_ms == 10 ? 2 : 1;
-            psEnc->sCmn.frame_length = silk_SMULBB( PacketSize_ms, fs_kHz );
-            psEnc->sCmn.pitch_LPC_win_length = silk_SMULBB( FIND_PITCH_LPC_WIN_MS_2_SF, fs_kHz );
-            if( psEnc->sCmn.fs_kHz == 8 ) {
-                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_10_ms_NB_iCDF;
-            } else {
-                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_10_ms_iCDF;
-            }
+//            psEnc->sCmn.nFramesPerPacket = 1;
+//            psEnc->sCmn.nb_subfr = PacketSize_ms == 10 ? 2 : 1;
+//            psEnc->sCmn.frame_length = silk_SMULBB( PacketSize_ms, fs_kHz );
+//            psEnc->sCmn.pitch_LPC_win_length = silk_SMULBB( FIND_PITCH_LPC_WIN_MS_2_SF, fs_kHz );
+//            if( psEnc->sCmn.fs_kHz == 8 ) {
+//                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_10_ms_NB_iCDF;
+//            } else {
+//                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_10_ms_iCDF;
+//            }
         } else {
             psEnc->sCmn.nFramesPerPacket = silk_DIV32_16( PacketSize_ms, MAX_FRAME_LENGTH_MS );
             psEnc->sCmn.nb_subfr = MAX_NB_SUBFR;
             psEnc->sCmn.frame_length = silk_SMULBB( 20, fs_kHz );
             psEnc->sCmn.pitch_LPC_win_length = silk_SMULBB( FIND_PITCH_LPC_WIN_MS, fs_kHz );
             if( psEnc->sCmn.fs_kHz == 8 ) {
-                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_NB_iCDF;
+                //psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_NB_iCDF;
             } else {
                 psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_iCDF;
             }
@@ -247,21 +247,21 @@ static opus_int silk_setup_fs(
 
         psEnc->sCmn.fs_kHz = fs_kHz;
         if( psEnc->sCmn.fs_kHz == 8 ) {
-            if( psEnc->sCmn.nb_subfr == MAX_NB_SUBFR ) {
-                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_NB_iCDF;
-            } else {
-                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_10_ms_NB_iCDF;
-            }
+//            if( psEnc->sCmn.nb_subfr == MAX_NB_SUBFR ) {
+//                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_NB_iCDF;
+//            } else {
+//                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_10_ms_NB_iCDF;
+//            }
         } else {
             if( psEnc->sCmn.nb_subfr == MAX_NB_SUBFR ) {
                 psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_iCDF;
             } else {
-                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_10_ms_iCDF;
+                //psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_10_ms_iCDF;
             }
         }
         if( psEnc->sCmn.fs_kHz == 8 || psEnc->sCmn.fs_kHz == 12 ) {
-            psEnc->sCmn.predictLPCOrder = MIN_LPC_ORDER;
-            psEnc->sCmn.psNLSF_CB  = &silk_NLSF_CB_NB_MB;
+//            psEnc->sCmn.predictLPCOrder = MIN_LPC_ORDER;
+//            psEnc->sCmn.psNLSF_CB  = &silk_NLSF_CB_NB_MB;
         } else {
             psEnc->sCmn.predictLPCOrder = MAX_LPC_ORDER;
             psEnc->sCmn.psNLSF_CB  = &silk_NLSF_CB_WB;

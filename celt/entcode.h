@@ -37,14 +37,14 @@
 /*OPT: ec_window must be at least 32 bits, but if you have fast arithmetic on a
    larger type, you can speed up the decoder by using it here.*/
 typedef opus_uint32           ec_window;
-typedef struct ec_ctx         ec_ctx;
-typedef struct ec_ctx         ec_enc;
+//typedef struct ec_ctx         ec_ctx;
+typedef struct _ec_ctx         ec_enc;
 
 
 /*The entropy encoder/decoder context.
   We use the same structure for both, so that common functions like ec_tell()
    can be used on either one.*/
-struct ec_ctx{
+struct _ec_ctx{
    /*Buffered input/output.*/
    unsigned char *buf;
    /*The size of the buffer.*/
@@ -81,7 +81,7 @@ struct ec_ctx{
   Return: The number of bits.
           This will always be slightly larger than the exact value (e.g., all
            rounding error is in the positive direction).*/
-static OPUS_INLINE int ec_tell(ec_ctx *_this){
+static OPUS_INLINE int ec_tell(ec_enc *_this){
   return _this->nbits_total-EC_ILOG(_this->rng);
 }
 

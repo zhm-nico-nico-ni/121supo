@@ -41,7 +41,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "SigProc_FIX.h"
 
 /* Constant Definitions */
-#define MAX_LOOPS        20
+#define MAX_LOOPS        10
 
 /* NLSF stabilizer, for a single input data vector */
 void silk_NLSF_stabilize(

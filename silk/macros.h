@@ -63,7 +63,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #define silk_SMLABT(a32, b32, c32)       ((a32) + ((opus_int32)((opus_int16)(b32))) * ((c32) >> 16))
 
 /* a64 + (b32 * c32) */
-#define silk_SMLAL(a64, b32, c32)        (silk_ADD64((a64), ((opus_int64)(b32) * (opus_int64)(c32))))
+//#define silk_SMLAL(a64, b32, c32)        (silk_ADD64((a64), ((opus_int64)(b32) * (opus_int64)(c32))))
 
 /* (a32 * b32) >> 16 */
 #define silk_SMULWW(a32, b32)            silk_MLA(silk_SMULWB((a32), (b32)), (a32), silk_RSHIFT_ROUND((b32), 16))
@@ -85,12 +85,12 @@ POSSIBILITY OF SUCH DAMAGE.
 #endif
 
 #include "ecintrin.h"
-#ifndef OVERRIDE_silk_CLZ16
-static OPUS_INLINE opus_int32 silk_CLZ16(opus_int16 in16)
-{
-    return 32 - EC_ILOG(in16<<16|0x8000);
-}
-#endif
+//#ifndef OVERRIDE_silk_CLZ16
+//static OPUS_INLINE opus_int32 silk_CLZ16(opus_int16 in16)
+//{
+//    return 32 - EC_ILOG(in16<<16|0x8000);
+//}
+//#endif
 
 #ifndef OVERRIDE_silk_CLZ32
 static OPUS_INLINE opus_int32 silk_CLZ32(opus_int32 in32)

@@ -35,10 +35,6 @@ extern "C"
 {
 #endif
 
-/* Decoder API flags */
-#define FLAG_DECODE_NORMAL                      0
-#define FLAG_PACKET_LOST                        1
-#define FLAG_DECODE_LBRR                        2
 
 /***********************************************/
 /* Structure for controlling encoder operation */
@@ -122,26 +118,6 @@ typedef struct {
 
 /**************************************************************************/
 /* Structure for controlling decoder operation and reading decoder status */
-/**************************************************************************/
-typedef struct {
-    /* I:   Number of channels; 1/2                                                         */
-    opus_int32 nChannelsAPI;
-
-    /* I:   Number of channels; 1/2                                                         */
-    opus_int32 nChannelsInternal;
-
-    /* I:   Output signal sampling rate in Hertz; 8000/12000/16000/24000/32000/44100/48000  */
-    opus_int32 API_sampleRate;
-
-    /* I:   Internal sampling rate used, in Hertz; 8000/12000/16000                         */
-    opus_int32 internalSampleRate;
-
-    /* I:   Number of samples per packet in milliseconds; 10/20/40/60                       */
-    opus_int payloadSize_ms;
-
-    /* O:   Pitch lag of previous frame (0 if unvoiced), measured in samples at 48 kHz      */
-    opus_int prevPitchLag;
-} silk_DecControlStruct;
 
 #ifdef __cplusplus
 }
