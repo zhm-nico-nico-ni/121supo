@@ -26,7 +26,7 @@ POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
 
-#include "main_FIX.h"
+#include "fixed/main_FIX.h"
 #include "tuning_parameters.h"
 
 /* High-pass filter with cutoff frequency adaptation based on pitch lag statistics */

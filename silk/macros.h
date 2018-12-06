@@ -30,9 +30,9 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-#include "opus_types.h"
-#include "opus_defines.h"
-#include "arch.h"
+#include "../opus_include/opus_types.h"
+#include "../opus_include/opus_defines.h"
+#include "../celt/arch.h"
 
 /* This is an OPUS_INLINE header file for general platform. */
 
@@ -79,7 +79,7 @@ POSSIBILITY OF SUCH DAMAGE.
                                         ((((a)^0x80000000) & (b)  & 0x80000000) ? silk_int32_MAX : (a)-(b)) )
 
 
-#include "ecintrin.h"
+#include "../celt/ecintrin.h"
 //#ifndef OVERRIDE_silk_CLZ16
 //static OPUS_INLINE opus_int32 silk_CLZ16(opus_int16 in16)
 //{
@@ -96,11 +96,7 @@ static OPUS_INLINE opus_int32 silk_CLZ32(opus_int32 in32)
 #define matrix_ptr(Matrix_base_adr, row, column, N) \
     (*((Matrix_base_adr) + ((row)*(N)+(column))))
 
-/* Column based */
-#ifndef matrix_c_ptr
-#   define matrix_c_ptr(Matrix_base_adr, row, column, M) \
-    (*((Matrix_base_adr) + ((row)+(M)*(column))))
-#endif
+
 
 
 #endif /* SILK_MACROS_H */

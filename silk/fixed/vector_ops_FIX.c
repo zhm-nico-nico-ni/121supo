@@ -26,8 +26,8 @@ POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
 
-#include "SigProc_FIX.h"
-#include "pitch.h"
+#include "../SigProc_FIX.h"
+#include "../../celt/pitch.h"
 
 /* Copy and multiply a vector by a constant */
 void silk_scale_copy_vector16(

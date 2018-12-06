@@ -26,10 +26,10 @@ POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
 
-#include "main_FIX.h"
+#include "fixed/main_FIX.h"
 #define silk_encoder_state_Fxx      silk_encoder_state_FIX
 
-#include "stack_alloc.h"
+#include "../celt/stack_alloc.h"
 #include "tuning_parameters.h"
 #include "pitch_est_defines.h"
 

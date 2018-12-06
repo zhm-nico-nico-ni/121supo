@@ -28,8 +28,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include <stdlib.h>
 #include "main_FIX.h"
-#include "stack_alloc.h"
-#include "tuning_parameters.h"
+#include "../../celt/stack_alloc.h"
+#include "../tuning_parameters.h"
 
 void silk_encode_do_VAD_FIX(
     silk_encoder_state_FIX          *psEnc                                  /* I/O  Pointer to Silk FIX encoder state                                           */

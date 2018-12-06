@@ -27,7 +27,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "main_FIX.h"
-#include "tuning_parameters.h"
+#include "../tuning_parameters.h"
 
 /* Processing of gains */
 void silk_process_gains_FIX(

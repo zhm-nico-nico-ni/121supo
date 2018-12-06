@@ -27,7 +27,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "main_FIX.h"
-#include "stack_alloc.h"
+#include "../../celt/stack_alloc.h"
 
 
 /* Finds LPC vector from correlations, and converts to NLSF */

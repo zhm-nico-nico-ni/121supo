@@ -27,9 +27,9 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-#include "SigProc_FIX.h"
-#include "tuning_parameters.h"
-#include "pitch.h"
+#include "../SigProc_FIX.h"
+#include "../tuning_parameters.h"
+#include "../../celt/pitch.h"
 
 #define MAX_FRAME_SIZE              384             /* subfr_length * nb_subfr = ( 0.005 * 16000 + 16 ) * 4 = 384 */
 

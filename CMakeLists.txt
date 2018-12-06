@@ -12,7 +12,7 @@ add_definitions(-DUSE_SMALL_DIV_TABLE)
 #add_definitions(-DEC_CLZ)
 #set(CXX_PLATFORM_DEPENDENT_FLAGS_DEBUG      "-DDEBUG -DACSDK_DEBUG_LOG_ENABLED -Wall -Werror -Wsign-compare -g")
 
-include_directories(silk silk/float silk/fixed  celt opus_include)
+#include_directories(silk silk/float silk/fixed  celt opus_include)
 file(GLOB BASE_SOURCES src/*.c )
 file(GLOB CELT_SOURCES celt/*.c )
 file(GLOB SILK_SOURCES silk/*.c )

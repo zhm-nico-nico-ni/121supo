@@ -29,10 +29,10 @@ POSSIBILITY OF SUCH DAMAGE.
 /***********************************************************
 * Pitch analyser function
 ********************************************************** */
-#include "SigProc_FIX.h"
-#include "pitch_est_defines.h"
-#include "stack_alloc.h"
-#include "pitch.h"
+#include "../SigProc_FIX.h"
+#include "../pitch_est_defines.h"
+#include "../../celt/stack_alloc.h"
+#include "../../celt/pitch.h"
 
 #define SCRATCH_SIZE    22
 #define SF_LENGTH_4KHZ  ( PE_SUBFR_LENGTH_MS * 4 )

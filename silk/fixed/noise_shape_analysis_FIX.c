@@ -27,8 +27,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "main_FIX.h"
-#include "stack_alloc.h"
-#include "tuning_parameters.h"
+#include "../../celt/stack_alloc.h"
+#include "../tuning_parameters.h"
 
 /* Compute gain to make warped filter coefficients have a zero mean log frequency response on a   */
 /* non-warped frequency scale. (So that it can be implemented with a minimum-phase monic filter.) */

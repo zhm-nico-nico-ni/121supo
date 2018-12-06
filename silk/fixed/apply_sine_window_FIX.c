@@ -26,7 +26,7 @@ POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
 
-#include "SigProc_FIX.h"
+#include "../SigProc_FIX.h"
 
 /* Apply sine window to signal vector.                                      */
 /* Window types:                                                            */

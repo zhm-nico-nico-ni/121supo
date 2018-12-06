@@ -30,7 +30,7 @@ POSSIBILITY OF SUCH DAMAGE.
 /* Approximate sigmoid function */
 
 #include "SigProc_FIX.h"
-#include "stack_alloc.h"
+#include "../celt/stack_alloc.h"
 
 /* fprintf(1, '%d, ', round(1024 * ([1 ./ (1 + exp(-(1:5))), 1] - 1 ./ (1 + exp(-(0:5)))))); */
 opus_int32 * sigm_LUT_slope_Q10ptr = 0;

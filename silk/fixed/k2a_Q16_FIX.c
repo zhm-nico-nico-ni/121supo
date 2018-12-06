@@ -26,7 +26,7 @@ POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
 
-#include "SigProc_FIX.h"
+#include "../SigProc_FIX.h"
 
 /* Step up function, converts reflection coefficients to prediction coefficients */
 void silk_k2a_Q16(

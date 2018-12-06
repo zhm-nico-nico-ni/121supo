@@ -34,7 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "tables.h"
 
 #include "control.h"
-#include "entenc.h"
+#include "../celt/entenc.h"
 
 
 /* Encodes signs of excitation */

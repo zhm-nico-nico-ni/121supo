@@ -30,7 +30,7 @@
 #define OPUS_PRIVATE_H
 
 #include "../celt/arch.h"
-#include "opus.h"
+#include "../opus_include/opus.h"
 
 #include <stddef.h> /* offsetof */
 

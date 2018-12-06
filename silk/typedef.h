@@ -28,8 +28,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef SILK_TYPEDEF_H
 #define SILK_TYPEDEF_H
 
-#include "opus_types.h"
-#include "opus_defines.h"
+#include "../opus_include/opus_types.h"
+#include "../opus_include/opus_defines.h"
 
 
 

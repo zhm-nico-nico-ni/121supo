@@ -27,9 +27,9 @@
 
 
 
-#include "opus.h"
+#include "../opus_include/opus.h"
 #include "opus_private.h"
-#include "os_support.h"
+#include "../celt/os_support.h"
 
 
 OpusRepacketizer *opus_repacketizer_init(OpusRepacketizer *rp)

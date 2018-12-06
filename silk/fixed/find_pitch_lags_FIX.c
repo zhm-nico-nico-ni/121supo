@@ -27,8 +27,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 #include "main_FIX.h"
-#include "stack_alloc.h"
-#include "tuning_parameters.h"
+#include "../../celt/stack_alloc.h"
+#include "../tuning_parameters.h"
 
 /* Find pitch lags */
 void silk_find_pitch_lags_FIX(

@@ -33,8 +33,8 @@
 
 
 
-#include "opus_types.h"
-#include "opus_defines.h"
+#include "../opus_include/opus_types.h"
+#include "../opus_include/opus_defines.h"
 
 #include <string.h>
 #include <stdio.h>

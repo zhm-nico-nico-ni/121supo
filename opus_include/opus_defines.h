@@ -65,52 +65,52 @@ extern "C" {
 
 #define OPUS_EXPORT
 
-# if !defined(OPUS_GNUC_PREREQ)
-#  if defined(__GNUC__)&&defined(__GNUC_MINOR__)
-#   define OPUS_GNUC_PREREQ(_maj,_min) \
- ((__GNUC__<<16)+__GNUC_MINOR__>=((_maj)<<16)+(_min))
-#  else
-#   define OPUS_GNUC_PREREQ(_maj,_min) 0
-#  endif
-# endif
+//# if !defined(OPUS_GNUC_PREREQ)
+//#  if defined(__GNUC__)&&defined(__GNUC_MINOR__)
+//#   define OPUS_GNUC_PREREQ(_maj,_min) \
+// ((__GNUC__<<16)+__GNUC_MINOR__>=((_maj)<<16)+(_min))
+//#  else
+//#   define OPUS_GNUC_PREREQ(_maj,_min) 0
+//#  endif
+//# endif
 
-#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L) )
-# if OPUS_GNUC_PREREQ(3,0)
-#  define OPUS_RESTRICT __restrict__
-# elif (defined(_MSC_VER) && _MSC_VER >= 1400)
-#  define OPUS_RESTRICT __restrict
-# else
-#  define OPUS_RESTRICT
-# endif
-#else
-# define OPUS_RESTRICT restrict
-#endif
+//#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L) )
+//# if OPUS_GNUC_PREREQ(3,0)
+//#  define OPUS_RESTRICT __restrict__
+//# elif (defined(_MSC_VER) && _MSC_VER >= 1400)
+//#  define OPUS_RESTRICT __restrict
+//# else
+//#  define OPUS_RESTRICT
+//# endif
+//#else
+//# define OPUS_RESTRICT restrict
+//#endif
 
-#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L) )
-# if OPUS_GNUC_PREREQ(2,7)
-#  define OPUS_INLINE __inline__
-# elif (defined(_MSC_VER))
+//#if (!defined(__STDC_VERSION__) || (__STDC_VERSION__ < 199901L) )
+//# if OPUS_GNUC_PREREQ(2,7)
+//#  define OPUS_INLINE __inline__
+//# elif (defined(_MSC_VER))
+//#  define OPUS_INLINE __inline
+//# else
 #  define OPUS_INLINE __inline
-# else
-#  define OPUS_INLINE
-# endif
-#else
-# define OPUS_INLINE inline
-#endif
+//# endif
+//#else
+//# define OPUS_INLINE inline
+//#endif
 
 /**Warning attributes for opus functions
   * NONNULL is not used in OPUS_BUILD to avoid the compiler optimizing out
   * some paranoid null checks. */
-#if defined(__GNUC__) && OPUS_GNUC_PREREQ(3, 4)
-# define OPUS_WARN_UNUSED_RESULT __attribute__ ((__warn_unused_result__))
-#else
+//#if defined(__GNUC__) && OPUS_GNUC_PREREQ(3, 4)
+//# define OPUS_WARN_UNUSED_RESULT __attribute__ ((__warn_unused_result__))
+//#else
 # define OPUS_WARN_UNUSED_RESULT
-#endif
-#if !defined(OPUS_BUILD) && defined(__GNUC__) && OPUS_GNUC_PREREQ(3, 4)
-# define OPUS_ARG_NONNULL(_x)  __attribute__ ((__nonnull__(_x)))
-#else
+//#endif
+//#if !defined(OPUS_BUILD) && defined(__GNUC__) && OPUS_GNUC_PREREQ(3, 4)
+//# define OPUS_ARG_NONNULL(_x)  __attribute__ ((__nonnull__(_x)))
+//#else
 # define OPUS_ARG_NONNULL(_x)
-#endif
+//#endif
 
 /** These are the actual Encoder CTL ID numbers.
   * They should not be used directly by applications.

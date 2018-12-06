@@ -40,8 +40,6 @@
 
 /* Multiplies two 16-bit fractional values. Bit-exactness of this macro is important */
 
-#include "os_support.h"
-
 
 /** Integer log in base2. Undefined for zero and negative numbers */
 static OPUS_INLINE opus_int16 celt_ilog2(opus_int32 x)

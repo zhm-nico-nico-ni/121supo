@@ -29,11 +29,11 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "define.h"
 #include "API.h"
 
-#include "stack_alloc.h"
+#include "../celt/stack_alloc.h"
 #include "structs.h"
 #include "tuning_parameters.h"
 
-#include "main_FIX.h"
+#include "fixed/main_FIX.h"
 
 
 /***************************************/

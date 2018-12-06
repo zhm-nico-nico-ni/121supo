@@ -31,7 +31,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "typedef.h"
 #include "SigProc_FIX.h"
 #include "define.h"
-#include "entenc.h"
+#include "../celt/entenc.h"
 
 #ifdef __cplusplus
 extern "C"

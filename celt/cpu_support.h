@@ -28,8 +28,8 @@
 #ifndef CPU_SUPPORT_H
 #define CPU_SUPPORT_H
 
-#include "opus_types.h"
-#include "opus_defines.h"
+#include "../opus_include/opus_types.h"
+#include "../opus_include/opus_defines.h"
 
 
 //#define OPUS_ARCHMASK 0

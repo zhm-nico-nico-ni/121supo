@@ -31,7 +31,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "control.h"
 #include "typedef.h"
 #include "errors.h"
-#include "entenc.h"
+#include "../celt/entenc.h"
 
 #ifdef __cplusplus
 extern "C"

@@ -34,25 +34,25 @@
 #ifndef ARCH_H
 #define ARCH_H
 
-#include "opus_types.h"
-#include "opus_defines.h"
+#include "../opus_include/opus_types.h"
+#include "../opus_include/opus_defines.h"
 
-# if !defined(__GNUC_PREREQ)
-#  if defined(__GNUC__)&&defined(__GNUC_MINOR__)
-#   define __GNUC_PREREQ(_maj,_min) \
- ((__GNUC__<<16)+__GNUC_MINOR__>=((_maj)<<16)+(_min))
-#  else
-#   define __GNUC_PREREQ(_maj,_min) 0
-#  endif
-# endif
+//# if !defined(__GNUC_PREREQ)
+//#  if defined(__GNUC__)&&defined(__GNUC_MINOR__)
+//#   define __GNUC_PREREQ(_maj,_min) \
+// ((__GNUC__<<16)+__GNUC_MINOR__>=((_maj)<<16)+(_min))
+//#  else
+//#   define __GNUC_PREREQ(_maj,_min) 0
+//#  endif
+//# endif
 
-#if OPUS_GNUC_PREREQ(3, 0)
-#define opus_likely(x)       (__builtin_expect(!!(x), 1))
-#define opus_unlikely(x)     (__builtin_expect(!!(x), 0))
-#else
+//#if OPUS_GNUC_PREREQ(3, 0)
+//#define opus_likely(x)       (__builtin_expect(!!(x), 1))
+//#define opus_unlikely(x)     (__builtin_expect(!!(x), 0))
+//#else
 #define opus_likely(x)       (!!(x))
 #define opus_unlikely(x)     (!!(x))
-#endif
+//#endif
 
 
 
