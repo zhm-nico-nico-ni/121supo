@@ -2,7 +2,6 @@
 #include <define.h>
 #include <stdlib.h>
 #include <opus.h>
-#include <math.h>
 
 
 

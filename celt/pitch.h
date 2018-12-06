@@ -39,9 +39,6 @@
 
 
 
-#if defined(MIPSr1_ASM)
-#include "mips/pitch_mipsr1.h"
-#endif
 
 /* OPT: This is the kernel you really want to optimize. It gets used a lot
    by the prefilter and by the PLC. */

@@ -25,9 +25,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include "SigProc_FIX.h"
 #include "pitch.h"
@@ -61,16 +58,7 @@ opus_int32 silk_inner_prod_aligned(
     int                         arch                /*    I Run-time architecture                                       */
 )
 {
-#ifdef FIXED_POINT
    return celt_inner_prod(inVec1, inVec2, len, arch);
-#else
-    opus_int   i;
-    opus_int32 sum = 0;
-    for( i = 0; i < len; i++ ) {
-        sum = silk_SMLABB( sum, inVec1[ i ], inVec2[ i ] );
-    }
-    return sum;
-#endif
 }
 
 opus_int64 silk_inner_prod16_aligned_64_c(

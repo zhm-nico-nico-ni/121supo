@@ -25,9 +25,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include "main_FIX.h"
 #include "stack_alloc.h"
@@ -133,7 +130,7 @@ static OPUS_INLINE void limit_warped_coefs(
 /**************************************************************/
 /* Compute noise shaping coefficients and initial gain values */
 /**************************************************************/
-#ifndef OVERRIDE_silk_noise_shape_analysis_FIX
+
 void silk_noise_shape_analysis_FIX(
     silk_encoder_state_FIX          *psEnc,                                 /* I/O  Encoder state FIX                                                           */
     silk_encoder_control_FIX        *psEncCtrl,                             /* I/O  Encoder control FIX                                                         */
@@ -401,4 +398,4 @@ void silk_noise_shape_analysis_FIX(
     }
     RESTORE_STACK;
 }
-#endif /* OVERRIDE_silk_noise_shape_analysis_FIX */
+

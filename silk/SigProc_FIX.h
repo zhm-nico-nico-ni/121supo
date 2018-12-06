@@ -500,10 +500,6 @@ static OPUS_INLINE opus_int32 silk_max_32(opus_int32 a, opus_int32 b)
 {
     return (((a) > (b)) ? (a) : (b));
 }
-static OPUS_INLINE opus_int64 silk_max_64(opus_int64 a, opus_int64 b)
-{
-    return (((a) > (b)) ? (a) : (b));
-}
 
 #define silk_LIMIT( a, limit1, limit2)      ((limit1) > (limit2) ? ((a) > (limit1) ? (limit1) : ((a) < (limit2) ? (limit2) : (a))) \
                                                                  : ((a) > (limit2) ? (limit2) : ((a) < (limit1) ? (limit1) : (a))))

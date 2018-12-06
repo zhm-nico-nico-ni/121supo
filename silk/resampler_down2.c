@@ -25,12 +25,9 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+
 
 #include "SigProc_FIX.h"
-#include "resampler_rom.h"
 
 /* Downsample by a factor 2 */
 void silk_resampler_down2(
@@ -43,9 +40,6 @@ void silk_resampler_down2(
     opus_int32 k, len2 = silk_RSHIFT32( inLen, 1 );
     opus_int32 in32, out32, Y, X;
 
-    silk_assert( silk_resampler_down2_0 > 0 );
-    silk_assert( silk_resampler_down2_1 < 0 );
-
     /* Internal variables and state are in Q10 format */
     for( k = 0; k < len2; k++ ) {
         /* Convert to Q10 */
@@ -53,7 +47,7 @@ void silk_resampler_down2(
 
         /* All-pass section for even input sample */
         Y      = silk_SUB32( in32, S[ 0 ] );
-        X      = silk_SMLAWB( Y, Y, silk_resampler_down2_1 );
+        X      = silk_SMLAWB( Y, Y, -25727 );
         out32  = silk_ADD32( S[ 0 ], X );
         S[ 0 ] = silk_ADD32( in32, X );
 
@@ -62,7 +56,7 @@ void silk_resampler_down2(
 
         /* All-pass section for odd input sample, and add to output of previous section */
         Y      = silk_SUB32( in32, S[ 1 ] );
-        X      = silk_SMULWB( Y, silk_resampler_down2_0 );
+        X      = silk_SMULWB( Y, 9872 );
         out32  = silk_ADD32( out32, S[ 1 ] );
         out32  = silk_ADD32( out32, X );
         S[ 1 ] = silk_ADD32( in32, X );

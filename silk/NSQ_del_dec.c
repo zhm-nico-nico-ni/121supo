@@ -25,9 +25,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+
 
 #include "main.h"
 #include "stack_alloc.h"
@@ -61,9 +59,7 @@ typedef struct {
 
 typedef NSQ_sample_struct  NSQ_sample_pair[ 2 ];
 
-#if defined(MIPSr1_ASM)
-#include "mips/NSQ_del_dec_mipsr1.h"
-#endif
+
 static OPUS_INLINE void silk_nsq_del_dec_scale_states(
     const silk_encoder_state *psEncC,               /* I    Encoder State                       */
     silk_nsq_state      *NSQ,                       /* I/O  NSQ state                           */
@@ -314,7 +310,7 @@ void silk_NSQ_del_dec_c(
 /******************************************/
 /* Noise shape quantizer for one subframe */
 /******************************************/
-#ifndef OVERRIDE_silk_noise_shape_quantizer_del_dec
+
 static OPUS_INLINE void silk_noise_shape_quantizer_del_dec(
     silk_nsq_state      *NSQ,                   /* I/O  NSQ state                           */
     NSQ_del_dec_struct  psDelDec[],             /* I/O  Delayed decision states             */
@@ -352,9 +348,6 @@ static OPUS_INLINE void silk_noise_shape_quantizer_del_dec(
     opus_int32   q1_Q0, q1_Q10, q2_Q10, exc_Q14, LPC_exc_Q14, xq_Q14, Gain_Q10;
     opus_int32   tmp1, tmp2, sLF_AR_shp_Q14;
     opus_int32   *pred_lag_ptr, *shp_lag_ptr, *psLPC_Q14;
-#ifdef silk_short_prediction_create_arch_coef
-    opus_int32   a_Q12_arch[MAX_LPC_ORDER];
-#endif
 
     VARDECL( NSQ_sample_pair, psSampleState );
     NSQ_del_dec_struct *psDD;
@@ -368,9 +361,6 @@ static OPUS_INLINE void silk_noise_shape_quantizer_del_dec(
     pred_lag_ptr = &sLTP_Q15[ NSQ->sLTP_buf_idx - lag + LTP_ORDER / 2 ];
     Gain_Q10     = silk_RSHIFT( Gain_Q16, 6 );
 
-#ifdef silk_short_prediction_create_arch_coef
-    silk_short_prediction_create_arch_coef(a_Q12_arch, a_Q12, predictLPCOrder);
-#endif
 
     for( i = 0; i < length; i++ ) {
         /* Perform common calculations used in all states */
@@ -646,7 +636,7 @@ static OPUS_INLINE void silk_noise_shape_quantizer_del_dec(
     }
     RESTORE_STACK;
 }
-#endif /* OVERRIDE_silk_noise_shape_quantizer_del_dec */
+
 
 static OPUS_INLINE void silk_nsq_del_dec_scale_states(
     const silk_encoder_state *psEncC,               /* I    Encoder State                       */

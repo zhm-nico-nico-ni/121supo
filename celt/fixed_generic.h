@@ -76,8 +76,5 @@
 #define MULT16_16_Q15(a,b) (SHR(MULT16_16((a),(b)),15))
 
 
-#if defined(MIPSr1_ASM)
-#include "mips/fixed_generic_mipsr1.h"
-#endif
 
 #endif

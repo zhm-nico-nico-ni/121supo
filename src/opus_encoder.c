@@ -25,9 +25,7 @@
    SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+
 
 #include "../celt/entenc.h"
 #include "../silk/API.h"
@@ -38,14 +36,9 @@
 #include "../celt/mathops.h"
 #include "../silk/tuning_parameters.h"
 
-#include <stdarg.h>
-
 #include "opus_private.h"
-#ifdef FIXED_POINT
+
 #include "../silk/fixed/structs_FIX.h"
-#else
-#include "float/structs_FLP.h"
-#endif
 
 #define MAX_ENCODER_BUFFER 120
 
@@ -59,7 +52,6 @@ struct OpusEncoder {
     int          signal_type;
     int          user_bandwidth;
     int          max_bandwidth;
-    int          user_forced_mode;
     int          voice_ratio;
     opus_int32   Fs;
     int          use_vbr;
@@ -73,7 +65,7 @@ struct OpusEncoder {
     int          stream_channels;
     opus_int32   variable_HP_smth2_Q15;
     opus_val32   hp_mem[4];
-    int          prev_mode;
+
     int          bandwidth;
     /* Bandwidth determined automatically from the rate (before any other adjustment) */
     int          auto_bandwidth;
@@ -94,12 +86,12 @@ static const opus_int32 mono_voice_bandwidth_thresholds[8] = {
         13500, 1000, /* WB<->SWB */
         14000, 2000, /* SWB<->FB */
 };
-static const opus_int32 mono_music_bandwidth_thresholds[8] = {
-        10000, 1000, /* NB<->MB */
-        11000, 1000, /* MB<->WB */
-        13500, 1000, /* WB<->SWB */
-        14000, 2000, /* SWB<->FB */
-};
+//static const opus_int32 mono_music_bandwidth_thresholds[8] = {
+//        10000, 1000, /* NB<->MB */
+//        11000, 1000, /* MB<->WB */
+//        13500, 1000, /* WB<->SWB */
+//        14000, 2000, /* SWB<->FB */
+//};
 
 
 int opus_encoder_get_size(int channels)
@@ -167,7 +159,7 @@ int opus_encoder_init(OpusEncoder* st, opus_int32 Fs, int channels, int applicat
     st->signal_type = OPUS_AUTO;
     st->user_bandwidth = OPUS_AUTO;
     st->max_bandwidth = OPUS_BANDWIDTH_WIDEBAND ;
-    st->user_forced_mode = OPUS_AUTO;
+//    st->user_forced_mode = OPUS_AUTO;
     st->voice_ratio = -1;
     st->encoder_buffer = st->Fs/100;
     st->variable_duration = OPUS_FRAMESIZE_ARG;
@@ -378,27 +370,26 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     opus_int32 nBytes;
     ec_enc enc;
     int bytes_target;
-    int prefill=0;
-    int start_band = 0;
+
     int redundancy = 0;
     int redundancy_bytes = 0; /* Number of bytes to use for redundancy frame */
-    int celt_to_silk = 0;
+
     VARDECL(opus_val16, pcm_buf);
-    int nb_compr_bytes;
-    int to_celt = 0;
-    opus_uint32 redundant_rng = 0;
-    int cutoff_Hz, hp_freq_smth1;
+
+
+
+    int hp_freq_smth1;
     int voice_est; /* Probability of voice in Q7 */
     opus_int32 equiv_rate;
     int delay_compensation;
     int frame_rate;
     opus_int32 max_rate; /* Max bitrate we're allowed to use */
     int curr_bandwidth;
-    opus_val16 HB_gain;
+
     opus_int32 max_data_bytes; /* Max number of bytes we're allowed to use */
     int total_buffer;
 
-    VARDECL(opus_val16, tmp_prefill);
+    //VARDECL(opus_val16, tmp_prefill);
 
     ALLOC_STACK;
 
@@ -501,8 +492,8 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     max_rate = frame_rate*max_data_bytes*8;
 
     /* Equivalent 20-ms rate for mode/channel/bandwidth decisions */
-    equiv_rate = compute_equiv_rate(st->bitrate_bps, st->channels, st->Fs/frame_size,
-          st->use_vbr, 0, st->silk_mode.complexity, st->silk_mode.packetLossPercentage);
+//    equiv_rate = compute_equiv_rate(st->bitrate_bps, st->channels, st->Fs/frame_size,
+//          st->use_vbr, 0, st->silk_mode.complexity, st->silk_mode.packetLossPercentage);
 
     if (st->signal_type == OPUS_SIGNAL_VOICE)
        voice_est = 127;
@@ -520,28 +511,6 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
 
 
     st->stream_channels = st->channels;
-
-    /* Mode selection depending on application and signal type */
-    if (st->user_forced_mode == OPUS_AUTO)
-    {
-#ifdef FUZZING //TODO zhm
-       /* Random mode switching */
-       if ((rand()&0xF)==0)
-       {
-          if ((rand()&0x1)==0)
-             st->mode = MODE_CELT_ONLY;
-          else
-             st->mode = MODE_SILK_ONLY;
-       } else {
-          if (st->prev_mode==MODE_CELT_ONLY)
-             st->mode = MODE_CELT_ONLY;
-          else
-             st->mode = MODE_SILK_ONLY;
-       }
-#endif
-    }
-
-
 
 
     /* Update equivalent rate with mode decision. */
@@ -619,9 +588,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     if (st->silk_bw_switch)
     {
        redundancy = 1;
-       celt_to_silk = 1;
        st->silk_bw_switch = 0;
-       prefill=1;
     }
 
 
@@ -809,7 +776,6 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     data[0] = gen_toc(MODE_SILK_ONLY, st->Fs/frame_size, curr_bandwidth, st->stream_channels);
 
 
-    st->prev_mode = MODE_SILK_ONLY;
     st->first = 0;
 
 

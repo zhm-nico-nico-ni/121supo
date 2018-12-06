@@ -34,7 +34,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "tables.h"
 
 #include "control.h"
-#include "debug.h"
 #include "entenc.h"
 
 
@@ -91,15 +90,6 @@ void silk_gains_quant(
     opus_int8                   *prev_ind,                      /* I/O  last index in previous frame                */
     const opus_int              conditional,                    /* I    first gain is delta coded if 1              */
     const opus_int              nb_subfr                        /* I    number of subframes                         */
-);
-
-/* Gains scalar dequantization, uniform on log scale */
-void silk_gains_dequant(
-    opus_int32                  gain_Q16[ MAX_NB_SUBFR ],       /* O    quantized gains                             */
-    const opus_int8             ind[ MAX_NB_SUBFR ],            /* I    gain indices                                */
-    opus_int8                   *prev_ind,                      /* I/O  last index in previous frame                */
-    const opus_int              conditional,                    /* I    first gain is delta coded if 1              */
-    const opus_int              nb_subfr                        /* I    number of subframes                          */
 );
 
 /* Compute unique identifier of gain indices vector */

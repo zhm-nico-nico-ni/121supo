@@ -25,9 +25,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+
 
 /* NLSF stabilizer:                                         */
 /*                                                          */
@@ -41,7 +39,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "SigProc_FIX.h"
 
 /* Constant Definitions */
-#define MAX_LOOPS        10
+#define MAX_LOOPS        10 //FIXME zhm
 
 /* NLSF stabilizer, for a single input data vector */
 void silk_NLSF_stabilize(

@@ -38,7 +38,7 @@ void silk_encode_indices(
 )
 {
     opus_int   i, k, typeOffset;
-    opus_int   encode_absolute_lagIndex, delta_lagIndex;
+    opus_int   encode_absolute_lagIndex;
     opus_int16 ec_ix[ MAX_LPC_ORDER ];
     opus_uint8 pred_Q8[ MAX_LPC_ORDER ];
     const SideInfoIndices *psIndices;

@@ -45,7 +45,7 @@ POSSIBILITY OF SUCH DAMAGE.
  * AF  -> AR2 filter followed by FIR interpolation
  */
 
-#include "resampler_private.h"
+#include "SigProc_FIX.h"
 
 /* Tables with delay compensation values to equalize total delay for different modes */
 //static const opus_int8 delay_matrix_enc[ 5 ][ 3 ] = {
@@ -67,7 +67,7 @@ POSSIBILITY OF SUCH DAMAGE.
 /* Simple way to make [8000, 12000, 16000, 24000, 48000] to [0, 1, 2, 3, 4] */
 //#define rateID(R) ( ( ( ((R)>>12) - ((R)>16000) ) >> ((R)>24000) ) - 1 )
 
-#define USE_silk_resampler_copy                     (0)
+//#define USE_silk_resampler_copy                     (0)
 
 /* Initialize/reset the resampler state for a given pair of input/output sampling rates */
 opus_int silk_resampler_init(
@@ -101,7 +101,7 @@ opus_int silk_resampler_init(
 
     /* Find resampler with the right sampling ratio */
     up2x = 0;
-    S->resampler_function = USE_silk_resampler_copy;
+    S->resampler_function = 0; // USE_silk_resampler_copy
 
     /* Ratio of input/output samples */
     S->invRatio_Q16 = silk_LSHIFT32( silk_DIV32( silk_LSHIFT32( Fs_Hz_in, 14 + up2x ), Fs_Hz_out ), 2 );

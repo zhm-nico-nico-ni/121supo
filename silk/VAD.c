@@ -25,9 +25,7 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
+
 
 #include "main.h"
 #include "stack_alloc.h"
@@ -74,7 +72,7 @@ opus_int silk_VAD_Init(                                         /* O    Return v
 }
 
 /* Weighting factors for tilt measure */
-static const opus_int32 tiltWeights[ VAD_N_BANDS ] = { 30000, 6000, -12000, -12000 };
+//static const opus_int32 tiltWeights[ VAD_N_BANDS ] = { 30000, 6000, -12000, -12000 };
 
 /***************************************/
 /* Get the speech activity level in Q8 */
@@ -221,7 +219,12 @@ opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return v
                 /* Scale down SNR value for small subband speech energies */
                 SNR_Q7 = silk_SMULWB( silk_LSHIFT( silk_SQRT_APPROX( speech_nrg ), 6 ), SNR_Q7 );
             }
-            input_tilt = silk_SMLAWB( input_tilt, tiltWeights[ b ], SNR_Q7 );
+
+            opus_int32 bb32;
+            if(b == 0){ bb32 = 30000; }
+            else if(b == 1){bb32 = 6000;}
+            else {bb32 = -12000;}
+            input_tilt = silk_SMLAWB( input_tilt, bb32, SNR_Q7 );
         } else {
             NrgToNoiseRatio_Q8[ b ] = 256;
         }

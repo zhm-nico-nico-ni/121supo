@@ -33,20 +33,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "control.h"
 #include "main.h"
 
-#include "debug.h"
 #include "entenc.h"
 
-#if ((defined(OPUS_ARM_ASM) && defined(FIXED_POINT)) \
-   || defined(OPUS_ARM_MAY_HAVE_NEON_INTR))
-#include "fixed/arm/warped_autocorrelation_FIX_arm.h"
-#endif
 
-#ifndef FORCE_CPP_BUILD
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-#endif
 
 #define silk_encoder_state_Fxx      silk_encoder_state_FIX
 #define silk_encode_do_VAD_Fxx      silk_encode_do_VAD_FIX
@@ -116,10 +105,10 @@ void silk_warped_autocorrelation_FIX_c(
     const opus_int                  order                                   /* I    Correlation order (even)                                                    */
 );
 
-#if !defined(OVERRIDE_silk_warped_autocorrelation_FIX)
+
 #define silk_warped_autocorrelation_FIX(corr, scale, input, warping_Q16, length, order, arch) \
         ((void)(arch), silk_warped_autocorrelation_FIX_c(corr, scale, input, warping_Q16, length, order))
-#endif
+
 
 /* Calculation of LTP state scaling */
 void silk_LTP_scale_ctrl_FIX(
@@ -191,16 +180,6 @@ void silk_residual_energy_FIX(
     const opus_int                  nb_subfr,                               /* I    Number of subframes                                                         */
     const opus_int                  LPC_order,                              /* I    LPC order                                                                   */
     int                             arch                                    /* I    Run-time architecture                                                       */
-);
-
-/* Residual energy: nrg = wxx - 2 * wXx * c + c' * wXX * c */
-opus_int32 silk_residual_energy16_covar_FIX(
-    const opus_int16                *c,                                     /* I    Prediction vector                                                           */
-    const opus_int32                *wXX,                                   /* I    Correlation matrix                                                          */
-    const opus_int32                *wXx,                                   /* I    Correlation vector                                                          */
-    opus_int32                      wxx,                                    /* I    Signal energy                                                               */
-    opus_int                        D,                                      /* I    Dimension                                                                   */
-    opus_int                        cQ                                      /* I    Q value for c vector 0 - 15                                                 */
 );
 
 /* Processing of gains */
