@@ -31,10 +31,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "errors.h"
 #include "typedef.h"
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
 
 /* Max number of encoder channels (1/2) */
 #define ENCODER_NUM_CHANNELS                    2
@@ -190,8 +187,6 @@ extern "C"
 
 
 
-#ifdef __cplusplus
-}
-#endif
+
 
 #endif

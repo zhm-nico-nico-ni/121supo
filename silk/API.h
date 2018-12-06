@@ -33,10 +33,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "errors.h"
 #include "../celt/entenc.h"
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
 
 //#define SILK_MAX_FRAMES_PER_PACKET  3
 
@@ -78,8 +75,6 @@ opus_int silk_Encode(                                   /* O    Returns error co
 
 
 
-#ifdef __cplusplus
-}
-#endif
+
 
 #endif

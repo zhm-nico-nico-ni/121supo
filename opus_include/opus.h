@@ -36,9 +36,7 @@
 #include "opus_types.h"
 #include "opus_defines.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 
 /** Opus encoder state.
   * This contains the complete state of an Opus encoder.
@@ -414,8 +412,6 @@ OPUS_EXPORT int opus_packet_pad(unsigned char *data, opus_int32 len, opus_int32 
 
 /**@}*/
 
-#ifdef __cplusplus
-}
-#endif
+
 
 #endif /* OPUS_H */

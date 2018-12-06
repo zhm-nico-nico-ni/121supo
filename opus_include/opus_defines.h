@@ -35,9 +35,7 @@
 
 #include "opus_types.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 
 /** @defgroup opus_errorcodes Error codes
  * @{
@@ -158,8 +156,6 @@ extern "C" {
 
 
 
-#ifdef __cplusplus
-}
-#endif
+
 
 #endif /* OPUS_DEFINES_H */

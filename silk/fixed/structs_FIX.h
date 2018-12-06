@@ -32,10 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "../main.h"
 #include "../structs.h"
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
 
 /********************************/
 /* Noise shaping analysis state */
@@ -109,8 +106,6 @@ typedef struct {
 } silk_encoder;
 
 
-#ifdef __cplusplus
-}
-#endif
+
 
 #endif

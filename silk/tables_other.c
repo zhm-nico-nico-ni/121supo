@@ -32,10 +32,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "tables.h"
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
 
 /* Piece-wise linear mapping from bitrate in kbps to coding quality in dB SNR */
 //const opus_int32 silk_TargetRate_table_NB[ TARGET_RATE_TAB_SZ ] = {
@@ -127,7 +124,5 @@ const opus_uint8 silk_uniform8_iCDF[ 8 ] = { 224, 192, 160, 128, 96, 64, 32, 0 }
 const opus_uint8 silk_NLSF_EXT_iCDF[ 7 ] = { 100, 40, 16, 7, 3, 1, 0 };
 
 
-#ifdef __cplusplus
-}
-#endif
+
 

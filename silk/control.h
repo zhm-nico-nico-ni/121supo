@@ -30,10 +30,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "typedef.h"
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
 
 
 /***********************************************/

@@ -30,10 +30,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <malloc.h>
 #include "tables.h"
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
 
 opus_uint8 ** s_silk_gain_iCDF = 0;
 const opus_uint8 **get_silk_gain_iCDF(void){
@@ -84,6 +81,4 @@ const opus_uint8 *get_silk_delta_gain_iCDF(void){
     return (const unsigned char *) s_silk_delta_gain_iCDF;
 }
 
-#ifdef __cplusplus
-}
-#endif
+

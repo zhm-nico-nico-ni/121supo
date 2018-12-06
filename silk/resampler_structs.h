@@ -28,9 +28,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef SILK_RESAMPLER_STRUCTS_H
 #define SILK_RESAMPLER_STRUCTS_H
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+
 
 typedef struct _silk_resampler_state_struct{
     opus_int16       delayBuf[ 48 ];
@@ -41,8 +39,6 @@ typedef struct _silk_resampler_state_struct{
     opus_int         inputDelay;
 } silk_resampler_state_struct;
 
-#ifdef __cplusplus
-}
-#endif
+
 #endif /* SILK_RESAMPLER_STRUCTS_H */
 

@@ -28,10 +28,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #ifndef SILK_ERRORS_H
 #define SILK_ERRORS_H
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
 
 /******************/
 /* Error messages */

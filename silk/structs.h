@@ -33,10 +33,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "define.h"
 #include "../celt/entenc.h"
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
 
 /************************************/
 /* Noise shaping quantization state */
@@ -220,8 +217,6 @@ typedef struct {
 } silk_encoder_state;
 
 
-#ifdef __cplusplus
-}
-#endif
+
 
 #endif

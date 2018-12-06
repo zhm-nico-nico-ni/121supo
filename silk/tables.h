@@ -31,10 +31,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "define.h"
 #include "structs.h"
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+
 
 /* Entropy coding tables (with size in bytes indicated) */
 const opus_uint8 **get_silk_gain_iCDF(void);                                 /* 24 */
@@ -100,8 +97,6 @@ extern const opus_int16  silk_Quantization_Offsets_Q10[ 2 ][ 2 ];               
 const opus_int16 *get_silk_LSFCosTab_FIX_Q12(void);                         /* 258 */
 
 
-#ifdef __cplusplus
-}
-#endif
+
 
 #endif
