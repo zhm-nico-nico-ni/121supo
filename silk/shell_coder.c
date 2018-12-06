@@ -52,7 +52,7 @@ static OPUS_INLINE void encode_split(
 )
 {
     if( p > 0 ) {
-        ec_enc_icdf( psRangeEnc, p_child1, &shell_table[ silk_shell_code_table_offsets[ p ] ], 8 );
+        ec_enc_icdf( psRangeEnc, p_child1, &shell_table[ get_silk_shell_code_table_offsets()[ p ] ], 8 );
     }
 }
 

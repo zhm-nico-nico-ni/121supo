@@ -66,8 +66,8 @@ extern "C"
 
 
 /* Range of pitch lag estimates */
-#define PITCH_EST_MIN_LAG_MS                    2       /* 2 ms -> 500 Hz */
-#define PITCH_EST_MAX_LAG_MS                    18      /* 18 ms -> 56 Hz */
+//#define PITCH_EST_MIN_LAG_MS                    2       /* 2 ms -> 500 Hz */
+//#define PITCH_EST_MAX_LAG_MS                    18      /* 18 ms -> 56 Hz */
 
 /* Maximum number of subframes */
 #define MAX_NB_SUBFR                            4

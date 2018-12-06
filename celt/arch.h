@@ -86,19 +86,19 @@ typedef opus_int32 opus_val32;
 
 #include "fixed_generic.h"
 
-#ifdef OPUS_ARM_PRESUME_AARCH64_NEON_INTR
-#include "arm/fixed_arm64.h"
-#elif OPUS_ARM_INLINE_EDSP
-#include "arm/fixed_armv5e.h"
-#elif defined (OPUS_ARM_INLINE_ASM)
-#include "arm/fixed_armv4.h"
-#elif defined (BFIN_ASM)
-#include "fixed_bfin.h"
-#elif defined (TI_C5X_ASM)
-#include "fixed_c5x.h"
-#elif defined (TI_C6X_ASM)
-#include "fixed_c6x.h"
-#endif
+//#ifdef OPUS_ARM_PRESUME_AARCH64_NEON_INTR
+//#include "arm/fixed_arm64.h"
+//#elif OPUS_ARM_INLINE_EDSP
+//#include "arm/fixed_armv5e.h"
+//#elif defined (OPUS_ARM_INLINE_ASM)
+//#include "arm/fixed_armv4.h"
+//#elif defined (BFIN_ASM)
+//#include "fixed_bfin.h"
+//#elif defined (TI_C5X_ASM)
+//#include "fixed_c5x.h"
+//#elif defined (TI_C6X_ASM)
+//#include "fixed_c6x.h"
+//#endif
 
 
 

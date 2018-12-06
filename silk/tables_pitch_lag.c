@@ -26,23 +26,62 @@ POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
 
+#include <malloc.h>
 #include "tables.h"
 
-const opus_uint8 silk_pitch_lag_iCDF[ 2 * ( PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS ) ] = {
-       253,    250,    244,    233,    212,    182,    150,    131,
-       120,    110,     98,     85,     72,     60,     49,     40,
-        32,     25,     19,     15,     13,     11,      9,      8,
-         7,      6,      5,      4,      3,      2,      1,      0
-};
+
+opus_uint8 *s_silk_pitch_lag_iCDF = 0;
+const opus_uint8 * get_silk_pitch_lag_iCDF(void){
+    if(s_silk_pitch_lag_iCDF==0){
+        s_silk_pitch_lag_iCDF = malloc(32);
+
+        s_silk_pitch_lag_iCDF[0] = 253; s_silk_pitch_lag_iCDF[1] = 250;
+        s_silk_pitch_lag_iCDF[2] = 244; s_silk_pitch_lag_iCDF[3] = 233;
+        s_silk_pitch_lag_iCDF[4] = 212; s_silk_pitch_lag_iCDF[5] = 182;
+        s_silk_pitch_lag_iCDF[6] = 150; s_silk_pitch_lag_iCDF[7] = 131;
+        s_silk_pitch_lag_iCDF[8] = 120; s_silk_pitch_lag_iCDF[9] = 110;
+        s_silk_pitch_lag_iCDF[10] = 98; s_silk_pitch_lag_iCDF[11] = 85;
+        s_silk_pitch_lag_iCDF[12] = 72; s_silk_pitch_lag_iCDF[13] = 60;
+        s_silk_pitch_lag_iCDF[14] = 49; s_silk_pitch_lag_iCDF[15] = 40;
+        s_silk_pitch_lag_iCDF[16] = 32; s_silk_pitch_lag_iCDF[17] = 25;
+        s_silk_pitch_lag_iCDF[18] = 19; s_silk_pitch_lag_iCDF[19] = 15;
+        s_silk_pitch_lag_iCDF[20] = 13; s_silk_pitch_lag_iCDF[21] = 11;
+        s_silk_pitch_lag_iCDF[22] = 9; s_silk_pitch_lag_iCDF[23] = 8;
+        s_silk_pitch_lag_iCDF[24] = 7; s_silk_pitch_lag_iCDF[25] = 6;
+        s_silk_pitch_lag_iCDF[26] = 5; s_silk_pitch_lag_iCDF[27] = 4;
+        s_silk_pitch_lag_iCDF[28] = 3; s_silk_pitch_lag_iCDF[29] = 2;
+        s_silk_pitch_lag_iCDF[30] = 1; s_silk_pitch_lag_iCDF[31] = 0;
+    }
+    return s_silk_pitch_lag_iCDF;
+}
 
 
-const opus_uint8 silk_pitch_contour_iCDF[34] = {
-       223,    201,    183,    167,    152,    138,    124,    111,
-        98,     88,     79,     70,     62,     56,     50,     44,
-        39,     35,     31,     27,     24,     21,     18,     16,
-        14,     12,     10,      8,      6,      4,      3,      2,
-         1,      0
-};
+opus_uint8 *s_silk_pitch_contour_iCDF = 0;
+const opus_uint8 * get_silk_pitch_contour_iCDF(void) {
+    if (s_silk_pitch_contour_iCDF == 0) {
+        s_silk_pitch_contour_iCDF = malloc(34);
+
+        s_silk_pitch_contour_iCDF[0] = 223; s_silk_pitch_contour_iCDF[1] = 201;
+        s_silk_pitch_contour_iCDF[2] = 183; s_silk_pitch_contour_iCDF[3] = 167;
+        s_silk_pitch_contour_iCDF[4] = 152; s_silk_pitch_contour_iCDF[5] = 138;
+        s_silk_pitch_contour_iCDF[6] = 124; s_silk_pitch_contour_iCDF[7] = 111;
+        s_silk_pitch_contour_iCDF[8] = 98; s_silk_pitch_contour_iCDF[9] = 88;
+        s_silk_pitch_contour_iCDF[10] = 79; s_silk_pitch_contour_iCDF[11] = 70;
+        s_silk_pitch_contour_iCDF[12] = 62; s_silk_pitch_contour_iCDF[13] = 56;
+        s_silk_pitch_contour_iCDF[14] = 50; s_silk_pitch_contour_iCDF[15] = 44;
+        s_silk_pitch_contour_iCDF[16] = 39; s_silk_pitch_contour_iCDF[17] = 35;
+        s_silk_pitch_contour_iCDF[18] = 31; s_silk_pitch_contour_iCDF[19] = 27;
+        s_silk_pitch_contour_iCDF[20] = 24; s_silk_pitch_contour_iCDF[21] = 21;
+        s_silk_pitch_contour_iCDF[22] = 18; s_silk_pitch_contour_iCDF[23] = 16;
+        s_silk_pitch_contour_iCDF[24] = 14; s_silk_pitch_contour_iCDF[25] = 12;
+        s_silk_pitch_contour_iCDF[26] = 10; s_silk_pitch_contour_iCDF[27] = 8;
+        s_silk_pitch_contour_iCDF[28] = 6; s_silk_pitch_contour_iCDF[29] = 4;
+        s_silk_pitch_contour_iCDF[30] = 3; s_silk_pitch_contour_iCDF[31] = 2;
+        s_silk_pitch_contour_iCDF[32] = 1; s_silk_pitch_contour_iCDF[33] = 0;
+    }
+
+    return s_silk_pitch_contour_iCDF;
+}
 
 
 

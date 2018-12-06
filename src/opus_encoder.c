@@ -86,12 +86,7 @@ static const opus_int32 mono_voice_bandwidth_thresholds[8] = {
         13500, 1000, /* WB<->SWB */
         14000, 2000, /* SWB<->FB */
 };
-//static const opus_int32 mono_music_bandwidth_thresholds[8] = {
-//        10000, 1000, /* NB<->MB */
-//        11000, 1000, /* MB<->WB */
-//        13500, 1000, /* WB<->SWB */
-//        14000, 2000, /* SWB<->FB */
-//};
+
 
 
 int opus_encoder_get_size(int channels)

@@ -49,7 +49,7 @@ void silk_encode_signs(
     icdf[ 1 ] = 0;
     q_ptr = pulses;
     i = silk_SMULBB( 7, silk_ADD_LSHIFT( quantOffsetType, signalType, 1 ) );
-    icdf_ptr = &silk_sign_iCDF[ i ];
+    icdf_ptr = &get_silk_sign_iCDF()[ i ];
     length = silk_RSHIFT( length + SHELL_CODEC_FRAME_LENGTH/2, LOG2_SHELL_CODEC_FRAME_LENGTH );
     for( i = 0; i < length; i++ ) {
         p = sum_pulses[ i ];

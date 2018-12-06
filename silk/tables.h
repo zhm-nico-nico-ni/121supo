@@ -41,14 +41,14 @@ const opus_uint8 **get_silk_gain_iCDF(void);                                 /* 
 const opus_uint8 *get_silk_delta_gain_iCDF(void);  /* 41 */
 
 
-extern const opus_uint8  silk_pitch_lag_iCDF[ 2 * ( PITCH_EST_MAX_LAG_MS - PITCH_EST_MIN_LAG_MS ) ];/* 32 */
-extern const opus_uint8  silk_pitch_contour_iCDF[ 34 ];                                             /*  34 */
+const opus_uint8 * get_silk_pitch_lag_iCDF(void);/* 32 */
+const opus_uint8 * get_silk_pitch_contour_iCDF(void);/*  34 */
 
-extern const opus_uint8  silk_pulses_per_block_iCDF[ N_RATE_LEVELS ][ SILK_MAX_PULSES + 2 ];        /* 180 */
-extern const opus_uint8  silk_pulses_per_block_BITS_Q5[ N_RATE_LEVELS - 1 ][ SILK_MAX_PULSES + 2 ]; /* 162 */
+const opus_uint8 **get_silk_pulses_per_block_iCDF(void);        /* 180 */
+const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void);/* 162 */
 
-extern const opus_uint8  silk_rate_levels_iCDF[ 2 ][ N_RATE_LEVELS - 1 ];                           /*  18 */
-extern const opus_uint8  silk_rate_levels_BITS_Q5[ 2 ][ N_RATE_LEVELS - 1 ];                        /*  18 */
+const opus_uint8 **get_silk_rate_levels_iCDF(void);                          /*  18 */
+const opus_uint8 **get_silk_rate_levels_BITS_Q5(void);                       /*  18 */
 
 typedef struct _silk_shell_code_table_struct silk_shell_code_table_struct;
 struct _silk_shell_code_table_struct{
@@ -59,11 +59,11 @@ struct _silk_shell_code_table_struct{
 };
 
 
-extern const opus_uint8  silk_shell_code_table_offsets[ SILK_MAX_PULSES + 1 ];                      /*  17 */
+const opus_uint8 * get_silk_shell_code_table_offsets(void);                     /*  17 */
 
 extern const opus_uint8  silk_lsb_iCDF[ 2 ];                                                        /*   2 */
 
-extern const opus_uint8  silk_sign_iCDF[ 42 ];                                                      /*  42 */
+const opus_uint8 * get_silk_sign_iCDF(void);                                                      /*  42 */
 
 extern const opus_uint8  silk_uniform4_iCDF[ 4 ];                                                   /*   4 */
 extern const opus_uint8  silk_uniform6_iCDF[ 6 ];                                                   /*   6 */
@@ -85,19 +85,10 @@ extern const opus_uint8  silk_type_offset_no_VAD_iCDF[ 2 ];                     
 
 extern const opus_uint8  silk_NLSF_interpolation_factor_iCDF[ 5 ];                                  /*   5 */
 
-//typedef struct _my_silk_table_struct my_silk_table_struct;
-//struct _my_silk_table_struct{
-//    opus_uint8  silk_shell_code_table0[ 152 ];
-//    opus_uint8  silk_shell_code_table1[ 152 ];
-//    opus_uint8  silk_shell_code_table2[ 152 ];
-//    opus_uint8  silk_shell_code_table3[ 152 ];
-//};
 
 silk_NLSF_CB_struct* getSilk_NLSF_CB_WB(void);
 
 /* Piece-wise linear mapping from bitrate in kbps to coding quality in dB SNR */
-//extern const opus_int32  silk_TargetRate_table_NB[  TARGET_RATE_TAB_SZ ];                           /*  32 */
-//extern const opus_int32  silk_TargetRate_table_MB[  TARGET_RATE_TAB_SZ ];                           /*  32 */
 const opus_int32 *get_silk_TargetRate_table_WB(void);                          /*  32 */
 const opus_int16 *get_silk_SNR_table_Q1(void);                          /*  32 */
 

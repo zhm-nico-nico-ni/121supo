@@ -136,8 +136,8 @@ void silk_encode_pulses(
     /* find rate level that leads to fewest bits for coding of pulses per block info */
     minSumBits_Q5 = silk_int32_MAX;
     for( k = 0; k < N_RATE_LEVELS - 1; k++ ) {
-        nBits_ptr  = silk_pulses_per_block_BITS_Q5[ k ];
-        sumBits_Q5 = silk_rate_levels_BITS_Q5[ signalType >> 1 ][ k ];
+        nBits_ptr  = get_silk_pulses_per_block_BITS_Q5()[ k ];
+        sumBits_Q5 = get_silk_rate_levels_BITS_Q5()[ signalType >> 1 ][ k ];
         for( i = 0; i < iter; i++ ) {
             if( nRshifts[ i ] > 0 ) {
                 sumBits_Q5 += nBits_ptr[ SILK_MAX_PULSES + 1 ];
@@ -150,21 +150,21 @@ void silk_encode_pulses(
             RateLevelIndex = k;
         }
     }
-    ec_enc_icdf( psRangeEnc, RateLevelIndex, silk_rate_levels_iCDF[ signalType >> 1 ], 8 );
+    ec_enc_icdf( psRangeEnc, RateLevelIndex, get_silk_rate_levels_iCDF()[ signalType >> 1 ], 8 );
 
     /***************************************************/
     /* Sum-Weighted-Pulses Encoding                    */
     /***************************************************/
-    cdf_ptr = silk_pulses_per_block_iCDF[ RateLevelIndex ];
+    cdf_ptr = get_silk_pulses_per_block_iCDF()[ RateLevelIndex ];
     for( i = 0; i < iter; i++ ) {
         if( nRshifts[ i ] == 0 ) {
             ec_enc_icdf( psRangeEnc, sum_pulses[ i ], cdf_ptr, 8 );
         } else {
             ec_enc_icdf( psRangeEnc, SILK_MAX_PULSES + 1, cdf_ptr, 8 );
             for( k = 0; k < nRshifts[ i ] - 1; k++ ) {
-                ec_enc_icdf( psRangeEnc, SILK_MAX_PULSES + 1, silk_pulses_per_block_iCDF[ N_RATE_LEVELS - 1 ], 8 );
+                ec_enc_icdf( psRangeEnc, SILK_MAX_PULSES + 1, get_silk_pulses_per_block_iCDF()[ N_RATE_LEVELS - 1 ], 8 );
             }
-            ec_enc_icdf( psRangeEnc, sum_pulses[ i ], silk_pulses_per_block_iCDF[ N_RATE_LEVELS - 1 ], 8 );
+            ec_enc_icdf( psRangeEnc, sum_pulses[ i ], get_silk_pulses_per_block_iCDF()[ N_RATE_LEVELS - 1 ], 8 );
         }
     }
 

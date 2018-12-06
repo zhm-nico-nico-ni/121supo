@@ -30,22 +30,63 @@ POSSIBILITY OF SUCH DAMAGE.
 /* Approximate sigmoid function */
 
 #include "SigProc_FIX.h"
+#include "stack_alloc.h"
 
 /* fprintf(1, '%d, ', round(1024 * ([1 ./ (1 + exp(-(1:5))), 1] - 1 ./ (1 + exp(-(0:5)))))); */
-static const opus_int32 sigm_LUT_slope_Q10[ 6 ] = {
-    237, 153, 73, 30, 12, 7
-};
+opus_int32 * sigm_LUT_slope_Q10ptr = 0;
+const opus_int32 *get_sigm_LUT_slope_Q10(void){
+    if(sigm_LUT_slope_Q10ptr == 0){
+        sigm_LUT_slope_Q10ptr = malloc(sizeof(opus_int32) * 6);
+
+        sigm_LUT_slope_Q10ptr[0] = 237;
+        sigm_LUT_slope_Q10ptr[1] = 153;
+        sigm_LUT_slope_Q10ptr[2] = 73;
+        sigm_LUT_slope_Q10ptr[3] = 30;
+        sigm_LUT_slope_Q10ptr[4] = 12;
+        sigm_LUT_slope_Q10ptr[5] = 7;
+    }
+
+    return sigm_LUT_slope_Q10ptr;
+}
+
 /* fprintf(1, '%d, ', round(32767 * 1 ./ (1 + exp(-(0:5))))); */
-static const opus_int32 sigm_LUT_pos_Q15[ 6 ] = {
-    16384, 23955, 28861, 31213, 32178, 32548
-};
+
+opus_int32 *sigm_LUT_pos_Q15ptr = 0;
+const opus_int32 *get_sigm_LUT_pos_Q15(void){
+    if(sigm_LUT_pos_Q15ptr == 0){
+        sigm_LUT_pos_Q15ptr = malloc(sizeof(opus_int32) * 6);
+
+        sigm_LUT_pos_Q15ptr[0] = 16384;
+        sigm_LUT_pos_Q15ptr[1] = 23955;
+        sigm_LUT_pos_Q15ptr[2] = 28861;
+        sigm_LUT_pos_Q15ptr[3] = 31213;
+        sigm_LUT_pos_Q15ptr[4] = 32178;
+        sigm_LUT_pos_Q15ptr[5] = 32548;
+    }
+
+    return sigm_LUT_pos_Q15ptr;
+}
+
 /* fprintf(1, '%d, ', round(32767 * 1 ./ (1 + exp((0:5))))); */
-static const opus_int32 sigm_LUT_neg_Q15[ 6 ] = {
-    16384, 8812, 3906, 1554, 589, 219
-};
+opus_int32 *sigm_LUT_neg_Q15ptr = 0;
+const opus_int32 *get_sigm_LUT_neg_Q15(void){
+    if(sigm_LUT_neg_Q15ptr == 0){
+        sigm_LUT_neg_Q15ptr = malloc(sizeof(opus_int32) * 6);
+
+        sigm_LUT_neg_Q15ptr[0] = 16384;
+        sigm_LUT_neg_Q15ptr[1] = 8812;
+        sigm_LUT_neg_Q15ptr[2] = 3906;
+        sigm_LUT_neg_Q15ptr[3] = 1554;
+        sigm_LUT_neg_Q15ptr[4] = 589;
+        sigm_LUT_neg_Q15ptr[5] = 219;
+    }
+
+    return sigm_LUT_neg_Q15ptr;
+}
+
 
 opus_int silk_sigm_Q15(
-    opus_int                    in_Q5               /* I                                                                */
+        opus_int                    in_Q5               /* I                                                                */
 )
 {
     opus_int ind;
@@ -58,7 +99,7 @@ opus_int silk_sigm_Q15(
         } else {
             /* Linear interpolation of look up table */
             ind = silk_RSHIFT( in_Q5, 5 );
-            return( sigm_LUT_neg_Q15[ ind ] - silk_SMULBB( sigm_LUT_slope_Q10[ ind ], in_Q5 & 0x1F ) );
+            return( get_sigm_LUT_neg_Q15()[ ind ] - silk_SMULBB( get_sigm_LUT_slope_Q10()[ ind ], in_Q5 & 0x1F ) );
         }
     } else {
         /* Positive input */
@@ -67,7 +108,7 @@ opus_int silk_sigm_Q15(
         } else {
             /* Linear interpolation of look up table */
             ind = silk_RSHIFT( in_Q5, 5 );
-            return( sigm_LUT_pos_Q15[ ind ] + silk_SMULBB( sigm_LUT_slope_Q10[ ind ], in_Q5 & 0x1F ) );
+            return( get_sigm_LUT_pos_Q15()[ ind ] + silk_SMULBB( get_sigm_LUT_slope_Q10()[ ind ], in_Q5 & 0x1F ) );
         }
     }
 }

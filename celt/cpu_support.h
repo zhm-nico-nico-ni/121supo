@@ -32,6 +32,6 @@
 #include "opus_defines.h"
 
 
-#define OPUS_ARCHMASK 0
+//#define OPUS_ARCHMASK 0
 
 #endif

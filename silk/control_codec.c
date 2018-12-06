@@ -214,7 +214,7 @@ static opus_int silk_setup_fs(
             if( psEnc->sCmn.fs_kHz == 8 ) {
                 //psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_NB_iCDF;
             } else {
-                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_iCDF;
+                psEnc->sCmn.pitch_contour_iCDF = get_silk_pitch_contour_iCDF();
             }
         }
         psEnc->sCmn.PacketSize_ms  = PacketSize_ms;
@@ -251,7 +251,7 @@ static opus_int silk_setup_fs(
 //            }
         } else {
             if( psEnc->sCmn.nb_subfr == MAX_NB_SUBFR ) {
-                psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_iCDF;
+                psEnc->sCmn.pitch_contour_iCDF = get_silk_pitch_contour_iCDF();
             } else {
                 //psEnc->sCmn.pitch_contour_iCDF = silk_pitch_contour_10_ms_iCDF;
             }

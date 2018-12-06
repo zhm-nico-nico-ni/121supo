@@ -132,7 +132,7 @@ void silk_encode_indices(
             pitch_low_bits = psIndices->lagIndex - silk_SMULBB( pitch_high_bits, silk_RSHIFT( psEncC->fs_kHz, 1 ) );
             silk_assert( pitch_low_bits < psEncC->fs_kHz / 2 );
             silk_assert( pitch_high_bits < 32 );
-            ec_enc_icdf( psRangeEnc, pitch_high_bits, silk_pitch_lag_iCDF, 8 );
+            ec_enc_icdf( psRangeEnc, pitch_high_bits, get_silk_pitch_lag_iCDF(), 8 );
             ec_enc_icdf( psRangeEnc, pitch_low_bits, psEncC->pitch_lag_low_bits_iCDF, 8 );
         }
         psEncC->ec_prevLagIndex = psIndices->lagIndex;

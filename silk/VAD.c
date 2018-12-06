@@ -71,8 +71,7 @@ opus_int silk_VAD_Init(                                         /* O    Return v
     return( ret );
 }
 
-/* Weighting factors for tilt measure */
-//static const opus_int32 tiltWeights[ VAD_N_BANDS ] = { 30000, 6000, -12000, -12000 };
+
 
 /***************************************/
 /* Get the speech activity level in Q8 */
