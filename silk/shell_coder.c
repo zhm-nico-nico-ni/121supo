@@ -61,7 +61,7 @@ static OPUS_INLINE void encode_split(
 
 
 silk_shell_code_table_struct *shellCodeTablePtr = 0;
-silk_shell_code_table_struct * get_silk_shell_code_table(){
+silk_shell_code_table_struct * get_silk_shell_code_table(void){
     if(shellCodeTablePtr == NULL){
         shellCodeTablePtr = (silk_shell_code_table_struct*)malloc(sizeof(silk_shell_code_table_struct));
 

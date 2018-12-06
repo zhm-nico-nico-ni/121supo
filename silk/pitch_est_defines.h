@@ -59,8 +59,8 @@ POSSIBILITY OF SUCH DAMAGE.
 #define PE_NB_CBKS_STAGE2_EXT       11
 
 #define PE_NB_CBKS_STAGE3_MAX       34
-#define PE_NB_CBKS_STAGE3_MID       24
-#define PE_NB_CBKS_STAGE3_MIN       16
+//#define PE_NB_CBKS_STAGE3_MID       24
+//#define PE_NB_CBKS_STAGE3_MIN       16
 
 #define PE_NB_CBKS_STAGE3_10MS      12
 #define PE_NB_CBKS_STAGE2_10MS      3
@@ -74,15 +74,31 @@ POSSIBILITY OF SUCH DAMAGE.
 #define SILK_PE_MAX_COMPLEX         2
 
 /* Tables for 20 ms frames */
-extern const opus_int8 silk_CB_lags_stage2[ PE_MAX_NB_SUBFR ][ PE_NB_CBKS_STAGE2_EXT ];
-extern const opus_int8 silk_CB_lags_stage3[ PE_MAX_NB_SUBFR ][ PE_NB_CBKS_STAGE3_MAX ];
-extern const opus_int8 silk_Lag_range_stage3[ SILK_PE_MAX_COMPLEX + 1 ] [ PE_MAX_NB_SUBFR ][ 2 ];
-extern const opus_int8 silk_nb_cbk_searchs_stage3[ SILK_PE_MAX_COMPLEX + 1 ];
+//extern const opus_int8 silk_CB_lags_stage2[ PE_MAX_NB_SUBFR ][ PE_NB_CBKS_STAGE2_EXT ];
+//extern const opus_int8 silk_CB_lags_stage3[ PE_MAX_NB_SUBFR ][ PE_NB_CBKS_STAGE3_MAX ];
+//extern const opus_int8 silk_Lag_range_stage3[ SILK_PE_MAX_COMPLEX + 1 ] [ PE_MAX_NB_SUBFR ][ 2 ];
+//extern const opus_int8 silk_nb_cbk_searchs_stage3[ SILK_PE_MAX_COMPLEX + 1 ];
+//
+///* Tables for 10 ms frames */
+//extern const opus_int8 silk_CB_lags_stage2_10_ms[ PE_MAX_NB_SUBFR >> 1][ 3 ];
+//extern const opus_int8 silk_CB_lags_stage3_10_ms[ PE_MAX_NB_SUBFR >> 1 ][ 12 ];
+//extern const opus_int8 silk_Lag_range_stage3_10_ms[ PE_MAX_NB_SUBFR >> 1 ][ 2 ];
 
-/* Tables for 10 ms frames */
-extern const opus_int8 silk_CB_lags_stage2_10_ms[ PE_MAX_NB_SUBFR >> 1][ 3 ];
-extern const opus_int8 silk_CB_lags_stage3_10_ms[ PE_MAX_NB_SUBFR >> 1 ][ 12 ];
-extern const opus_int8 silk_Lag_range_stage3_10_ms[ PE_MAX_NB_SUBFR >> 1 ][ 2 ];
+typedef struct _pitch_analysis_core_table_struct pitch_analysis_core_table_struct;
+struct _pitch_analysis_core_table_struct{
+    /* Tables for 20 ms frames */
+    opus_int8  silk_CB_lags_stage2[ PE_MAX_NB_SUBFR ][ PE_NB_CBKS_STAGE2_EXT ];
+    opus_int8  silk_CB_lags_stage3[ PE_MAX_NB_SUBFR ][ PE_NB_CBKS_STAGE3_MAX ];
+    opus_int8  silk_Lag_range_stage3[ SILK_PE_MAX_COMPLEX + 1 ] [ PE_MAX_NB_SUBFR ][ 2 ];
+    opus_int8  silk_nb_cbk_searchs_stage3[ SILK_PE_MAX_COMPLEX + 1 ];
+
+    /* Tables for 10 ms frames */
+    opus_int8 silk_CB_lags_stage2_10_ms[ PE_MAX_NB_SUBFR >> 1][ 3 ];
+    opus_int8 silk_CB_lags_stage3_10_ms[ PE_MAX_NB_SUBFR >> 1 ][ 12 ];
+    opus_int8 silk_Lag_range_stage3_10_ms[ PE_MAX_NB_SUBFR >> 1 ][ 2 ];
+};
+
+pitch_analysis_core_table_struct * get_pitch_analysis_core_table_struct(void);
 
 #endif
 

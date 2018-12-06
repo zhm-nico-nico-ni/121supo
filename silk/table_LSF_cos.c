@@ -29,42 +29,42 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "config.h"
 #endif
 
+#include <malloc.h>
 #include "tables.h"
 
 /* Cosine approximation table for LSF conversion */
 /* Q12 values (even) */
-const opus_int16 silk_LSFCosTab_FIX_Q12[ LSF_COS_TAB_SZ_FIX + 1 ] = {
-            8192,             8190,             8182,             8170,
-            8152,             8130,             8104,             8072,
-            8034,             7994,             7946,             7896,
-            7840,             7778,             7714,             7644,
-            7568,             7490,             7406,             7318,
-            7226,             7128,             7026,             6922,
-            6812,             6698,             6580,             6458,
-            6332,             6204,             6070,             5934,
-            5792,             5648,             5502,             5352,
-            5198,             5040,             4880,             4718,
-            4552,             4382,             4212,             4038,
-            3862,             3684,             3502,             3320,
-            3136,             2948,             2760,             2570,
-            2378,             2186,             1990,             1794,
-            1598,             1400,             1202,             1002,
-             802,              602,              402,              202,
-               0,             -202,             -402,             -602,
-            -802,            -1002,            -1202,            -1400,
-           -1598,            -1794,            -1990,            -2186,
-           -2378,            -2570,            -2760,            -2948,
-           -3136,            -3320,            -3502,            -3684,
-           -3862,            -4038,            -4212,            -4382,
-           -4552,            -4718,            -4880,            -5040,
-           -5198,            -5352,            -5502,            -5648,
-           -5792,            -5934,            -6070,            -6204,
-           -6332,            -6458,            -6580,            -6698,
-           -6812,            -6922,            -7026,            -7128,
-           -7226,            -7318,            -7406,            -7490,
-           -7568,            -7644,            -7714,            -7778,
-           -7840,            -7896,            -7946,            -7994,
-           -8034,            -8072,            -8104,            -8130,
-           -8152,            -8170,            -8182,            -8190,
-           -8192
-};
+opus_int16 * s_silk_LSFCosTab_FIX_Q12 = 0;
+const opus_int16 *get_silk_LSFCosTab_FIX_Q12(void){
+    if(s_silk_LSFCosTab_FIX_Q12 == NULL){
+        s_silk_LSFCosTab_FIX_Q12 = malloc(sizeof(opus_int16) * (LSF_COS_TAB_SZ_FIX + 1));
+
+        s_silk_LSFCosTab_FIX_Q12[0] = 8192; s_silk_LSFCosTab_FIX_Q12[1] = 8190; s_silk_LSFCosTab_FIX_Q12[2] = 8182; s_silk_LSFCosTab_FIX_Q12[3] = 8170; s_silk_LSFCosTab_FIX_Q12[4] = 8152;
+        s_silk_LSFCosTab_FIX_Q12[5] = 8130; s_silk_LSFCosTab_FIX_Q12[6] = 8104; s_silk_LSFCosTab_FIX_Q12[7] = 8072; s_silk_LSFCosTab_FIX_Q12[8] = 8034; s_silk_LSFCosTab_FIX_Q12[9] = 7994;
+        s_silk_LSFCosTab_FIX_Q12[10] = 7946; s_silk_LSFCosTab_FIX_Q12[11] = 7896; s_silk_LSFCosTab_FIX_Q12[12] = 7840; s_silk_LSFCosTab_FIX_Q12[13] = 7778; s_silk_LSFCosTab_FIX_Q12[14] = 7714;
+        s_silk_LSFCosTab_FIX_Q12[15] = 7644; s_silk_LSFCosTab_FIX_Q12[16] = 7568; s_silk_LSFCosTab_FIX_Q12[17] = 7490; s_silk_LSFCosTab_FIX_Q12[18] = 7406; s_silk_LSFCosTab_FIX_Q12[19] = 7318;
+        s_silk_LSFCosTab_FIX_Q12[20] = 7226; s_silk_LSFCosTab_FIX_Q12[21] = 7128; s_silk_LSFCosTab_FIX_Q12[22] = 7026; s_silk_LSFCosTab_FIX_Q12[23] = 6922; s_silk_LSFCosTab_FIX_Q12[24] = 6812;
+        s_silk_LSFCosTab_FIX_Q12[25] = 6698; s_silk_LSFCosTab_FIX_Q12[26] = 6580; s_silk_LSFCosTab_FIX_Q12[27] = 6458; s_silk_LSFCosTab_FIX_Q12[28] = 6332; s_silk_LSFCosTab_FIX_Q12[29] = 6204;
+        s_silk_LSFCosTab_FIX_Q12[30] = 6070; s_silk_LSFCosTab_FIX_Q12[31] = 5934; s_silk_LSFCosTab_FIX_Q12[32] = 5792; s_silk_LSFCosTab_FIX_Q12[33] = 5648; s_silk_LSFCosTab_FIX_Q12[34] = 5502;
+        s_silk_LSFCosTab_FIX_Q12[35] = 5352; s_silk_LSFCosTab_FIX_Q12[36] = 5198; s_silk_LSFCosTab_FIX_Q12[37] = 5040; s_silk_LSFCosTab_FIX_Q12[38] = 4880; s_silk_LSFCosTab_FIX_Q12[39] = 4718;
+        s_silk_LSFCosTab_FIX_Q12[40] = 4552; s_silk_LSFCosTab_FIX_Q12[41] = 4382; s_silk_LSFCosTab_FIX_Q12[42] = 4212; s_silk_LSFCosTab_FIX_Q12[43] = 4038; s_silk_LSFCosTab_FIX_Q12[44] = 3862;
+        s_silk_LSFCosTab_FIX_Q12[45] = 3684; s_silk_LSFCosTab_FIX_Q12[46] = 3502; s_silk_LSFCosTab_FIX_Q12[47] = 3320; s_silk_LSFCosTab_FIX_Q12[48] = 3136; s_silk_LSFCosTab_FIX_Q12[49] = 2948;
+        s_silk_LSFCosTab_FIX_Q12[50] = 2760; s_silk_LSFCosTab_FIX_Q12[51] = 2570; s_silk_LSFCosTab_FIX_Q12[52] = 2378; s_silk_LSFCosTab_FIX_Q12[53] = 2186; s_silk_LSFCosTab_FIX_Q12[54] = 1990;
+        s_silk_LSFCosTab_FIX_Q12[55] = 1794; s_silk_LSFCosTab_FIX_Q12[56] = 1598; s_silk_LSFCosTab_FIX_Q12[57] = 1400; s_silk_LSFCosTab_FIX_Q12[58] = 1202; s_silk_LSFCosTab_FIX_Q12[59] = 1002;
+        s_silk_LSFCosTab_FIX_Q12[60] = 802; s_silk_LSFCosTab_FIX_Q12[61] = 602; s_silk_LSFCosTab_FIX_Q12[62] = 402; s_silk_LSFCosTab_FIX_Q12[63] = 202; s_silk_LSFCosTab_FIX_Q12[64] = 0;
+        s_silk_LSFCosTab_FIX_Q12[65] = -202; s_silk_LSFCosTab_FIX_Q12[66] = -402; s_silk_LSFCosTab_FIX_Q12[67] = -602; s_silk_LSFCosTab_FIX_Q12[68] = -802; s_silk_LSFCosTab_FIX_Q12[69] = -1002;
+        s_silk_LSFCosTab_FIX_Q12[70] = -1202; s_silk_LSFCosTab_FIX_Q12[71] = -1400; s_silk_LSFCosTab_FIX_Q12[72] = -1598; s_silk_LSFCosTab_FIX_Q12[73] = -1794; s_silk_LSFCosTab_FIX_Q12[74] = -1990;
+        s_silk_LSFCosTab_FIX_Q12[75] = -2186; s_silk_LSFCosTab_FIX_Q12[76] = -2378; s_silk_LSFCosTab_FIX_Q12[77] = -2570; s_silk_LSFCosTab_FIX_Q12[78] = -2760; s_silk_LSFCosTab_FIX_Q12[79] = -2948;
+        s_silk_LSFCosTab_FIX_Q12[80] = -3136; s_silk_LSFCosTab_FIX_Q12[81] = -3320; s_silk_LSFCosTab_FIX_Q12[82] = -3502; s_silk_LSFCosTab_FIX_Q12[83] = -3684; s_silk_LSFCosTab_FIX_Q12[84] = -3862;
+        s_silk_LSFCosTab_FIX_Q12[85] = -4038; s_silk_LSFCosTab_FIX_Q12[86] = -4212; s_silk_LSFCosTab_FIX_Q12[87] = -4382; s_silk_LSFCosTab_FIX_Q12[88] = -4552; s_silk_LSFCosTab_FIX_Q12[89] = -4718;
+        s_silk_LSFCosTab_FIX_Q12[90] = -4880; s_silk_LSFCosTab_FIX_Q12[91] = -5040; s_silk_LSFCosTab_FIX_Q12[92] = -5198; s_silk_LSFCosTab_FIX_Q12[93] = -5352; s_silk_LSFCosTab_FIX_Q12[94] = -5502;
+        s_silk_LSFCosTab_FIX_Q12[95] = -5648; s_silk_LSFCosTab_FIX_Q12[96] = -5792; s_silk_LSFCosTab_FIX_Q12[97] = -5934; s_silk_LSFCosTab_FIX_Q12[98] = -6070; s_silk_LSFCosTab_FIX_Q12[99] = -6204;
+        s_silk_LSFCosTab_FIX_Q12[100] = -6332; s_silk_LSFCosTab_FIX_Q12[101] = -6458; s_silk_LSFCosTab_FIX_Q12[102] = -6580; s_silk_LSFCosTab_FIX_Q12[103] = -6698; s_silk_LSFCosTab_FIX_Q12[104] = -6812;
+        s_silk_LSFCosTab_FIX_Q12[105] = -6922; s_silk_LSFCosTab_FIX_Q12[106] = -7026; s_silk_LSFCosTab_FIX_Q12[107] = -7128; s_silk_LSFCosTab_FIX_Q12[108] = -7226; s_silk_LSFCosTab_FIX_Q12[109] = -7318;
+        s_silk_LSFCosTab_FIX_Q12[110] = -7406; s_silk_LSFCosTab_FIX_Q12[111] = -7490; s_silk_LSFCosTab_FIX_Q12[112] = -7568; s_silk_LSFCosTab_FIX_Q12[113] = -7644; s_silk_LSFCosTab_FIX_Q12[114] = -7714;
+        s_silk_LSFCosTab_FIX_Q12[115] = -7778; s_silk_LSFCosTab_FIX_Q12[116] = -7840; s_silk_LSFCosTab_FIX_Q12[117] = -7896; s_silk_LSFCosTab_FIX_Q12[118] = -7946; s_silk_LSFCosTab_FIX_Q12[119] = -7994;
+        s_silk_LSFCosTab_FIX_Q12[120] = -8034; s_silk_LSFCosTab_FIX_Q12[121] = -8072; s_silk_LSFCosTab_FIX_Q12[122] = -8104; s_silk_LSFCosTab_FIX_Q12[123] = -8130; s_silk_LSFCosTab_FIX_Q12[124] = -8152;
+        s_silk_LSFCosTab_FIX_Q12[125] = -8170; s_silk_LSFCosTab_FIX_Q12[126] = -8182; s_silk_LSFCosTab_FIX_Q12[127] = -8190; s_silk_LSFCosTab_FIX_Q12[128] = -8192;
+    }
+    return (const opus_int16 *) s_silk_LSFCosTab_FIX_Q12;
+}

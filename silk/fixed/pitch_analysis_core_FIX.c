@@ -367,7 +367,7 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
     /* Set up stage 2 codebook based on number of subframes */
     if( nb_subfr == PE_MAX_NB_SUBFR ) {
         cbk_size   = PE_NB_CBKS_STAGE2_EXT;
-        Lag_CB_ptr = &silk_CB_lags_stage2[ 0 ][ 0 ];
+        Lag_CB_ptr = &(get_pitch_analysis_core_table_struct()->silk_CB_lags_stage2[ 0 ][ 0 ]);
         if( Fs_kHz == 8 && complexity > SILK_PE_MIN_COMPLEX ) {
             /* If input is 8 khz use a larger codebook here because it is last stage */
             nb_cbk_search = PE_NB_CBKS_STAGE2_EXT;
@@ -376,7 +376,7 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
         }
     } else {
         cbk_size       = PE_NB_CBKS_STAGE2_10MS;
-        Lag_CB_ptr     = &silk_CB_lags_stage2_10_ms[ 0 ][ 0 ];
+        Lag_CB_ptr     = &(get_pitch_analysis_core_table_struct()->silk_CB_lags_stage2_10_ms[ 0 ][ 0 ]);
         nb_cbk_search  = PE_NB_CBKS_STAGE2_10MS;
     }
 
@@ -423,7 +423,7 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
 
         if( CCmax_new_b > CCmax_b                                   &&  /* Find maximum biased correlation                  */
             CCmax_new > silk_SMULBB( nb_subfr, search_thres2_Q13 )  &&  /* Correlation needs to be high enough to be voiced */
-            silk_CB_lags_stage2[ 0 ][ CBimax_new ] <= MIN_LAG_8KHZ      /* Lag must be in range                             */
+            get_pitch_analysis_core_table_struct()->silk_CB_lags_stage2[ 0 ][ CBimax_new ] <= MIN_LAG_8KHZ      /* Lag must be in range                             */
          ) {
             CCmax_b = CCmax_new_b;
             CCmax   = CCmax_new;
@@ -469,18 +469,18 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
         CCmax = silk_int32_MIN;
         /* pitch lags according to second stage */
         for( k = 0; k < nb_subfr; k++ ) {
-            pitch_out[ k ] = lag + 2 * silk_CB_lags_stage2[ k ][ CBimax_old ];
+            pitch_out[ k ] = lag + 2 * get_pitch_analysis_core_table_struct()->silk_CB_lags_stage2[ k ][ CBimax_old ];
         }
 
         /* Set up codebook parameters according to complexity setting and frame length */
         if( nb_subfr == PE_MAX_NB_SUBFR ) {
-            nb_cbk_search   = (opus_int)silk_nb_cbk_searchs_stage3[ complexity ];
+            nb_cbk_search   = (opus_int)(get_pitch_analysis_core_table_struct()->silk_nb_cbk_searchs_stage3[ complexity ]);
             cbk_size        = PE_NB_CBKS_STAGE3_MAX;
-            Lag_CB_ptr      = &silk_CB_lags_stage3[ 0 ][ 0 ];
+            Lag_CB_ptr      = &(get_pitch_analysis_core_table_struct()->silk_CB_lags_stage3[ 0 ][ 0 ]);
         } else {
             nb_cbk_search   = PE_NB_CBKS_STAGE3_10MS;
             cbk_size        = PE_NB_CBKS_STAGE3_10MS;
-            Lag_CB_ptr      = &silk_CB_lags_stage3_10_ms[ 0 ][ 0 ];
+            Lag_CB_ptr      = &(get_pitch_analysis_core_table_struct()->silk_CB_lags_stage3_10_ms[ 0 ][ 0 ]);
         }
 
         /* Calculate the correlations and energies needed in stage 3 */
@@ -518,7 +518,7 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
                     CCmax_new = 0;
                 }
 
-                if( CCmax_new > CCmax && ( d + silk_CB_lags_stage3[ 0 ][ j ] ) <= max_lag ) {
+                if( CCmax_new > CCmax && ( d + get_pitch_analysis_core_table_struct()->silk_CB_lags_stage3[ 0 ][ j ] ) <= max_lag ) {
                     CCmax   = CCmax_new;
                     lag_new = d;
                     CBimax  = j;
@@ -583,14 +583,14 @@ static void silk_P_Ana_calc_corr_st3(
     silk_assert( complexity <= SILK_PE_MAX_COMPLEX );
 
     if( nb_subfr == PE_MAX_NB_SUBFR ) {
-        Lag_range_ptr = &silk_Lag_range_stage3[ complexity ][ 0 ][ 0 ];
-        Lag_CB_ptr    = &silk_CB_lags_stage3[ 0 ][ 0 ];
-        nb_cbk_search = silk_nb_cbk_searchs_stage3[ complexity ];
+        Lag_range_ptr = &(get_pitch_analysis_core_table_struct()->silk_Lag_range_stage3[ complexity ][ 0 ][ 0 ]);
+        Lag_CB_ptr    = &(get_pitch_analysis_core_table_struct()->silk_CB_lags_stage3[ 0 ][ 0 ]);
+        nb_cbk_search = get_pitch_analysis_core_table_struct()->silk_nb_cbk_searchs_stage3[ complexity ];
         cbk_size      = PE_NB_CBKS_STAGE3_MAX;
     } else {
         silk_assert( nb_subfr == PE_MAX_NB_SUBFR >> 1);
-        Lag_range_ptr = &silk_Lag_range_stage3_10_ms[ 0 ][ 0 ];
-        Lag_CB_ptr    = &silk_CB_lags_stage3_10_ms[ 0 ][ 0 ];
+        Lag_range_ptr = &(get_pitch_analysis_core_table_struct()->silk_Lag_range_stage3_10_ms[ 0 ][ 0 ]);
+        Lag_CB_ptr    = &(get_pitch_analysis_core_table_struct()->silk_CB_lags_stage3_10_ms[ 0 ][ 0 ]);
         nb_cbk_search = PE_NB_CBKS_STAGE3_10MS;
         cbk_size      = PE_NB_CBKS_STAGE3_10MS;
     }
@@ -655,14 +655,14 @@ static void silk_P_Ana_calc_energy_st3(
     silk_assert( complexity <= SILK_PE_MAX_COMPLEX );
 
     if( nb_subfr == PE_MAX_NB_SUBFR ) {
-        Lag_range_ptr = &silk_Lag_range_stage3[ complexity ][ 0 ][ 0 ];
-        Lag_CB_ptr    = &silk_CB_lags_stage3[ 0 ][ 0 ];
-        nb_cbk_search = silk_nb_cbk_searchs_stage3[ complexity ];
+        Lag_range_ptr = &(get_pitch_analysis_core_table_struct()->silk_Lag_range_stage3[ complexity ][ 0 ][ 0 ]);
+        Lag_CB_ptr    = &(get_pitch_analysis_core_table_struct()->silk_CB_lags_stage3[ 0 ][ 0 ]);
+        nb_cbk_search = get_pitch_analysis_core_table_struct()->silk_nb_cbk_searchs_stage3[ complexity ];
         cbk_size      = PE_NB_CBKS_STAGE3_MAX;
     } else {
         silk_assert( nb_subfr == PE_MAX_NB_SUBFR >> 1);
-        Lag_range_ptr = &silk_Lag_range_stage3_10_ms[ 0 ][ 0 ];
-        Lag_CB_ptr    = &silk_CB_lags_stage3_10_ms[ 0 ][ 0 ];
+        Lag_range_ptr = &(get_pitch_analysis_core_table_struct()->silk_Lag_range_stage3_10_ms[ 0 ][ 0 ]);
+        Lag_CB_ptr    = &(get_pitch_analysis_core_table_struct()->silk_CB_lags_stage3_10_ms[ 0 ][ 0 ]);
         nb_cbk_search = PE_NB_CBKS_STAGE3_10MS;
         cbk_size      = PE_NB_CBKS_STAGE3_10MS;
     }

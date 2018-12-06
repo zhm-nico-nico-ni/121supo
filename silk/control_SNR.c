@@ -53,7 +53,7 @@ opus_int silk_control_SNR(
         } else if( psEncC->fs_kHz == 12 ) {
 //            rateTable = silk_TargetRate_table_MB;
         } else {
-            rateTable = silk_TargetRate_table_WB;
+            rateTable = get_silk_TargetRate_table_WB();
         }
 
         /* Reduce bitrate for 10 ms modes in these calculations */
@@ -65,7 +65,7 @@ opus_int silk_control_SNR(
         for( k = 1; k < TARGET_RATE_TAB_SZ; k++ ) {
             if( TargetRate_bps <= rateTable[ k ] ) {
                 frac_Q6 = silk_DIV32( silk_LSHIFT( TargetRate_bps - rateTable[ k - 1 ], 6 ), rateTable[ k ] - rateTable[ k - 1 ] );
-                psEncC->SNR_dB_Q7 = silk_LSHIFT( silk_SNR_table_Q1[ k - 1 ], 6 ) + silk_MUL( frac_Q6, silk_SNR_table_Q1[ k ] - silk_SNR_table_Q1[ k - 1 ] );
+                psEncC->SNR_dB_Q7 = silk_LSHIFT( get_silk_SNR_table_Q1()[ k - 1 ], 6 ) + silk_MUL( frac_Q6, get_silk_SNR_table_Q1()[ k ] - get_silk_SNR_table_Q1()[ k - 1 ] );
                 break;
             }
         }

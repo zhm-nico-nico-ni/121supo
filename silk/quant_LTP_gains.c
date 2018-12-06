@@ -69,7 +69,13 @@ void silk_quant_LTP_gains(
         cl_ptr_Q5  = get_silk_LTP_gain_BITS_Q5_ptrs()[ k ];
         cbk_ptr_Q7 = get_silk_LTP_vq_ptrs_Q7()[        k ];
         cbk_gain_ptr_Q7 = get_silk_LTP_vq_gain_ptrs_Q7()[ k ];
-        cbk_size   = silk_LTP_vq_sizes[          k ];
+        if(k == 0){
+            cbk_size = 8;
+        } else if(k==1){
+            cbk_size = 16;
+        } else if(k == 2){
+            cbk_size = 32;
+        }
 
         /* Set up pointers to first subframe */
         XX_Q17_ptr = XX_Q17;

@@ -29,71 +29,271 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "config.h"
 #endif
 
+#include <malloc.h>
 #include "typedef.h"
 #include "pitch_est_defines.h"
 
-const opus_int8 silk_CB_lags_stage2_10_ms[ PE_MAX_NB_SUBFR >> 1][ PE_NB_CBKS_STAGE2_10MS ] =
-{
-    {0, 1, 0},
-    {0, 0, 1}
-};
 
-const opus_int8 silk_CB_lags_stage3_10_ms[ PE_MAX_NB_SUBFR >> 1 ][ PE_NB_CBKS_STAGE3_10MS ] =
-{
-    { 0, 0, 1,-1, 1,-1, 2,-2, 2,-2, 3,-3},
-    { 0, 1, 0, 1,-1, 2,-1, 2,-2, 3,-2, 3}
-};
 
-const opus_int8 silk_Lag_range_stage3_10_ms[ PE_MAX_NB_SUBFR >> 1 ][ 2 ] =
-{
-    {-3, 7},
-    {-2, 7}
-};
+pitch_analysis_core_table_struct *s_pitch_analysis_core_table_struct_ptr = 0;
+pitch_analysis_core_table_struct * get_pitch_analysis_core_table_struct(void){
+    if(s_pitch_analysis_core_table_struct_ptr == NULL) {
+        s_pitch_analysis_core_table_struct_ptr = malloc(sizeof(pitch_analysis_core_table_struct));
 
-const opus_int8 silk_CB_lags_stage2[ PE_MAX_NB_SUBFR ][ PE_NB_CBKS_STAGE2_EXT ] =
-{
-    {0, 2,-1,-1,-1, 0, 0, 1, 1, 0, 1},
-    {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0},
-    {0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-    {0,-1, 2, 1, 0, 1, 1, 0, 0,-1,-1}
-};
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][1] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][2] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][3] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][4] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][5] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][6] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][7] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][8] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][9] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][10] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][1] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][2] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][3] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][4] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][5] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][6] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][7] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][8] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][9] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[1][10] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][1] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][2] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][3] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][4] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][5] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][6] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][7] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][8] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][9] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[2][10] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][1] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][2] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][3] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][4] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][5] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][6] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][7] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][8] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][9] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[3][10] = -1;
 
-const opus_int8 silk_CB_lags_stage3[ PE_MAX_NB_SUBFR ][ PE_NB_CBKS_STAGE3_MAX ] =
-{
-    {0, 0, 1,-1, 0, 1,-1, 0,-1, 1,-2, 2,-2,-2, 2,-3, 2, 3,-3,-4, 3,-4, 4, 4,-5, 5,-6,-5, 6,-7, 6, 5, 8,-9},
-    {0, 0, 1, 0, 0, 0, 0, 0, 0, 0,-1, 1, 0, 0, 1,-1, 0, 1,-1,-1, 1,-1, 2, 1,-1, 2,-2,-2, 2,-2, 2, 2, 3,-3},
-    {0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1,-1, 1, 0, 0, 2, 1,-1, 2,-1,-1, 2,-1, 2, 2,-1, 3,-2,-2,-2, 3},
-    {0, 1, 0, 0, 1, 0, 1,-1, 2,-1, 2,-1, 2, 3,-2, 3,-2,-2, 4, 4,-3, 5,-3,-4, 6,-4, 6, 5,-5, 8,-6,-5,-7, 9}
-};
 
-const opus_int8 silk_Lag_range_stage3[ SILK_PE_MAX_COMPLEX + 1 ] [ PE_MAX_NB_SUBFR ][ 2 ] =
-{
-    /* Lags to search for low number of stage3 cbks */
-    {
-        {-5,8},
-        {-1,6},
-        {-1,6},
-        {-4,10}
-    },
-    /* Lags to search for middle number of stage3 cbks */
-    {
-        {-6,10},
-        {-2,6},
-        {-1,6},
-        {-5,10}
-    },
-    /* Lags to search for max number of stage3 cbks */
-    {
-        {-9,12},
-        {-3,7},
-        {-2,7},
-        {-7,13}
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][1] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][2] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][3] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][4] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][5] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][6] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][7] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][8] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][9] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][10] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][11] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][12] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][13] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][14] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][15] = -3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][16] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][17] = 3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][18] = -3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][19] = -4;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][20] = 3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][21] = -4;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][22] = 4;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][23] = 4;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][24] = -5;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][25] = 5;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][26] = -6;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][27] = -5;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][28] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][29] = -7;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][30] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][31] = 5;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][32] = 8;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[0][33] = -9;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][1] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][2] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][3] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][4] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][5] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][6] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][7] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][8] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][9] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][10] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][11] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][12] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][13] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][14] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][15] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][16] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][17] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][18] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][19] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][20] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][21] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][22] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][23] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][24] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][25] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][26] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][27] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][28] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][29] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][30] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][31] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][32] = 3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[1][33] = -3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][1] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][2] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][3] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][4] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][5] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][6] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][7] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][8] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][9] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][10] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][11] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][12] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][13] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][14] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][15] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][16] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][17] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][18] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][19] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][20] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][21] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][22] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][23] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][24] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][25] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][26] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][27] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][28] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][29] = 3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][30] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][31] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][32] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[2][33] = 3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][1] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][2] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][3] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][4] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][5] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][6] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][7] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][8] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][9] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][10] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][11] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][12] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][13] = 3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][14] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][15] = 3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][16] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][17] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][18] = 4;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][19] = 4;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][20] = -3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][21] = 5;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][22] = -3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][23] = -4;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][24] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][25] = -4;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][26] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][27] = 5;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][28] = -5;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][29] = 8;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][30] = -6;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][31] = -5;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][32] = -7;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3[3][33] = 9;
+
+
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[0][0][0] = -5;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[0][0][1] = 8;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[0][1][0] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[0][1][1] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[0][2][0] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[0][2][1] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[0][3][0] = -4;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[0][3][1] = 10;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[1][0][0] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[1][0][1] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[1][1][0] = -4;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[1][1][1] = 10;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[1][2][0] = -6;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[1][2][1] = 10;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[1][3][0] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[1][3][1] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[2][0][0] = -6;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[2][0][1] = 10;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[2][1][0] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[2][1][1] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[2][2][0] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[2][2][1] = 6;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[2][3][0] = -5;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3[2][3][1] = 10;
+
+
+        s_pitch_analysis_core_table_struct_ptr->silk_nb_cbk_searchs_stage3[0] = 16;
+        s_pitch_analysis_core_table_struct_ptr->silk_nb_cbk_searchs_stage3[1] = 24;
+        s_pitch_analysis_core_table_struct_ptr->silk_nb_cbk_searchs_stage3[2] = 34;
+
+
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2_10_ms[0][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2_10_ms[0][1] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2_10_ms[0][2] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2_10_ms[1][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2_10_ms[1][1] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2_10_ms[1][2] = 1;
+
+
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][1] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][2] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][3] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][4] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][5] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][6] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][7] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][8] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][9] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][10] = 3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[0][11] = -3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][0] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][1] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][2] = 0;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][3] = 1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][4] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][5] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][6] = -1;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][7] = 2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][8] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][9] = 3;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][10] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage3_10_ms[1][11] = 3;
+
+
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3_10_ms[0][0] = -3;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3_10_ms[0][1] = 7;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3_10_ms[1][0] = -2;
+        s_pitch_analysis_core_table_struct_ptr->silk_Lag_range_stage3_10_ms[1][1] = 7;
     }
-};
 
-const opus_int8 silk_nb_cbk_searchs_stage3[ SILK_PE_MAX_COMPLEX + 1 ] =
-{
-    PE_NB_CBKS_STAGE3_MIN,
-    PE_NB_CBKS_STAGE3_MID,
-    PE_NB_CBKS_STAGE3_MAX
-};
+    return s_pitch_analysis_core_table_struct_ptr;
+}

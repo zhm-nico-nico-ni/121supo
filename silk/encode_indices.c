@@ -25,9 +25,6 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
 
 #include "main.h"
 
@@ -71,18 +68,18 @@ void silk_encode_indices(
     if( condCoding == CODE_CONDITIONALLY ) {
         /* conditional coding */
         silk_assert( psIndices->GainsIndices[ 0 ] >= 0 && psIndices->GainsIndices[ 0 ] < MAX_DELTA_GAIN_QUANT - MIN_DELTA_GAIN_QUANT + 1 );
-        ec_enc_icdf( psRangeEnc, psIndices->GainsIndices[ 0 ], silk_delta_gain_iCDF, 8 );
+        ec_enc_icdf( psRangeEnc, psIndices->GainsIndices[ 0 ], get_silk_delta_gain_iCDF(), 8 );
     } else {
         /* independent coding, in two stages: MSB bits followed by 3 LSBs */
         silk_assert( psIndices->GainsIndices[ 0 ] >= 0 && psIndices->GainsIndices[ 0 ] < N_LEVELS_QGAIN );
-        ec_enc_icdf( psRangeEnc, silk_RSHIFT( psIndices->GainsIndices[ 0 ], 3 ), silk_gain_iCDF[ psIndices->signalType ], 8 );
+        ec_enc_icdf( psRangeEnc, silk_RSHIFT( psIndices->GainsIndices[ 0 ], 3 ), get_silk_gain_iCDF()[ psIndices->signalType ], 8 );
         ec_enc_icdf( psRangeEnc, psIndices->GainsIndices[ 0 ] & 7, silk_uniform8_iCDF, 8 );
     }
 
     /* remaining subframes */
     for( i = 1; i < psEncC->nb_subfr; i++ ) {
         silk_assert( psIndices->GainsIndices[ i ] >= 0 && psIndices->GainsIndices[ i ] < MAX_DELTA_GAIN_QUANT - MIN_DELTA_GAIN_QUANT + 1 );
-        ec_enc_icdf( psRangeEnc, psIndices->GainsIndices[ i ], silk_delta_gain_iCDF, 8 );
+        ec_enc_icdf( psRangeEnc, psIndices->GainsIndices[ i ], get_silk_delta_gain_iCDF(), 8 );
     }
 
     /****************/
@@ -153,6 +150,9 @@ void silk_encode_indices(
         /********************/
         /* PERIndex value */
         silk_assert( psIndices->PERIndex >= 0 && psIndices->PERIndex < 3 );
+        const opus_uint8 silk_LTP_per_index_iCDF[3] = {
+                179,     99,      0
+        };
         ec_enc_icdf( psRangeEnc, psIndices->PERIndex, silk_LTP_per_index_iCDF, 8 );
 
         /* Codebook Indices */

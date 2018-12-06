@@ -31,10 +31,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "tables.h"
 
-const opus_uint8 silk_max_pulses_table[ 4 ] = {
-         8,     10,     12,     16
-};
-
 const opus_uint8 silk_pulses_per_block_iCDF[ 10 ][ 18 ] = {
 {
        125,     51,     26,     18,     15,     12,     11,     10,

@@ -29,6 +29,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "config.h"
 #endif
 
+#include <malloc.h>
 #include "structs.h"
 
 #include "tables.h"
@@ -45,12 +46,48 @@ extern "C"
 //const opus_int32 silk_TargetRate_table_MB[ TARGET_RATE_TAB_SZ ] = {
 //    0,      9000,   12000,  14500,  18500,  24500,  35500,  MAX_TARGET_RATE_BPS
 //};
-const opus_int32 silk_TargetRate_table_WB[ TARGET_RATE_TAB_SZ ] = {
-    0,      10500,  14000,  17000,  21500,  28500,  42000,  MAX_TARGET_RATE_BPS
-};
-const opus_int16 silk_SNR_table_Q1[ TARGET_RATE_TAB_SZ ] = {
-    18,     29,     38,     40,     46,     52,     62,     84
-};
+//const opus_int32 silk_TargetRate_table_WB[ TARGET_RATE_TAB_SZ ] = {
+//    0,      10500,  14000,  17000,  21500,  28500,  42000,  MAX_TARGET_RATE_BPS
+//};
+
+opus_int32 *s_silk_TargetRate_table_WB = 0;
+const opus_int32 *get_silk_TargetRate_table_WB(void){
+    if(s_silk_TargetRate_table_WB == 0){
+        s_silk_TargetRate_table_WB = malloc(sizeof(opus_int32) * TARGET_RATE_TAB_SZ);
+        s_silk_TargetRate_table_WB[0] = 0;
+        s_silk_TargetRate_table_WB[1] = 10500;
+        s_silk_TargetRate_table_WB[2] = 14000;
+        s_silk_TargetRate_table_WB[3] = 17000;
+        s_silk_TargetRate_table_WB[4] = 21500;
+        s_silk_TargetRate_table_WB[5] = 28500;
+        s_silk_TargetRate_table_WB[6] = 42000;
+        s_silk_TargetRate_table_WB[7] = MAX_TARGET_RATE_BPS;
+    }
+
+    return s_silk_TargetRate_table_WB;
+}
+
+//const opus_int16 silk_SNR_table_Q1[ TARGET_RATE_TAB_SZ ] = {
+//    18,     29,     38,     40,     46,     52,     62,     84
+//};
+
+opus_int16 *s_silk_SNR_table_Q1=0;
+const opus_int16 *get_silk_SNR_table_Q1(void){
+    if(s_silk_SNR_table_Q1 == 0){
+        s_silk_SNR_table_Q1 = malloc(sizeof(opus_int16)*TARGET_RATE_TAB_SZ);
+
+        s_silk_SNR_table_Q1[0] = 18;
+        s_silk_SNR_table_Q1[1] = 29;
+        s_silk_SNR_table_Q1[2] = 38;
+        s_silk_SNR_table_Q1[3] = 40;
+        s_silk_SNR_table_Q1[4] = 46;
+        s_silk_SNR_table_Q1[5] = 52;
+        s_silk_SNR_table_Q1[6] = 62;
+        s_silk_SNR_table_Q1[7] = 84;
+    }
+
+    return s_silk_SNR_table_Q1;
+}
 
 
 /* Tables for LBRR flags */
@@ -83,8 +120,6 @@ const opus_int16  silk_Quantization_Offsets_Q10[ 2 ][ 2 ] = {
     { OFFSET_UVL_Q10, OFFSET_UVH_Q10 }, { OFFSET_VL_Q10, OFFSET_VH_Q10 }
 };
 
-/* Table for LTPScale */
-const opus_int16 silk_LTPScales_table_Q14[ 3 ] = { 15565, 12288, 8192 };
 
 /* Uniform entropy tables */
 const opus_uint8 silk_uniform4_iCDF[ 4 ] = { 192, 128, 64, 0 };

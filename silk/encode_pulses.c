@@ -110,13 +110,13 @@ void silk_encode_pulses(
 
         while( 1 ) {
             /* 1+1 -> 2 */
-            scale_down = combine_and_check( pulses_comb, abs_pulses_ptr, silk_max_pulses_table[ 0 ], 8 );
+            scale_down = combine_and_check( pulses_comb, abs_pulses_ptr, 8 , 8 );
             /* 2+2 -> 4 */
-            scale_down += combine_and_check( pulses_comb, pulses_comb, silk_max_pulses_table[ 1 ], 4 );
+            scale_down += combine_and_check( pulses_comb, pulses_comb, 10 , 4 );
             /* 4+4 -> 8 */
-            scale_down += combine_and_check( pulses_comb, pulses_comb, silk_max_pulses_table[ 2 ], 2 );
+            scale_down += combine_and_check( pulses_comb, pulses_comb, 12 , 2 );
             /* 8+8 -> 16 */
-            scale_down += combine_and_check( &sum_pulses[ i ], pulses_comb, silk_max_pulses_table[ 3 ], 1 );
+            scale_down += combine_and_check( &sum_pulses[ i ], pulses_comb, 16 , 1 );
 
             if( scale_down ) {
                 /* We need to downscale the quantization signal */

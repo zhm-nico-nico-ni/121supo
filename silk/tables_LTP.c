@@ -32,9 +32,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include <stdlib.h>
 #include "tables.h"
 
-const opus_uint8 silk_LTP_per_index_iCDF[3] = {
-       179,     99,      0
-};
 
 
 opus_uint8 ** s_silk_LTP_gain_iCDF_ptrs = 0;
@@ -271,6 +268,3 @@ const opus_uint8 **get_silk_LTP_vq_gain_ptrs_Q7(void){
     return (const unsigned char **) s_silk_LTP_vq_gain_ptrs_Q7;
 }
 
-const opus_int8 silk_LTP_vq_sizes[NB_LTP_CBKS] = {
-    8, 16, 32
-};

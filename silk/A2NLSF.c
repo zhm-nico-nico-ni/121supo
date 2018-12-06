@@ -150,7 +150,7 @@ void silk_A2NLSF(
     /* Find roots, alternating between P and Q */
     p = P;                          /* Pointer to polynomial */
 
-    xlo = silk_LSFCosTab_FIX_Q12[ 0 ]; /* Q12*/
+    xlo = get_silk_LSFCosTab_FIX_Q12()[ 0 ]; /* Q12*/
     ylo = silk_A2NLSF_eval_poly( p, xlo, dd );
 
     if( ylo < 0 ) {
@@ -167,7 +167,7 @@ void silk_A2NLSF(
     thr = 0;
     while( 1 ) {
         /* Evaluate polynomial */
-        xhi = silk_LSFCosTab_FIX_Q12[ k ]; /* Q12 */
+        xhi = get_silk_LSFCosTab_FIX_Q12()[ k ]; /* Q12 */
         yhi = silk_A2NLSF_eval_poly( p, xhi, dd );
 
         /* Detect zero crossing */
@@ -224,7 +224,7 @@ void silk_A2NLSF(
             p = PQ[ root_ix & 1 ];
 
             /* Evaluate polynomial */
-            xlo = silk_LSFCosTab_FIX_Q12[ k - 1 ]; /* Q12*/
+            xlo = get_silk_LSFCosTab_FIX_Q12()[ k - 1 ]; /* Q12*/
             ylo = silk_LSHIFT( 1 - ( root_ix & 2 ), 12 );
         } else {
             /* Increment loop counter */
@@ -249,7 +249,7 @@ void silk_A2NLSF(
 
                 silk_A2NLSF_init( a_Q16, P, Q, dd );
                 p = P;                            /* Pointer to polynomial */
-                xlo = silk_LSFCosTab_FIX_Q12[ 0 ]; /* Q12*/
+                xlo = get_silk_LSFCosTab_FIX_Q12()[ 0 ]; /* Q12*/
                 ylo = silk_A2NLSF_eval_poly( p, xlo, dd );
                 if( ylo < 0 ) {
                     /* Set the first NLSF to zero and move on to the next */

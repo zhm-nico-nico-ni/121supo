@@ -49,5 +49,12 @@ void silk_LTP_scale_ctrl_FIX(
         /* Default is minimum scaling */
         psEnc->sCmn.indices.LTP_scaleIndex = 0;
     }
-    psEncCtrl->LTP_scale_Q14 = silk_LTPScales_table_Q14[ psEnc->sCmn.indices.LTP_scaleIndex ];
+
+    if(psEnc->sCmn.indices.LTP_scaleIndex == 0){
+        psEncCtrl->LTP_scale_Q14 = 15565;
+    } else if(psEnc->sCmn.indices.LTP_scaleIndex == 1){
+        psEncCtrl->LTP_scale_Q14 = 12288;
+    }else if(psEnc->sCmn.indices.LTP_scaleIndex == 2){
+        psEncCtrl->LTP_scale_Q14 = 8192;
+    }
 }

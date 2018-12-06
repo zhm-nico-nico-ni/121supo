@@ -103,8 +103,8 @@ void silk_NLSF2A(
         silk_assert(f_int < LSF_COS_TAB_SZ_FIX );
 
         /* Read start and end value from table */
-        cos_val = silk_LSFCosTab_FIX_Q12[ f_int ];                /* Q12 */
-        delta   = silk_LSFCosTab_FIX_Q12[ f_int + 1 ] - cos_val;  /* Q12, with a range of 0..200 */
+        cos_val = get_silk_LSFCosTab_FIX_Q12()[ f_int ];                /* Q12 */
+        delta   = get_silk_LSFCosTab_FIX_Q12()[ f_int + 1 ] - cos_val;  /* Q12, with a range of 0..200 */
 
         /* Linear interpolation */
         cos_LSF_QA[ordering[k]] = silk_RSHIFT_ROUND( silk_LSHIFT( cos_val, 8 ) + silk_MUL( delta, f_frac ), 20 - QA ); /* QA */
