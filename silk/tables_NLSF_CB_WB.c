@@ -26,16 +26,15 @@ POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
 
-#include <stdlib.h>
 #include "tables.h"
 
 
 silk_NLSF_CB_struct * _silk_NLSF_CB_WB;
 silk_NLSF_CB_struct *getSilk_NLSF_CB_WB(void) {
     if (_silk_NLSF_CB_WB == NULL) {
-        _silk_NLSF_CB_WB = (silk_NLSF_CB_struct*)malloc(sizeof(silk_NLSF_CB_struct));
+        _silk_NLSF_CB_WB = (silk_NLSF_CB_struct*)opus_alloc(sizeof(silk_NLSF_CB_struct));
 
-        opus_uint8 *silk_NLSF_CB1_WB_Q8ptr = malloc(sizeof(opus_uint8) * 512);
+        opus_uint8 *silk_NLSF_CB1_WB_Q8ptr = opus_alloc(sizeof(opus_uint8) * 512);
         silk_NLSF_CB1_WB_Q8ptr[0] = 7; silk_NLSF_CB1_WB_Q8ptr[1] = 23; silk_NLSF_CB1_WB_Q8ptr[2] = 38; silk_NLSF_CB1_WB_Q8ptr[3] = 54;
         silk_NLSF_CB1_WB_Q8ptr[4] = 69; silk_NLSF_CB1_WB_Q8ptr[5] = 85; silk_NLSF_CB1_WB_Q8ptr[6] = 100; silk_NLSF_CB1_WB_Q8ptr[7] = 116;
         silk_NLSF_CB1_WB_Q8ptr[8] = 131; silk_NLSF_CB1_WB_Q8ptr[9] = 147; silk_NLSF_CB1_WB_Q8ptr[10] = 162; silk_NLSF_CB1_WB_Q8ptr[11] = 178;
@@ -165,7 +164,7 @@ silk_NLSF_CB_struct *getSilk_NLSF_CB_WB(void) {
         silk_NLSF_CB1_WB_Q8ptr[504] = 110; silk_NLSF_CB1_WB_Q8ptr[505] = 119; silk_NLSF_CB1_WB_Q8ptr[506] = 129; silk_NLSF_CB1_WB_Q8ptr[507] = 141;
         silk_NLSF_CB1_WB_Q8ptr[508] = 175; silk_NLSF_CB1_WB_Q8ptr[509] = 198; silk_NLSF_CB1_WB_Q8ptr[510] = 218; silk_NLSF_CB1_WB_Q8ptr[511] = 237;
 
-        opus_int16 *silk_NLSF_CB1_WB_Wght_Q9ptr = malloc(sizeof(opus_int16) * 512);
+        opus_int16 *silk_NLSF_CB1_WB_Wght_Q9ptr = opus_alloc(sizeof(opus_int16) * 512);
         silk_NLSF_CB1_WB_Wght_Q9ptr[0] = 3657; silk_NLSF_CB1_WB_Wght_Q9ptr[1] = 2925; silk_NLSF_CB1_WB_Wght_Q9ptr[2] = 2925; silk_NLSF_CB1_WB_Wght_Q9ptr[3] = 2925;
         silk_NLSF_CB1_WB_Wght_Q9ptr[4] = 2925; silk_NLSF_CB1_WB_Wght_Q9ptr[5] = 2925; silk_NLSF_CB1_WB_Wght_Q9ptr[6] = 2925; silk_NLSF_CB1_WB_Wght_Q9ptr[7] = 2925;
         silk_NLSF_CB1_WB_Wght_Q9ptr[8] = 2925; silk_NLSF_CB1_WB_Wght_Q9ptr[9] = 2925; silk_NLSF_CB1_WB_Wght_Q9ptr[10] = 2925; silk_NLSF_CB1_WB_Wght_Q9ptr[11] = 2925;
@@ -296,7 +295,7 @@ silk_NLSF_CB_struct *getSilk_NLSF_CB_WB(void) {
         silk_NLSF_CB1_WB_Wght_Q9ptr[508] = 2181; silk_NLSF_CB1_WB_Wght_Q9ptr[509] = 2460; silk_NLSF_CB1_WB_Wght_Q9ptr[510] = 2580; silk_NLSF_CB1_WB_Wght_Q9ptr[511] = 2607;
 
 
-        opus_uint8 *silk_NLSF_CB1_iCDF_WBptr = malloc(sizeof(opus_uint8) * 64);
+        opus_uint8 *silk_NLSF_CB1_iCDF_WBptr = opus_alloc(sizeof(opus_uint8) * 64);
         silk_NLSF_CB1_iCDF_WBptr[0] = 225; silk_NLSF_CB1_iCDF_WBptr[1] = 204; silk_NLSF_CB1_iCDF_WBptr[2] = 201; silk_NLSF_CB1_iCDF_WBptr[3] = 184;
         silk_NLSF_CB1_iCDF_WBptr[4] = 183; silk_NLSF_CB1_iCDF_WBptr[5] = 175; silk_NLSF_CB1_iCDF_WBptr[6] = 158; silk_NLSF_CB1_iCDF_WBptr[7] = 154;
         silk_NLSF_CB1_iCDF_WBptr[8] = 153; silk_NLSF_CB1_iCDF_WBptr[9] = 135; silk_NLSF_CB1_iCDF_WBptr[10] = 119; silk_NLSF_CB1_iCDF_WBptr[11] = 115;
@@ -320,11 +319,11 @@ silk_NLSF_CB_struct *getSilk_NLSF_CB_WB(void) {
                 62,     66,     60,     72,    117,     85,     90,    118,
                 136,    151,    142,    160,    142,    155
         };
-        opus_uint8 *silk_NLSF_PRED_WB_Q8ptr = malloc(sizeof(opus_uint8) * 30);
+        opus_uint8 *silk_NLSF_PRED_WB_Q8ptr = opus_alloc(sizeof(opus_uint8) * 30);
         memcpy(silk_NLSF_PRED_WB_Q8ptr, silk_NLSF_PRED_WB_Q8, 30);
 
 
-        opus_uint8 *silk_NLSF_CB2_SELECT_WBptr = malloc(sizeof(opus_uint8) * 256);
+        opus_uint8 *silk_NLSF_CB2_SELECT_WBptr = opus_alloc(sizeof(opus_uint8) * 256);
         silk_NLSF_CB2_SELECT_WBptr[0] = 0; silk_NLSF_CB2_SELECT_WBptr[1] = 0; silk_NLSF_CB2_SELECT_WBptr[2] = 0; silk_NLSF_CB2_SELECT_WBptr[3] = 0;
         silk_NLSF_CB2_SELECT_WBptr[4] = 0; silk_NLSF_CB2_SELECT_WBptr[5] = 0; silk_NLSF_CB2_SELECT_WBptr[6] = 0; silk_NLSF_CB2_SELECT_WBptr[7] = 1;
         silk_NLSF_CB2_SELECT_WBptr[8] = 100; silk_NLSF_CB2_SELECT_WBptr[9] = 102; silk_NLSF_CB2_SELECT_WBptr[10] = 102; silk_NLSF_CB2_SELECT_WBptr[11] = 68;
@@ -391,7 +390,7 @@ silk_NLSF_CB_struct *getSilk_NLSF_CB_WB(void) {
         silk_NLSF_CB2_SELECT_WBptr[252] = 36; silk_NLSF_CB2_SELECT_WBptr[253] = 197; silk_NLSF_CB2_SELECT_WBptr[254] = 24; silk_NLSF_CB2_SELECT_WBptr[255] = 0;
 
 
-        opus_uint8 *silk_NLSF_CB2_iCDF_WBptr = malloc(sizeof(opus_uint8) * 72);
+        opus_uint8 *silk_NLSF_CB2_iCDF_WBptr = opus_alloc(sizeof(opus_uint8) * 72);
         silk_NLSF_CB2_iCDF_WBptr[0] = 255; silk_NLSF_CB2_iCDF_WBptr[1] = 254; silk_NLSF_CB2_iCDF_WBptr[2] = 253; silk_NLSF_CB2_iCDF_WBptr[3] = 244;
         silk_NLSF_CB2_iCDF_WBptr[4] = 12; silk_NLSF_CB2_iCDF_WBptr[5] = 3; silk_NLSF_CB2_iCDF_WBptr[6] = 2; silk_NLSF_CB2_iCDF_WBptr[7] = 1;
         silk_NLSF_CB2_iCDF_WBptr[8] = 0; silk_NLSF_CB2_iCDF_WBptr[9] = 255; silk_NLSF_CB2_iCDF_WBptr[10] = 254; silk_NLSF_CB2_iCDF_WBptr[11] = 252;
@@ -412,7 +411,7 @@ silk_NLSF_CB_struct *getSilk_NLSF_CB_WB(void) {
         silk_NLSF_CB2_iCDF_WBptr[68] = 19; silk_NLSF_CB2_iCDF_WBptr[69] = 2; silk_NLSF_CB2_iCDF_WBptr[70] = 1; silk_NLSF_CB2_iCDF_WBptr[71] = 0;
 
 
-        opus_uint8 *silk_NLSF_CB2_BITS_WB_Q5ptr = malloc(sizeof(opus_uint8) * 72);
+        opus_uint8 *silk_NLSF_CB2_BITS_WB_Q5ptr = opus_alloc(sizeof(opus_uint8) * 72);
         silk_NLSF_CB2_BITS_WB_Q5ptr[0] = 255; silk_NLSF_CB2_BITS_WB_Q5ptr[1] = 255; silk_NLSF_CB2_BITS_WB_Q5ptr[2] = 255; silk_NLSF_CB2_BITS_WB_Q5ptr[3] = 156;
         silk_NLSF_CB2_BITS_WB_Q5ptr[4] = 4; silk_NLSF_CB2_BITS_WB_Q5ptr[5] = 154; silk_NLSF_CB2_BITS_WB_Q5ptr[6] = 255; silk_NLSF_CB2_BITS_WB_Q5ptr[7] = 255;
         silk_NLSF_CB2_BITS_WB_Q5ptr[8] = 255; silk_NLSF_CB2_BITS_WB_Q5ptr[9] = 255; silk_NLSF_CB2_BITS_WB_Q5ptr[10] = 255; silk_NLSF_CB2_BITS_WB_Q5ptr[11] = 227;
@@ -433,7 +432,7 @@ silk_NLSF_CB_struct *getSilk_NLSF_CB_WB(void) {
         silk_NLSF_CB2_BITS_WB_Q5ptr[68] = 53; silk_NLSF_CB2_BITS_WB_Q5ptr[69] = 125; silk_NLSF_CB2_BITS_WB_Q5ptr[70] = 255; silk_NLSF_CB2_BITS_WB_Q5ptr[71] = 255;
 
 
-        opus_int16 *silk_NLSF_DELTA_MIN_WB_Q15ptr = (opus_int16*)malloc(sizeof(opus_int16) * 17);
+        opus_int16 *silk_NLSF_DELTA_MIN_WB_Q15ptr = (opus_int16*)opus_alloc(sizeof(opus_int16) * 17);
         silk_NLSF_DELTA_MIN_WB_Q15ptr[0] = 100;silk_NLSF_DELTA_MIN_WB_Q15ptr[8] = 14;
         silk_NLSF_DELTA_MIN_WB_Q15ptr[1] = 3;silk_NLSF_DELTA_MIN_WB_Q15ptr[9] = 10;
         silk_NLSF_DELTA_MIN_WB_Q15ptr[2] = 40;silk_NLSF_DELTA_MIN_WB_Q15ptr[10] = 11;

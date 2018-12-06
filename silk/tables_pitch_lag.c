@@ -26,14 +26,13 @@ POSSIBILITY OF SUCH DAMAGE.
 ***********************************************************************/
 
 
-#include <malloc.h>
 #include "tables.h"
 
 
 opus_uint8 *s_silk_pitch_lag_iCDF = 0;
 const opus_uint8 * get_silk_pitch_lag_iCDF(void){
     if(s_silk_pitch_lag_iCDF==0){
-        s_silk_pitch_lag_iCDF = malloc(32);
+        s_silk_pitch_lag_iCDF = opus_alloc(32);
 
         s_silk_pitch_lag_iCDF[0] = 253; s_silk_pitch_lag_iCDF[1] = 250;
         s_silk_pitch_lag_iCDF[2] = 244; s_silk_pitch_lag_iCDF[3] = 233;
@@ -59,7 +58,7 @@ const opus_uint8 * get_silk_pitch_lag_iCDF(void){
 opus_uint8 *s_silk_pitch_contour_iCDF = 0;
 const opus_uint8 * get_silk_pitch_contour_iCDF(void) {
     if (s_silk_pitch_contour_iCDF == 0) {
-        s_silk_pitch_contour_iCDF = malloc(34);
+        s_silk_pitch_contour_iCDF = opus_alloc(34);
 
         s_silk_pitch_contour_iCDF[0] = 223; s_silk_pitch_contour_iCDF[1] = 201;
         s_silk_pitch_contour_iCDF[2] = 183; s_silk_pitch_contour_iCDF[3] = 167;

@@ -30,6 +30,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "define.h"
 #include "structs.h"
+#include "../celt/os_support.h"
 
 
 

@@ -27,7 +27,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-#include <stdlib.h>
 #include "main.h"
 
 /* shell coder; pulse-subframe length is hardcoded */
@@ -60,7 +59,7 @@ static OPUS_INLINE void encode_split(
 silk_shell_code_table_struct *shellCodeTablePtr = 0;
 silk_shell_code_table_struct * get_silk_shell_code_table(void){
     if(shellCodeTablePtr == NULL){
-        shellCodeTablePtr = (silk_shell_code_table_struct*)malloc(sizeof(silk_shell_code_table_struct));
+        shellCodeTablePtr = (silk_shell_code_table_struct*)opus_alloc_scratch(sizeof(silk_shell_code_table_struct));
 
         opus_uint8 silk_shell_code_table0[ 152 ] = {
                 128,      0,    214,     42,      0,    235,    128,     21,

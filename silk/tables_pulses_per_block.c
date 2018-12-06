@@ -27,16 +27,15 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-#include <malloc.h>
 #include "tables.h"
 
 
 opus_uint8 **s_silk_pulses_per_block_iCDF = 0;
 const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
     if(s_silk_pulses_per_block_iCDF == 0){
-        s_silk_pulses_per_block_iCDF = malloc(sizeof(opus_uint8 *) * 10);
+        s_silk_pulses_per_block_iCDF = opus_alloc(sizeof(opus_uint8 *) * 10);
 
-        s_silk_pulses_per_block_iCDF[0] = malloc(18);
+        s_silk_pulses_per_block_iCDF[0] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[0][0] = 125;
         s_silk_pulses_per_block_iCDF[0][1] = 51;
         s_silk_pulses_per_block_iCDF[0][2] = 26;
@@ -55,7 +54,7 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
         s_silk_pulses_per_block_iCDF[0][15] = 2;
         s_silk_pulses_per_block_iCDF[0][16] = 1;
         s_silk_pulses_per_block_iCDF[0][17] = 0;
-        s_silk_pulses_per_block_iCDF[1] = malloc(18);
+        s_silk_pulses_per_block_iCDF[1] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[1][0] = 198;
         s_silk_pulses_per_block_iCDF[1][1] = 105;
         s_silk_pulses_per_block_iCDF[1][2] = 45;
@@ -74,7 +73,7 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
         s_silk_pulses_per_block_iCDF[1][15] = 2;
         s_silk_pulses_per_block_iCDF[1][16] = 1;
         s_silk_pulses_per_block_iCDF[1][17] = 0;
-        s_silk_pulses_per_block_iCDF[2] = malloc(18);
+        s_silk_pulses_per_block_iCDF[2] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[2][0] = 213;
         s_silk_pulses_per_block_iCDF[2][1] = 162;
         s_silk_pulses_per_block_iCDF[2][2] = 116;
@@ -93,7 +92,7 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
         s_silk_pulses_per_block_iCDF[2][15] = 3;
         s_silk_pulses_per_block_iCDF[2][16] = 2;
         s_silk_pulses_per_block_iCDF[2][17] = 0;
-        s_silk_pulses_per_block_iCDF[3] = malloc(18);
+        s_silk_pulses_per_block_iCDF[3] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[3][0] = 239;
         s_silk_pulses_per_block_iCDF[3][1] = 187;
         s_silk_pulses_per_block_iCDF[3][2] = 116;
@@ -112,7 +111,7 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
         s_silk_pulses_per_block_iCDF[3][15] = 2;
         s_silk_pulses_per_block_iCDF[3][16] = 1;
         s_silk_pulses_per_block_iCDF[3][17] = 0;
-        s_silk_pulses_per_block_iCDF[4] = malloc(18);
+        s_silk_pulses_per_block_iCDF[4] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[4][0] = 250;
         s_silk_pulses_per_block_iCDF[4][1] = 229;
         s_silk_pulses_per_block_iCDF[4][2] = 188;
@@ -131,7 +130,7 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
         s_silk_pulses_per_block_iCDF[4][15] = 2;
         s_silk_pulses_per_block_iCDF[4][16] = 1;
         s_silk_pulses_per_block_iCDF[4][17] = 0;
-        s_silk_pulses_per_block_iCDF[5] = malloc(18);
+        s_silk_pulses_per_block_iCDF[5] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[5][0] = 249;
         s_silk_pulses_per_block_iCDF[5][1] = 235;
         s_silk_pulses_per_block_iCDF[5][2] = 213;
@@ -150,7 +149,7 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
         s_silk_pulses_per_block_iCDF[5][15] = 13;
         s_silk_pulses_per_block_iCDF[5][16] = 10;
         s_silk_pulses_per_block_iCDF[5][17] = 0;
-        s_silk_pulses_per_block_iCDF[6] = malloc(18);
+        s_silk_pulses_per_block_iCDF[6] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[6][0] = 254;
         s_silk_pulses_per_block_iCDF[6][1] = 249;
         s_silk_pulses_per_block_iCDF[6][2] = 235;
@@ -169,7 +168,7 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
         s_silk_pulses_per_block_iCDF[6][15] = 2;
         s_silk_pulses_per_block_iCDF[6][16] = 1;
         s_silk_pulses_per_block_iCDF[6][17] = 0;
-        s_silk_pulses_per_block_iCDF[7] = malloc(18);
+        s_silk_pulses_per_block_iCDF[7] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[7][0] = 255;
         s_silk_pulses_per_block_iCDF[7][1] = 253;
         s_silk_pulses_per_block_iCDF[7][2] = 249;
@@ -188,7 +187,7 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
         s_silk_pulses_per_block_iCDF[7][15] = 4;
         s_silk_pulses_per_block_iCDF[7][16] = 2;
         s_silk_pulses_per_block_iCDF[7][17] = 0;
-        s_silk_pulses_per_block_iCDF[8] = malloc(18);
+        s_silk_pulses_per_block_iCDF[8] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[8][0] = 255;
         s_silk_pulses_per_block_iCDF[8][1] = 253;
         s_silk_pulses_per_block_iCDF[8][2] = 251;
@@ -207,7 +206,7 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
         s_silk_pulses_per_block_iCDF[8][15] = 21;
         s_silk_pulses_per_block_iCDF[8][16] = 15;
         s_silk_pulses_per_block_iCDF[8][17] = 0;
-        s_silk_pulses_per_block_iCDF[9] = malloc(18);
+        s_silk_pulses_per_block_iCDF[9] = opus_alloc(18);
         s_silk_pulses_per_block_iCDF[9][0] = 255;
         s_silk_pulses_per_block_iCDF[9][1] = 254;
         s_silk_pulses_per_block_iCDF[9][2] = 253;
@@ -235,9 +234,9 @@ const opus_uint8 **get_silk_pulses_per_block_iCDF(void){
 opus_uint8 **s_silk_pulses_per_block_BITS_Q5;
 const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
     if(s_silk_pulses_per_block_BITS_Q5 == 0){
-        s_silk_pulses_per_block_BITS_Q5 = malloc(sizeof(opus_uint8 *) * 9);
+        s_silk_pulses_per_block_BITS_Q5 = opus_alloc(sizeof(opus_uint8 *) * 9);
 
-        s_silk_pulses_per_block_BITS_Q5[0] = malloc(18);
+        s_silk_pulses_per_block_BITS_Q5[0] = opus_alloc(18);
         s_silk_pulses_per_block_BITS_Q5[0][0] = 31;
         s_silk_pulses_per_block_BITS_Q5[0][1] = 57;
         s_silk_pulses_per_block_BITS_Q5[0][2] = 107;
@@ -256,7 +255,7 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
         s_silk_pulses_per_block_BITS_Q5[0][15] = 255;
         s_silk_pulses_per_block_BITS_Q5[0][16] = 255;
         s_silk_pulses_per_block_BITS_Q5[0][17] = 255;
-        s_silk_pulses_per_block_BITS_Q5[1] = malloc(18);
+        s_silk_pulses_per_block_BITS_Q5[1] = opus_alloc(18);
         s_silk_pulses_per_block_BITS_Q5[1][0] = 69;
         s_silk_pulses_per_block_BITS_Q5[1][1] = 47;
         s_silk_pulses_per_block_BITS_Q5[1][2] = 67;
@@ -275,7 +274,7 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
         s_silk_pulses_per_block_BITS_Q5[1][15] = 255;
         s_silk_pulses_per_block_BITS_Q5[1][16] = 255;
         s_silk_pulses_per_block_BITS_Q5[1][17] = 255;
-        s_silk_pulses_per_block_BITS_Q5[2] = malloc(18);
+        s_silk_pulses_per_block_BITS_Q5[2] = opus_alloc(18);
         s_silk_pulses_per_block_BITS_Q5[2][0] = 82;
         s_silk_pulses_per_block_BITS_Q5[2][1] = 74;
         s_silk_pulses_per_block_BITS_Q5[2][2] = 79;
@@ -294,7 +293,7 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
         s_silk_pulses_per_block_BITS_Q5[2][15] = 224;
         s_silk_pulses_per_block_BITS_Q5[2][16] = 255;
         s_silk_pulses_per_block_BITS_Q5[2][17] = 224;
-        s_silk_pulses_per_block_BITS_Q5[3] = malloc(18);
+        s_silk_pulses_per_block_BITS_Q5[3] = opus_alloc(18);
         s_silk_pulses_per_block_BITS_Q5[3][0] = 125;
         s_silk_pulses_per_block_BITS_Q5[3][1] = 74;
         s_silk_pulses_per_block_BITS_Q5[3][2] = 59;
@@ -313,7 +312,7 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
         s_silk_pulses_per_block_BITS_Q5[3][15] = 255;
         s_silk_pulses_per_block_BITS_Q5[3][16] = 255;
         s_silk_pulses_per_block_BITS_Q5[3][17] = 255;
-        s_silk_pulses_per_block_BITS_Q5[4] = malloc(18);
+        s_silk_pulses_per_block_BITS_Q5[4] = opus_alloc(18);
         s_silk_pulses_per_block_BITS_Q5[4][0] = 173;
         s_silk_pulses_per_block_BITS_Q5[4][1] = 115;
         s_silk_pulses_per_block_BITS_Q5[4][2] = 85;
@@ -332,7 +331,7 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
         s_silk_pulses_per_block_BITS_Q5[4][15] = 255;
         s_silk_pulses_per_block_BITS_Q5[4][16] = 255;
         s_silk_pulses_per_block_BITS_Q5[4][17] = 255;
-        s_silk_pulses_per_block_BITS_Q5[5] = malloc(18);
+        s_silk_pulses_per_block_BITS_Q5[5] = opus_alloc(18);
         s_silk_pulses_per_block_BITS_Q5[5][0] = 166;
         s_silk_pulses_per_block_BITS_Q5[5][1] = 134;
         s_silk_pulses_per_block_BITS_Q5[5][2] = 113;
@@ -351,7 +350,7 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
         s_silk_pulses_per_block_BITS_Q5[5][15] = 192;
         s_silk_pulses_per_block_BITS_Q5[5][16] = 205;
         s_silk_pulses_per_block_BITS_Q5[5][17] = 150;
-        s_silk_pulses_per_block_BITS_Q5[6] = malloc(18);
+        s_silk_pulses_per_block_BITS_Q5[6] = opus_alloc(18);
         s_silk_pulses_per_block_BITS_Q5[6][0] = 224;
         s_silk_pulses_per_block_BITS_Q5[6][1] = 182;
         s_silk_pulses_per_block_BITS_Q5[6][2] = 134;
@@ -370,7 +369,7 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
         s_silk_pulses_per_block_BITS_Q5[6][15] = 255;
         s_silk_pulses_per_block_BITS_Q5[6][16] = 255;
         s_silk_pulses_per_block_BITS_Q5[6][17] = 255;
-        s_silk_pulses_per_block_BITS_Q5[7] = malloc(18);
+        s_silk_pulses_per_block_BITS_Q5[7] = opus_alloc(18);
         s_silk_pulses_per_block_BITS_Q5[7][0] = 255;
         s_silk_pulses_per_block_BITS_Q5[7][1] = 224;
         s_silk_pulses_per_block_BITS_Q5[7][2] = 192;
@@ -389,7 +388,7 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
         s_silk_pulses_per_block_BITS_Q5[7][15] = 224;
         s_silk_pulses_per_block_BITS_Q5[7][16] = 224;
         s_silk_pulses_per_block_BITS_Q5[7][17] = 224;
-        s_silk_pulses_per_block_BITS_Q5[8] = malloc(18);
+        s_silk_pulses_per_block_BITS_Q5[8] = opus_alloc(18);
         s_silk_pulses_per_block_BITS_Q5[8][0] = 255;
         s_silk_pulses_per_block_BITS_Q5[8][1] = 224;
         s_silk_pulses_per_block_BITS_Q5[8][2] = 224;
@@ -417,9 +416,9 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
 opus_uint8 **s_silk_rate_levels_iCDF = 0;
 const opus_uint8 **get_silk_rate_levels_iCDF(void){
     if(s_silk_rate_levels_iCDF == 0){
-        s_silk_rate_levels_iCDF = malloc(sizeof(opus_uint8 *) * 2);
+        s_silk_rate_levels_iCDF = opus_alloc(sizeof(opus_uint8 *) * 2);
 
-        s_silk_rate_levels_iCDF[0] = malloc(9);
+        s_silk_rate_levels_iCDF[0] = opus_alloc(9);
         s_silk_rate_levels_iCDF[0][0] = 241;
         s_silk_rate_levels_iCDF[0][1] = 190;
         s_silk_rate_levels_iCDF[0][2] = 178;
@@ -429,7 +428,7 @@ const opus_uint8 **get_silk_rate_levels_iCDF(void){
         s_silk_rate_levels_iCDF[0][6] = 41;
         s_silk_rate_levels_iCDF[0][7] = 14;
         s_silk_rate_levels_iCDF[0][8] = 0;
-        s_silk_rate_levels_iCDF[1] = malloc(9);
+        s_silk_rate_levels_iCDF[1] = opus_alloc(9);
         s_silk_rate_levels_iCDF[1][0] = 223;
         s_silk_rate_levels_iCDF[1][1] = 193;
         s_silk_rate_levels_iCDF[1][2] = 157;
@@ -448,9 +447,9 @@ const opus_uint8 **get_silk_rate_levels_iCDF(void){
 opus_uint8 **s_silk_rate_levels_BITS_Q5 = 0;
 const opus_uint8 **get_silk_rate_levels_BITS_Q5(void){
     if(s_silk_rate_levels_BITS_Q5 == 0){
-        s_silk_rate_levels_BITS_Q5 = malloc(sizeof(opus_uint8 *) * 2);
+        s_silk_rate_levels_BITS_Q5 = opus_alloc(sizeof(opus_uint8 *) * 2);
 
-        s_silk_rate_levels_BITS_Q5[0] = malloc(9);
+        s_silk_rate_levels_BITS_Q5[0] = opus_alloc(9);
         s_silk_rate_levels_BITS_Q5[0][0] = 131;
         s_silk_rate_levels_BITS_Q5[0][1] = 74;
         s_silk_rate_levels_BITS_Q5[0][2] = 141;
@@ -460,7 +459,7 @@ const opus_uint8 **get_silk_rate_levels_BITS_Q5(void){
         s_silk_rate_levels_BITS_Q5[0][6] = 95;
         s_silk_rate_levels_BITS_Q5[0][7] = 104;
         s_silk_rate_levels_BITS_Q5[0][8] = 134;
-        s_silk_rate_levels_BITS_Q5[1] = malloc(9);
+        s_silk_rate_levels_BITS_Q5[1] = opus_alloc(9);
         s_silk_rate_levels_BITS_Q5[1][0] = 95;
         s_silk_rate_levels_BITS_Q5[1][1] = 99;
         s_silk_rate_levels_BITS_Q5[1][2] = 91;
@@ -480,7 +479,7 @@ const opus_uint8 **get_silk_rate_levels_BITS_Q5(void){
 opus_uint8 *s_silk_shell_code_table_offsets = 0;
 const opus_uint8 * get_silk_shell_code_table_offsets(void){
     if(s_silk_shell_code_table_offsets == 0){
-        s_silk_shell_code_table_offsets = malloc(17);
+        s_silk_shell_code_table_offsets = opus_alloc(17);
 
         s_silk_shell_code_table_offsets[0] = 0; s_silk_shell_code_table_offsets[1] = 0;
         s_silk_shell_code_table_offsets[2] = 2; s_silk_shell_code_table_offsets[3] = 5;
@@ -500,7 +499,7 @@ const opus_uint8 * get_silk_shell_code_table_offsets(void){
 opus_uint8 *s_silk_sign_iCDF = 0;
 const opus_uint8 * get_silk_sign_iCDF(void){
     if(s_silk_sign_iCDF == 0){
-        s_silk_sign_iCDF = malloc(42);
+        s_silk_sign_iCDF = opus_alloc(42);
 
         s_silk_sign_iCDF[0] = 254; s_silk_sign_iCDF[1] = 49;
         s_silk_sign_iCDF[2] = 67; s_silk_sign_iCDF[3] = 77;

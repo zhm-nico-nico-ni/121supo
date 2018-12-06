@@ -27,7 +27,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-#include <malloc.h>
 #include "tables.h"
 
 /* Cosine approximation table for LSF conversion */
@@ -35,7 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 opus_int16 * s_silk_LSFCosTab_FIX_Q12 = 0;
 const opus_int16 *get_silk_LSFCosTab_FIX_Q12(void){
     if(s_silk_LSFCosTab_FIX_Q12 == NULL){
-        s_silk_LSFCosTab_FIX_Q12 = malloc(sizeof(opus_int16) * (LSF_COS_TAB_SZ_FIX + 1));
+        s_silk_LSFCosTab_FIX_Q12 = opus_alloc_scratch(sizeof(opus_int16) * (LSF_COS_TAB_SZ_FIX + 1));
 
         s_silk_LSFCosTab_FIX_Q12[0] = 8192; s_silk_LSFCosTab_FIX_Q12[1] = 8190; s_silk_LSFCosTab_FIX_Q12[2] = 8182; s_silk_LSFCosTab_FIX_Q12[3] = 8170; s_silk_LSFCosTab_FIX_Q12[4] = 8152;
         s_silk_LSFCosTab_FIX_Q12[5] = 8130; s_silk_LSFCosTab_FIX_Q12[6] = 8104; s_silk_LSFCosTab_FIX_Q12[7] = 8072; s_silk_LSFCosTab_FIX_Q12[8] = 8034; s_silk_LSFCosTab_FIX_Q12[9] = 7994;

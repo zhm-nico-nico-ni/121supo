@@ -31,12 +31,13 @@ POSSIBILITY OF SUCH DAMAGE.
 
 #include "SigProc_FIX.h"
 #include "../celt/stack_alloc.h"
+#include "../celt/os_support.h"
 
 /* fprintf(1, '%d, ', round(1024 * ([1 ./ (1 + exp(-(1:5))), 1] - 1 ./ (1 + exp(-(0:5)))))); */
 opus_int32 * sigm_LUT_slope_Q10ptr = 0;
 const opus_int32 *get_sigm_LUT_slope_Q10(void){
     if(sigm_LUT_slope_Q10ptr == 0){
-        sigm_LUT_slope_Q10ptr = malloc(sizeof(opus_int32) * 6);
+        sigm_LUT_slope_Q10ptr = opus_alloc_scratch(sizeof(opus_int32) * 6);
 
         sigm_LUT_slope_Q10ptr[0] = 237;
         sigm_LUT_slope_Q10ptr[1] = 153;
@@ -54,7 +55,7 @@ const opus_int32 *get_sigm_LUT_slope_Q10(void){
 opus_int32 *sigm_LUT_pos_Q15ptr = 0;
 const opus_int32 *get_sigm_LUT_pos_Q15(void){
     if(sigm_LUT_pos_Q15ptr == 0){
-        sigm_LUT_pos_Q15ptr = malloc(sizeof(opus_int32) * 6);
+        sigm_LUT_pos_Q15ptr = opus_alloc_scratch(sizeof(opus_int32) * 6);
 
         sigm_LUT_pos_Q15ptr[0] = 16384;
         sigm_LUT_pos_Q15ptr[1] = 23955;
@@ -71,7 +72,7 @@ const opus_int32 *get_sigm_LUT_pos_Q15(void){
 opus_int32 *sigm_LUT_neg_Q15ptr = 0;
 const opus_int32 *get_sigm_LUT_neg_Q15(void){
     if(sigm_LUT_neg_Q15ptr == 0){
-        sigm_LUT_neg_Q15ptr = malloc(sizeof(opus_int32) * 6);
+        sigm_LUT_neg_Q15ptr = opus_alloc_scratch(sizeof(opus_int32) * 6);
 
         sigm_LUT_neg_Q15ptr[0] = 16384;
         sigm_LUT_neg_Q15ptr[1] = 8812;

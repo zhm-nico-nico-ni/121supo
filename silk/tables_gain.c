@@ -27,7 +27,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-#include <malloc.h>
 #include "tables.h"
 
 
@@ -35,19 +34,19 @@ POSSIBILITY OF SUCH DAMAGE.
 opus_uint8 ** s_silk_gain_iCDF = 0;
 const opus_uint8 **get_silk_gain_iCDF(void){
     if(s_silk_gain_iCDF == 0){
-        s_silk_gain_iCDF = malloc(sizeof(opus_uint8 *)*3);
+        s_silk_gain_iCDF = opus_alloc(sizeof(opus_uint8 *)*3);
 
-        s_silk_gain_iCDF[0] = malloc(sizeof(opus_int8) * 8);
+        s_silk_gain_iCDF[0] = opus_alloc(sizeof(opus_int8) * 8);
         s_silk_gain_iCDF[0][0] = 224; s_silk_gain_iCDF[0][1] = 112;
         s_silk_gain_iCDF[0][2] = 44; s_silk_gain_iCDF[0][3] = 15;
         s_silk_gain_iCDF[0][4] = 3; s_silk_gain_iCDF[0][5] = 2;
         s_silk_gain_iCDF[0][6] = 1; s_silk_gain_iCDF[0][7] = 0;
-        s_silk_gain_iCDF[1] = malloc(sizeof(opus_int8) * 8);
+        s_silk_gain_iCDF[1] = opus_alloc(sizeof(opus_int8) * 8);
         s_silk_gain_iCDF[1][0] = 254; s_silk_gain_iCDF[1][1] = 237;
         s_silk_gain_iCDF[1][2] = 192; s_silk_gain_iCDF[1][3] = 132;
         s_silk_gain_iCDF[1][4] = 70; s_silk_gain_iCDF[1][5] = 23;
         s_silk_gain_iCDF[1][6] = 4; s_silk_gain_iCDF[1][7] = 0;
-        s_silk_gain_iCDF[2] = malloc(sizeof(opus_int8) * 8);
+        s_silk_gain_iCDF[2] = opus_alloc(sizeof(opus_int8) * 8);
         s_silk_gain_iCDF[2][0] = 255; s_silk_gain_iCDF[2][1] = 252;
         s_silk_gain_iCDF[2][2] = 226; s_silk_gain_iCDF[2][3] = 155;
         s_silk_gain_iCDF[2][4] = 61; s_silk_gain_iCDF[2][5] = 11;
@@ -60,7 +59,7 @@ const opus_uint8 **get_silk_gain_iCDF(void){
 opus_uint8 * s_silk_delta_gain_iCDF = 0;
 const opus_uint8 *get_silk_delta_gain_iCDF(void){
     if(s_silk_delta_gain_iCDF == 0){
-        s_silk_delta_gain_iCDF = malloc(sizeof(opus_uint8) * (MAX_DELTA_GAIN_QUANT - MIN_DELTA_GAIN_QUANT + 1));
+        s_silk_delta_gain_iCDF = opus_alloc(sizeof(opus_uint8) * (MAX_DELTA_GAIN_QUANT - MIN_DELTA_GAIN_QUANT + 1));
 
         s_silk_delta_gain_iCDF[0] = 250; s_silk_delta_gain_iCDF[1] = 245; s_silk_delta_gain_iCDF[2] = 234;
         s_silk_delta_gain_iCDF[3] = 203; s_silk_delta_gain_iCDF[4] = 71; s_silk_delta_gain_iCDF[5] = 50;

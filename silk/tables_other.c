@@ -27,7 +27,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-#include <malloc.h>
 #include "structs.h"
 
 #include "tables.h"
@@ -48,7 +47,7 @@ POSSIBILITY OF SUCH DAMAGE.
 opus_int32 *s_silk_TargetRate_table_WB = 0;
 const opus_int32 *get_silk_TargetRate_table_WB(void){
     if(s_silk_TargetRate_table_WB == 0){
-        s_silk_TargetRate_table_WB = malloc(sizeof(opus_int32) * TARGET_RATE_TAB_SZ);
+        s_silk_TargetRate_table_WB = opus_alloc(sizeof(opus_int32) * TARGET_RATE_TAB_SZ);
         s_silk_TargetRate_table_WB[0] = 0;
         s_silk_TargetRate_table_WB[1] = 10500;
         s_silk_TargetRate_table_WB[2] = 14000;
@@ -69,7 +68,7 @@ const opus_int32 *get_silk_TargetRate_table_WB(void){
 opus_int16 *s_silk_SNR_table_Q1=0;
 const opus_int16 *get_silk_SNR_table_Q1(void){
     if(s_silk_SNR_table_Q1 == 0){
-        s_silk_SNR_table_Q1 = malloc(sizeof(opus_int16)*TARGET_RATE_TAB_SZ);
+        s_silk_SNR_table_Q1 = opus_alloc(sizeof(opus_int16)*TARGET_RATE_TAB_SZ);
 
         s_silk_SNR_table_Q1[0] = 18;
         s_silk_SNR_table_Q1[1] = 29;

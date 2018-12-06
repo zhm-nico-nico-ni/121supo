@@ -27,15 +27,15 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 
-#include <malloc.h>
 #include "pitch_est_defines.h"
+#include "../celt/os_support.h"
 
 
 
 pitch_analysis_core_table_struct *s_pitch_analysis_core_table_struct_ptr = 0;
 pitch_analysis_core_table_struct * get_pitch_analysis_core_table_struct(void){
     if(s_pitch_analysis_core_table_struct_ptr == NULL) {
-        s_pitch_analysis_core_table_struct_ptr = malloc(sizeof(pitch_analysis_core_table_struct));
+        s_pitch_analysis_core_table_struct_ptr = opus_alloc_scratch(sizeof(pitch_analysis_core_table_struct));
 
         s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][0] = 0;
         s_pitch_analysis_core_table_struct_ptr->silk_CB_lags_stage2[0][1] = 2;
