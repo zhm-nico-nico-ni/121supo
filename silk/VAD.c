@@ -85,7 +85,7 @@ opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return v
     opus_int   decimated_framelength1, decimated_framelength2;
     opus_int   decimated_framelength;
     opus_int   dec_subframe_length, dec_subframe_offset, SNR_Q7, i, b, s;
-    opus_int32 sumSquared, smooth_coef_Q16;
+    opus_int32 sumSquared = 0, smooth_coef_Q16;
     opus_int16 HPstateTmp;
     VARDECL( opus_int16, X );
     opus_int32 Xnrg[ VAD_N_BANDS ];
@@ -201,7 +201,7 @@ opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return v
         speech_nrg = Xnrg[ b ] - psSilk_VAD->NL[ b ];
         if( speech_nrg > 0 ) {
             /* Divide, with sufficient resolution */
-            if( ( Xnrg[ b ] & 0xFF800000 ) == 0 ) {
+            if( ( Xnrg[ b ] & 0xFF800000LL ) == 0 ) {
                 NrgToNoiseRatio_Q8[ b ] = silk_DIV32( silk_LSHIFT( Xnrg[ b ], 8 ), psSilk_VAD->NL[ b ] + 1 );
             } else {
                 NrgToNoiseRatio_Q8[ b ] = silk_DIV32( Xnrg[ b ], silk_RSHIFT( psSilk_VAD->NL[ b ], 8 ) + 1 );
@@ -350,7 +350,7 @@ static OPUS_INLINE void silk_VAD_GetNoiseLevels(
         silk_assert( nl >= 0 );
 
         /* Limit noise levels (guarantee 7 bits of head room) */
-        nl = silk_min( nl, 0x00FFFFFF );
+        nl = silk_min( nl, 0x00FFFFFFUL );
 
         /* Store as part of state */
         psSilk_VAD->NL[ k ] = nl;

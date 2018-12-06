@@ -35,8 +35,8 @@ POSSIBILITY OF SUCH DAMAGE.
 
 //#define silk_int64_MAX   ((opus_int64)0x7FFFFFFFFFFFFFFFLL)   /*  2^63 - 1 */
 //#define silk_int64_MIN   ((opus_int64)0x8000000000000000LL)   /* -2^63 */
-#define silk_int32_MAX   0x7FFFFFFFL                           /*  2^31 - 1 =  2147483647 */
-#define silk_int32_MIN   ((opus_int32)0x80000000L)             /* -2^31     = -2147483648 */
+#define silk_int32_MAX   0x7FFFFFFFLL                           /*  2^31 - 1 =  2147483647 */
+#define silk_int32_MIN   ((opus_int32)0x80000000LL)             /* -2^31     = -2147483648 */
 #define silk_int16_MAX   0x7FFF                               /*  2^15 - 1 =  32767 */
 #define silk_int16_MIN   ((opus_int16)0x8000)                 /* -2^15     = -32768 */
 //#define silk_int8_MAX    0x7F                                 /*  2^7 - 1  =  127 */
