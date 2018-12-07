@@ -268,11 +268,11 @@ static opus_int silk_setup_fs(
             psEnc->sCmn.pitch_LPC_win_length = silk_SMULBB( FIND_PITCH_LPC_WIN_MS_2_SF, fs_kHz );
         }
         if( psEnc->sCmn.fs_kHz == 16 ) {
-            psEnc->sCmn.pitch_lag_low_bits_iCDF = silk_uniform8_iCDF;
-        } else if( psEnc->sCmn.fs_kHz == 12 ) {
-            psEnc->sCmn.pitch_lag_low_bits_iCDF = silk_uniform6_iCDF;
+            psEnc->sCmn.pitch_lag_low_bits_iCDF = get_silk_uniform8_iCDF();
+//        } else if( psEnc->sCmn.fs_kHz == 12 ) {
+//            psEnc->sCmn.pitch_lag_low_bits_iCDF = get_silk_uniform6_iCDF();
         } else {
-            psEnc->sCmn.pitch_lag_low_bits_iCDF = silk_uniform4_iCDF;
+            psEnc->sCmn.pitch_lag_low_bits_iCDF = get_silk_uniform4_iCDF();
         }
     }
 

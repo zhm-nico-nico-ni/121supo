@@ -169,7 +169,7 @@ int opus_encoder_init(OpusEncoder* st, opus_int32 Fs, int channels, int applicat
     return OPUS_OK;
 }
 
-static unsigned char gen_toc(int mode, int framerate, int bandwidth, int channels)
+static unsigned char gen_toc(int framerate, int bandwidth, int channels)
 {
    int period;
    unsigned char toc;
@@ -442,7 +442,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
        if(bw>OPUS_BANDWIDTH_WIDEBAND)
           bw=OPUS_BANDWIDTH_WIDEBAND;
 
-       data[0] = gen_toc(MODE_SILK_ONLY, frame_rate, bw, st->stream_channels);
+       data[0] = gen_toc(frame_rate, bw, st->stream_channels);
        data[0] |= packet_code;
 
        ret = packet_code <= 1 ? 1 : 2;
@@ -668,7 +668,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
 
         if (nBytes==0)
         {
-           data[-1] = gen_toc(MODE_SILK_ONLY, st->Fs/frame_size, curr_bandwidth, st->stream_channels);
+           data[-1] = gen_toc(st->Fs/frame_size, curr_bandwidth, st->stream_channels);
            RESTORE_STACK;
            return 1;
         }
@@ -703,7 +703,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
 
     /* Signalling the mode in the first byte */
     data--;
-    data[0] = gen_toc(MODE_SILK_ONLY, st->Fs/frame_size, curr_bandwidth, st->stream_channels);
+    data[0] = gen_toc(st->Fs/frame_size, curr_bandwidth, st->stream_channels);
 
 
     st->first = 0;

@@ -185,10 +185,10 @@ void silk_encode_pulses(
                 abs_q = silk_abs( pulses_ptr[ k ] );
                 for( j = nLS; j > 0; j-- ) {
                     bit = silk_RSHIFT( abs_q, j ) & 1;
-                    ec_enc_icdf( psRangeEnc, bit, silk_lsb_iCDF, 8 );
+                    ec_enc_icdf( psRangeEnc, bit, get_silk_lsb_iCDF(), 8 );
                 }
                 bit = abs_q & 1;
-                ec_enc_icdf( psRangeEnc, bit, silk_lsb_iCDF, 8 );
+                ec_enc_icdf( psRangeEnc, bit, get_silk_lsb_iCDF(), 8 );
             }
         }
     }

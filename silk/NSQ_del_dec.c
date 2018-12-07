@@ -161,7 +161,7 @@ void silk_NSQ_del_dec_c(
         silk_memcpy( psDD->sAR2_Q14, NSQ->sAR2_Q14, sizeof( NSQ->sAR2_Q14 ) );
     }
 
-    offset_Q10   = silk_Quantization_Offsets_Q10[ psIndices->signalType >> 1 ][ psIndices->quantOffsetType ];
+    offset_Q10   = get_silk_Quantization_Offsets_Q10()[ psIndices->signalType >> 1 ][ psIndices->quantOffsetType ];
     smpl_buf_idx = 0; /* index of oldest samples */
 
     decisionDelay = silk_min_int( DECISION_DELAY, psEncC->subfr_length );

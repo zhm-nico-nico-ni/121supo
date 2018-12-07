@@ -59,15 +59,15 @@ struct _silk_shell_code_table_struct{
 
 const opus_uint8 * get_silk_shell_code_table_offsets(void);                     /*  17 */
 
-extern const opus_uint8  silk_lsb_iCDF[ 2 ];                                                        /*   2 */
+opus_uint8 * get_silk_lsb_iCDF(void);                                                      /*   2 */
 
 const opus_uint8 * get_silk_sign_iCDF(void);                                                      /*  42 */
 
-extern const opus_uint8  silk_uniform4_iCDF[ 4 ];                                                   /*   4 */
-extern const opus_uint8  silk_uniform6_iCDF[ 6 ];                                                   /*   6 */
-extern const opus_uint8  silk_uniform8_iCDF[ 8 ];                                                   /*   8 */
+opus_uint8 * get_silk_uniform4_iCDF(void);                                                   /*   4 */
+//opus_uint8 * get_silk_uniform6_iCDF(void);                                                   /*   6 */
+opus_uint8 * get_silk_uniform8_iCDF(void);                                                   /*   8 */
 
-extern const opus_uint8  silk_NLSF_EXT_iCDF[ 7 ];                                                   /*   7 */
+opus_uint8 * get_silk_NLSF_EXT_iCDF(void);                                                   /*   7 */
 
 const opus_uint8 ** get_silk_LTP_gain_iCDF_ptrs(void);
 
@@ -75,13 +75,13 @@ const opus_uint8 **get_silk_LTP_gain_BITS_Q5_ptrs(void);
 const opus_int8 **get_silk_LTP_vq_ptrs_Q7(void);
 const opus_uint8 **get_silk_LTP_vq_gain_ptrs_Q7(void);
 
-extern const opus_uint8  silk_LTPscale_iCDF[ 3 ];                                                   /*   4 */
+opus_uint8 * get_silk_LTPscale_iCDF(void);                                                   /*   4 */
 
-extern const opus_uint8  silk_type_offset_VAD_iCDF[ 4 ];                                            /*   4 */
-extern const opus_uint8  silk_type_offset_no_VAD_iCDF[ 2 ];                                         /*   2 */
+opus_uint8 * get_silk_type_offset_VAD_iCDF(void);                                            /*   4 */
+opus_uint8 * get_silk_type_offset_no_VAD_iCDF(void);                                         /*   2 */
 
 
-extern const opus_uint8  silk_NLSF_interpolation_factor_iCDF[ 5 ];                                  /*   5 */
+opus_uint8 * get_silk_NLSF_interpolation_factor_iCDF(void);                                  /*   5 */
 
 
 silk_NLSF_CB_struct* getSilk_NLSF_CB_WB(void);
@@ -91,7 +91,7 @@ const opus_int32 *get_silk_TargetRate_table_WB(void);                          /
 const opus_int16 *get_silk_SNR_table_Q1(void);                          /*  32 */
 
 /* Quantization offsets */
-extern const opus_int16  silk_Quantization_Offsets_Q10[ 2 ][ 2 ];                                   /*   8 */
+opus_int16 ** get_silk_Quantization_Offsets_Q10(void);                                   /*   8 */
 
 
 /* Rom table with cosine values */

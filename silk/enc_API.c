@@ -438,7 +438,7 @@ opus_int silk_Encode(                                   /* O    Returns error co
 
 
     encControl->signalType = psEnc->state_Fxx[0].sCmn.indices.signalType;
-    encControl->offset = silk_Quantization_Offsets_Q10
+    encControl->offset = get_silk_Quantization_Offsets_Q10()
                          [ psEnc->state_Fxx[0].sCmn.indices.signalType >> 1 ]
                          [ psEnc->state_Fxx[0].sCmn.indices.quantOffsetType ];
     RESTORE_STACK;

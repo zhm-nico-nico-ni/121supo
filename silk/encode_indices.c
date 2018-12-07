@@ -54,9 +54,9 @@ void silk_encode_indices(
     /*******************************************/
     typeOffset = 2 * psIndices->signalType + psIndices->quantOffsetType;
     if( encode_LBRR || typeOffset >= 2 ) {
-        ec_enc_icdf( psRangeEnc, typeOffset - 2, silk_type_offset_VAD_iCDF, 8 );
+        ec_enc_icdf( psRangeEnc, typeOffset - 2, get_silk_type_offset_VAD_iCDF(), 8 );
     } else {
-        ec_enc_icdf( psRangeEnc, typeOffset, silk_type_offset_no_VAD_iCDF, 8 );
+        ec_enc_icdf( psRangeEnc, typeOffset, get_silk_type_offset_no_VAD_iCDF(), 8 );
     }
 
     /****************/
@@ -69,7 +69,7 @@ void silk_encode_indices(
     } else {
         /* independent coding, in two stages: MSB bits followed by 3 LSBs */
         ec_enc_icdf( psRangeEnc, silk_RSHIFT( psIndices->GainsIndices[ 0 ], 3 ), get_silk_gain_iCDF()[ psIndices->signalType ], 8 );
-        ec_enc_icdf( psRangeEnc, psIndices->GainsIndices[ 0 ] & 7, silk_uniform8_iCDF, 8 );
+        ec_enc_icdf( psRangeEnc, psIndices->GainsIndices[ 0 ] & 7, get_silk_uniform8_iCDF(), 8 );
     }
 
     /* remaining subframes */
@@ -85,10 +85,10 @@ void silk_encode_indices(
     for( i = 0; i < psEncC->psNLSF_CB->order; i++ ) {
         if( psIndices->NLSFIndices[ i+1 ] >= NLSF_QUANT_MAX_AMPLITUDE ) {
             ec_enc_icdf( psRangeEnc, 2 * NLSF_QUANT_MAX_AMPLITUDE, &psEncC->psNLSF_CB->ec_iCDF[ ec_ix[ i ] ], 8 );
-            ec_enc_icdf( psRangeEnc, psIndices->NLSFIndices[ i+1 ] - NLSF_QUANT_MAX_AMPLITUDE, silk_NLSF_EXT_iCDF, 8 );
+            ec_enc_icdf( psRangeEnc, psIndices->NLSFIndices[ i+1 ] - NLSF_QUANT_MAX_AMPLITUDE, get_silk_NLSF_EXT_iCDF(), 8 );
         } else if( psIndices->NLSFIndices[ i+1 ] <= -NLSF_QUANT_MAX_AMPLITUDE ) {
             ec_enc_icdf( psRangeEnc, 0, &psEncC->psNLSF_CB->ec_iCDF[ ec_ix[ i ] ], 8 );
-            ec_enc_icdf( psRangeEnc, -psIndices->NLSFIndices[ i+1 ] - NLSF_QUANT_MAX_AMPLITUDE, silk_NLSF_EXT_iCDF, 8 );
+            ec_enc_icdf( psRangeEnc, -psIndices->NLSFIndices[ i+1 ] - NLSF_QUANT_MAX_AMPLITUDE, get_silk_NLSF_EXT_iCDF(), 8 );
         } else {
             ec_enc_icdf( psRangeEnc, psIndices->NLSFIndices[ i+1 ] + NLSF_QUANT_MAX_AMPLITUDE, &psEncC->psNLSF_CB->ec_iCDF[ ec_ix[ i ] ], 8 );
         }
@@ -96,7 +96,7 @@ void silk_encode_indices(
 
     /* Encode NLSF interpolation factor */
     if( psEncC->nb_subfr == MAX_NB_SUBFR ) {
-        ec_enc_icdf( psRangeEnc, psIndices->NLSFInterpCoef_Q2, silk_NLSF_interpolation_factor_iCDF, 8 );
+        ec_enc_icdf( psRangeEnc, psIndices->NLSFInterpCoef_Q2, get_silk_NLSF_interpolation_factor_iCDF(), 8 );
     }
 
     if( psIndices->signalType == TYPE_VOICED )
@@ -150,7 +150,7 @@ void silk_encode_indices(
         /* Encode LTP scaling */
         /**********************/
         if( condCoding == CODE_INDEPENDENTLY ) {
-            ec_enc_icdf( psRangeEnc, psIndices->LTP_scaleIndex, silk_LTPscale_iCDF, 8 );
+            ec_enc_icdf( psRangeEnc, psIndices->LTP_scaleIndex, get_silk_LTPscale_iCDF(), 8 );
         }
     }
 
@@ -159,5 +159,5 @@ void silk_encode_indices(
     /***************/
     /* Encode seed */
     /***************/
-    ec_enc_icdf( psRangeEnc, psIndices->Seed, silk_uniform4_iCDF, 8 );
+    ec_enc_icdf( psRangeEnc, psIndices->Seed, get_silk_uniform4_iCDF(), 8 );
 }

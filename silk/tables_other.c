@@ -93,34 +93,149 @@ const opus_int16 *get_silk_SNR_table_Q1(void){
 //};
 
 /* Table for LSB coding */
-const opus_uint8 silk_lsb_iCDF[ 2 ] = { 120, 0 };
+opus_uint8 *s_silk_lsb_iCDF = 0;
+opus_uint8 * get_silk_lsb_iCDF(void){
+    if(s_silk_lsb_iCDF == 0){
+        s_silk_lsb_iCDF = opus_alloc(2);
+        s_silk_lsb_iCDF[0] = 120;
+        s_silk_lsb_iCDF[1] = 0;
+    }
+
+    return s_silk_lsb_iCDF;
+}
 
 /* Tables for LTPScale */
-const opus_uint8 silk_LTPscale_iCDF[ 3 ] = { 128, 64, 0 };
+opus_uint8 *s_silk_LTPscale_iCDF = 0;
+opus_uint8 * get_silk_LTPscale_iCDF(void){
+    if(s_silk_LTPscale_iCDF == 0){
+        s_silk_LTPscale_iCDF = opus_alloc(3);
+        s_silk_LTPscale_iCDF[0] = 128;
+        s_silk_LTPscale_iCDF[1] = 64;
+        s_silk_LTPscale_iCDF[2] = 0;
+    }
+
+    return s_silk_LTPscale_iCDF;
+}
 
 /* Tables for signal type and offset coding */
-const opus_uint8 silk_type_offset_VAD_iCDF[ 4 ] = {
-       232,    158,    10,      0
-};
-const opus_uint8 silk_type_offset_no_VAD_iCDF[ 2 ] = {
-       230,      0
-};
+opus_uint8 *s_silk_type_offset_VAD_iCDF = 0;
+opus_uint8 * get_silk_type_offset_VAD_iCDF(void){
+    if(s_silk_type_offset_VAD_iCDF == 0){
+        s_silk_type_offset_VAD_iCDF = opus_alloc(4);
+        s_silk_type_offset_VAD_iCDF[0] = 232;
+        s_silk_type_offset_VAD_iCDF[1] = 158;
+        s_silk_type_offset_VAD_iCDF[2] = 10;
+        s_silk_type_offset_VAD_iCDF[3] = 0;
+    }
+
+    return s_silk_type_offset_VAD_iCDF;
+}
+
+opus_uint8 *s_silk_type_offset_no_VAD_iCDF = 0;
+opus_uint8 * get_silk_type_offset_no_VAD_iCDF(void){
+    if(s_silk_type_offset_no_VAD_iCDF == 0){
+        s_silk_type_offset_no_VAD_iCDF = opus_alloc(2);
+        s_silk_type_offset_no_VAD_iCDF[0] = 230;
+        s_silk_type_offset_no_VAD_iCDF[1] = 0;
+    }
+
+    return s_silk_type_offset_no_VAD_iCDF;
+}
 
 /* Tables for NLSF interpolation factor */
-const opus_uint8 silk_NLSF_interpolation_factor_iCDF[ 5 ] = { 243, 221, 192, 181, 0 };
+opus_uint8 *s_silk_NLSF_interpolation_factor_iCDF = 0;
+opus_uint8 * get_silk_NLSF_interpolation_factor_iCDF(void){
+    if(s_silk_NLSF_interpolation_factor_iCDF == 0){
+        s_silk_NLSF_interpolation_factor_iCDF = opus_alloc(5);
+        s_silk_NLSF_interpolation_factor_iCDF[0] = 243;
+        s_silk_NLSF_interpolation_factor_iCDF[1] = 221;
+        s_silk_NLSF_interpolation_factor_iCDF[2] = 192;
+        s_silk_NLSF_interpolation_factor_iCDF[3] = 181;
+        s_silk_NLSF_interpolation_factor_iCDF[4] = 0;
+    }
+
+    return s_silk_NLSF_interpolation_factor_iCDF;
+}
 
 /* Quantization offsets */
-const opus_int16  silk_Quantization_Offsets_Q10[ 2 ][ 2 ] = {
-    { OFFSET_UVL_Q10, OFFSET_UVH_Q10 }, { OFFSET_VL_Q10, OFFSET_VH_Q10 }
-};
+opus_int16 ** s_silk_Quantization_Offsets_Q10 = 0;
+opus_int16 ** get_silk_Quantization_Offsets_Q10(void){
+    if(s_silk_Quantization_Offsets_Q10 == 0){
+        s_silk_Quantization_Offsets_Q10 = opus_alloc(sizeof(opus_int16*) * 2);
 
+        s_silk_Quantization_Offsets_Q10[0] = opus_alloc(2);
+        s_silk_Quantization_Offsets_Q10[0][0]=OFFSET_UVL_Q10;
+        s_silk_Quantization_Offsets_Q10[0][1]=OFFSET_UVH_Q10;
+
+        s_silk_Quantization_Offsets_Q10[1] = opus_alloc(2);
+        s_silk_Quantization_Offsets_Q10[1][0]=OFFSET_VL_Q10;
+        s_silk_Quantization_Offsets_Q10[1][1]=OFFSET_VH_Q10;
+    }
+
+    return s_silk_Quantization_Offsets_Q10;
+}
 
 /* Uniform entropy tables */
-const opus_uint8 silk_uniform4_iCDF[ 4 ] = { 192, 128, 64, 0 };
-const opus_uint8 silk_uniform6_iCDF[ 6 ] = { 213, 171, 128, 85, 43, 0 };
-const opus_uint8 silk_uniform8_iCDF[ 8 ] = { 224, 192, 160, 128, 96, 64, 32, 0 };
+opus_uint8 *s_silk_uniform4_iCDF = 0;
+opus_uint8 * get_silk_uniform4_iCDF(void){
+    if(s_silk_uniform4_iCDF == 0){
+        s_silk_uniform4_iCDF = opus_alloc(4);
+        s_silk_uniform4_iCDF[0] = 192;
+        s_silk_uniform4_iCDF[1] = 128;
+        s_silk_uniform4_iCDF[2] = 64;
+        s_silk_uniform4_iCDF[3] = 0;
+    }
 
-const opus_uint8 silk_NLSF_EXT_iCDF[ 7 ] = { 100, 40, 16, 7, 3, 1, 0 };
+    return s_silk_uniform4_iCDF;
+}
+
+//opus_uint8 * s_silk_uniform6_iCDF = 0;
+//opus_uint8 * get_silk_uniform6_iCDF(void){
+//    if(s_silk_uniform6_iCDF == 0){
+//        s_silk_uniform6_iCDF = opus_alloc(6);
+//        s_silk_uniform6_iCDF[0] = 213;
+//        s_silk_uniform6_iCDF[1] = 171;
+//        s_silk_uniform6_iCDF[2] = 128;
+//        s_silk_uniform6_iCDF[3] = 85;
+//        s_silk_uniform6_iCDF[4] = 43;
+//        s_silk_uniform6_iCDF[5] = 0;
+//    }
+//
+//    return s_silk_uniform6_iCDF;
+//}
+
+opus_uint8 *s_silk_uniform8_iCDF = 0;
+opus_uint8 * get_silk_uniform8_iCDF(void){
+    if(s_silk_uniform8_iCDF == 0){
+        s_silk_uniform8_iCDF = opus_alloc(8);
+        s_silk_uniform8_iCDF[0] = 224;
+        s_silk_uniform8_iCDF[1] = 192;
+        s_silk_uniform8_iCDF[2] = 160;
+        s_silk_uniform8_iCDF[3] = 128;
+        s_silk_uniform8_iCDF[4] = 96;
+        s_silk_uniform8_iCDF[5] = 64;
+        s_silk_uniform8_iCDF[6] = 32;
+        s_silk_uniform8_iCDF[7] = 0;
+    }
+
+    return s_silk_uniform8_iCDF;
+}
+
+opus_uint8 *s_silk_NLSF_EXT_iCDF = 0;
+opus_uint8 * get_silk_NLSF_EXT_iCDF(void){
+    if(s_silk_NLSF_EXT_iCDF == 0){
+        s_silk_NLSF_EXT_iCDF = opus_alloc(7);
+        s_silk_NLSF_EXT_iCDF[0] = 100;
+        s_silk_NLSF_EXT_iCDF[1] = 40;
+        s_silk_NLSF_EXT_iCDF[2] = 16;
+        s_silk_NLSF_EXT_iCDF[3] = 7;
+        s_silk_NLSF_EXT_iCDF[4] = 3;
+        s_silk_NLSF_EXT_iCDF[5] = 1;
+        s_silk_NLSF_EXT_iCDF[6] = 0;
+    }
+
+    return s_silk_NLSF_EXT_iCDF;
+}
 
 
 
