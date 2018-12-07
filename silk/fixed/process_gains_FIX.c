@@ -52,7 +52,7 @@ void silk_process_gains_FIX(
     /* Limit the quantized signal */
     /* InvMaxSqrVal = pow( 2.0f, 0.33f * ( 21.0f - SNR_dB ) ) / subfr_length; */
     InvMaxSqrVal_Q16 = silk_DIV32_16( silk_log2lin(
-        silk_SMULWB( SILK_FIX_CONST( 21 + 16 / 0.33, 7 ) - psEnc->sCmn.SNR_dB_Q7, SILK_FIX_CONST( 0.33, 16 ) ) ), psEnc->sCmn.subfr_length );
+        (const opus_int32)silk_SMULWB( (SILK_FIX_CONST( 21 + 16 / 0.33, 7 ) - psEnc->sCmn.SNR_dB_Q7), SILK_FIX_CONST( 0.33, 16 ) ) ), psEnc->sCmn.subfr_length );
 
     for( k = 0; k < psEnc->sCmn.nb_subfr; k++ ) {
         /* Soft limit on ratio residual energy and squared gains */

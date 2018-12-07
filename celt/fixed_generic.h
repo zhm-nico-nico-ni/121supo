@@ -34,7 +34,7 @@
 #define FIXED_GENERIC_H
 
 /** Compile-time conversion of float constant to 16-bit value */
-#define QCONST16(x,bits) ((opus_val16)(.5+(x)*(((opus_val32)1)<<(bits))))
+//#define QCONST16(x,bits) ((opus_val16)(.5+(x)*(((opus_val32)1)<<(bits))))
 
 
 /** Change a 32-bit value into a 16-bit value. The value is assumed to fit in 16-bit, otherwise the result is undefined */
@@ -43,7 +43,7 @@
 #define EXTEND32(x) ((opus_val32)(x))
 
 /** Arithmetic shift-right of a 16-bit value */
-#define SHR16(a,shift) ((a) >> (shift))
+//#define SHR16(a,shift) ((a) >> (shift))
 /** Arithmetic shift-right of a 32-bit value */
 #define SHR32(a,shift) ((a) >> (shift))
 /** Arithmetic shift-left of a 32-bit value */
@@ -61,7 +61,7 @@
 //#define ROUND16(x,a) (EXTRACT16(PSHR32((x),(a))))
 
 /** Divide by two */
-#define HALF16(x)  (SHR16(x,1))
+//#define HALF16(x)  (SHR16(x,1))
 //#define HALF32(x)  (SHR32(x,1))
 
 /** Add two 32-bit values */

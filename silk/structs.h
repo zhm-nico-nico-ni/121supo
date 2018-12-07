@@ -210,8 +210,6 @@ typedef struct {
 
     /* Inband Low Bitrate Redundancy (LBRR) data */
     opus_int                     useInBandFEC;                      /* Saves the API setting for query                                  */
-    opus_int                     LBRR_enabled;                      /* Depends on useInBandFRC, bitrate and packet loss rate            */
-    opus_int                     LBRR_GainIncreases;                /* Gains increment for coding LBRR frames                           */
     SideInfoIndices              indices_LBRR[ MAX_FRAMES_PER_PACKET ];
     opus_int8                    pulses_LBRR[ MAX_FRAMES_PER_PACKET ][ MAX_FRAME_LENGTH ];
 } silk_encoder_state;

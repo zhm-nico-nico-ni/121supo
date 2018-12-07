@@ -410,7 +410,7 @@ const opus_uint8 **get_silk_pulses_per_block_BITS_Q5(void){
     }
 
     return (const unsigned char **) s_silk_pulses_per_block_BITS_Q5;
-};
+}
 
 
 opus_uint8 **s_silk_rate_levels_iCDF = 0;

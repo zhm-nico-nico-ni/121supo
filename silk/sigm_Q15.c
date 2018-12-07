@@ -30,9 +30,9 @@ POSSIBILITY OF SUCH DAMAGE.
 /* Approximate sigmoid function */
 
 #include "SigProc_FIX.h"
-#include "../celt/stack_alloc.h"
 #include "../celt/os_support.h"
 
+const opus_int32 *get_sigm_LUT_slope_Q10(void);
 /* fprintf(1, '%d, ', round(1024 * ([1 ./ (1 + exp(-(1:5))), 1] - 1 ./ (1 + exp(-(0:5)))))); */
 opus_int32 * sigm_LUT_slope_Q10ptr = 0;
 const opus_int32 *get_sigm_LUT_slope_Q10(void){
@@ -52,6 +52,7 @@ const opus_int32 *get_sigm_LUT_slope_Q10(void){
 
 /* fprintf(1, '%d, ', round(32767 * 1 ./ (1 + exp(-(0:5))))); */
 
+const opus_int32 *get_sigm_LUT_pos_Q15(void);
 opus_int32 *sigm_LUT_pos_Q15ptr = 0;
 const opus_int32 *get_sigm_LUT_pos_Q15(void){
     if(sigm_LUT_pos_Q15ptr == 0){
@@ -68,6 +69,7 @@ const opus_int32 *get_sigm_LUT_pos_Q15(void){
     return sigm_LUT_pos_Q15ptr;
 }
 
+const opus_int32 *get_sigm_LUT_neg_Q15(void);
 /* fprintf(1, '%d, ', round(32767 * 1 ./ (1 + exp((0:5))))); */
 opus_int32 *sigm_LUT_neg_Q15ptr = 0;
 const opus_int32 *get_sigm_LUT_neg_Q15(void){

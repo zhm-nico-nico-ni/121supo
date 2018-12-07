@@ -54,7 +54,6 @@ struct OpusEncoder {
     int          max_bandwidth;
     int          voice_ratio;
     opus_int32   Fs;
-    int          use_vbr;
     int          variable_duration;
     opus_int32   bitrate_bps;
     opus_int32   user_bitrate_bps;
@@ -72,7 +71,7 @@ struct OpusEncoder {
     int          silk_bw_switch;
     /* Sampling rate (at the API level) */
     int          first;
-    opus_val16 * energy_masking;
+
     opus_val16   delay_buffer[MAX_ENCODER_BUFFER*2];
     int          nonfinal_frame; /* current frame is not the final in a packet */
 };
@@ -108,7 +107,7 @@ int opus_encoder_init(OpusEncoder* st, opus_int32 Fs, int channels, int applicat
     void *silk_enc;
     int ret, silkEncSizeBytes;
 
-   if((Fs!=16000)||(channels!=1)|| application != OPUS_APPLICATION_AUDIO)
+   if((Fs!=16000)||(channels!=1)/*|| application != OPUS_APPLICATION_AUDIO*/)
         return OPUS_BAD_ARG;
 
     OPUS_CLEAR((char*)st, opus_encoder_get_size(channels));
@@ -137,7 +136,7 @@ int opus_encoder_init(OpusEncoder* st, opus_int32 Fs, int channels, int applicat
     st->silk_mode.minInternalSampleRate     = 8000;
     st->silk_mode.desiredInternalSampleRate = 16000;
     st->silk_mode.payloadSize_ms            = 20;
-    st->silk_mode.bitRate                   = 25000;
+    st->silk_mode.bitRate                   = 32000;
     st->silk_mode.packetLossPercentage      = 0;
     st->silk_mode.complexity                = 4;
     st->silk_mode.useInBandFEC              = 0;
@@ -146,7 +145,7 @@ int opus_encoder_init(OpusEncoder* st, opus_int32 Fs, int channels, int applicat
     st->silk_mode.reducedDependency         = 0;
 
 
-    st->use_vbr = 0;
+
     /* Makes constrained VBR the default (safer for real-time use) */
     st->user_bitrate_bps = OPUS_AUTO;
     st->bitrate_bps = 3000+Fs*channels;
@@ -232,8 +231,7 @@ OpusEncoder *opus_encoder_create(opus_int32 Fs, int channels, int application, i
 {
    int ret;
    OpusEncoder *st;
-   if((Fs!=48000&&Fs!=24000&&Fs!=16000&&Fs!=12000&&Fs!=8000)||(channels!=1&&channels!=2)||
-       (application != OPUS_APPLICATION_AUDIO))
+   if((Fs!=48000&&Fs!=24000&&Fs!=16000&&Fs!=12000&&Fs!=8000)||(channels!=1&&channels!=2)/*|| (application != OPUS_APPLICATION_AUDIO)*/)
    {
       if (error)
          *error = OPUS_BAD_ARG;
@@ -423,7 +421,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     st->bitrate_bps = user_bitrate_to_bitrate(st, frame_size, max_data_bytes);
 
     frame_rate = st->Fs/frame_size;
-    if (!st->use_vbr)
+
     {
        int cbrBytes;
        /* Multiply by 12 to make sure the division is exact. */
@@ -473,7 +471,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
        if (packet_code==3)
           data[1] = num_multiframes;
 
-       if (!st->use_vbr)
+
        {
           ret = opus_packet_pad(data, ret, max_data_bytes);
           if (ret == OPUS_OK)
@@ -510,7 +508,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
 
     /* Update equivalent rate with mode decision. */
     equiv_rate = compute_equiv_rate(st->bitrate_bps, st->stream_channels, st->Fs/frame_size,
-          st->use_vbr, MODE_SILK_ONLY, st->silk_mode.complexity, st->silk_mode.packetLossPercentage);
+          0, MODE_SILK_ONLY, st->silk_mode.complexity, st->silk_mode.packetLossPercentage);
 
     /* Automatic (rate-dependent) bandwidth selection */
     if (st->first || st->silk_mode.allowBandwidthSwitch)
@@ -571,8 +569,6 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     if (st->Fs <= 8000 && st->bandwidth > OPUS_BANDWIDTH_NARROWBAND)
         st->bandwidth = OPUS_BANDWIDTH_NARROWBAND;
 
-    st->silk_mode.LBRR_coded = 0;
-
     if (st->lfe)
        st->bandwidth = OPUS_BANDWIDTH_NARROWBAND;
 
@@ -623,47 +619,6 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
         /* SILK gets all bits */
         st->silk_mode.bitRate = total_bitRate;
 
-        /* Surround masking for SILK */
-        if (st->energy_masking && st->use_vbr && !st->lfe)
-        {
-           opus_val32 mask_sum=0;
-           opus_val16 masking_depth;
-           opus_int32 rate_offset;
-           int c;
-           int end = 17;
-           opus_int16 srate = 16000;
-           if (st->bandwidth == OPUS_BANDWIDTH_NARROWBAND)
-           {
-              end = 13;
-              srate = 8000;
-           } else if (st->bandwidth == OPUS_BANDWIDTH_MEDIUMBAND)
-           {
-              end = 15;
-              srate = 12000;
-           }
-           for (c=0;c<st->channels;c++)
-           {
-              for(i=0;i<end;i++)
-              {
-                 opus_val16 mask;
-                 mask = MAX16(MIN16(st->energy_masking[21*c+i],
-                        QCONST16(.5f, DB_SHIFT)), -QCONST16(2.0f, DB_SHIFT));
-                 if (mask > 0)
-                    mask = HALF16(mask);
-                 mask_sum += mask;
-              }
-           }
-           /* Conservative rate reduction, we cut the masking in half */
-           masking_depth = mask_sum / end*st->channels;
-           masking_depth += QCONST16(.2f, DB_SHIFT);
-           rate_offset = (opus_int32)PSHR32(MULT16_16(srate, masking_depth), DB_SHIFT);
-           rate_offset = MAX32(rate_offset, -2*st->silk_mode.bitRate/3);
-           /* Split the rate change between the SILK and CELT part for hybrid. */
-           if (st->bandwidth==OPUS_BANDWIDTH_SUPERWIDEBAND || st->bandwidth==OPUS_BANDWIDTH_FULLBAND)
-              st->silk_mode.bitRate += 3*rate_offset/5;
-           else
-              st->silk_mode.bitRate += rate_offset;
-        }
 
         st->silk_mode.payloadSize_ms = 1000 * frame_size / st->Fs;
         st->silk_mode.nChannelsAPI = st->channels;
@@ -696,7 +651,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
            }
         }
 
-        st->silk_mode.useCBR = !st->use_vbr;
+        st->silk_mode.useCBR = 1;
 
         /* Call SILK encoder for the low band */
 
@@ -797,7 +752,7 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
     }
     /* Count ToC and redundancy */
     ret += 1+redundancy_bytes;
-    if (!st->use_vbr)
+
     {
        if (opus_packet_pad(data, ret, max_data_bytes) != OPUS_OK)
        {

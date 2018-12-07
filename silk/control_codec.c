@@ -49,11 +49,6 @@ static opus_int silk_setup_complexity(
     opus_int                        Complexity          /* I                        */
 );
 
-static OPUS_INLINE opus_int silk_setup_LBRR(
-    silk_encoder_state              *psEncC,            /* I/O                      */
-    const silk_EncControlStruct     *encControl         /* I                        */
-);
-
 
 /* Control encoder */
 opus_int silk_control_encoder(
@@ -118,7 +113,7 @@ opus_int silk_control_encoder(
     /********************************************/
     /* Set LBRR usage                           */
     /********************************************/
-    ret += silk_setup_LBRR( &psEnc->sCmn, encControl );
+    //ret += silk_setup_LBRR( &psEnc->sCmn, encControl );
 
     psEnc->sCmn.controlled_since_last_payload = 1;
 
@@ -385,24 +380,4 @@ static opus_int silk_setup_complexity(
     return ret;
 }
 
-static OPUS_INLINE opus_int silk_setup_LBRR(
-    silk_encoder_state          *psEncC,            /* I/O                      */
-    const silk_EncControlStruct *encControl         /* I                        */
-)
-{
-    opus_int   LBRR_in_previous_packet, ret = SILK_NO_ERROR;
 
-    LBRR_in_previous_packet = psEncC->LBRR_enabled;
-    psEncC->LBRR_enabled = encControl->LBRR_coded;
-    if( psEncC->LBRR_enabled ) {
-        /* Set gain increase for coding LBRR excitation */
-        if( LBRR_in_previous_packet == 0 ) {
-            /* Previous packet did not have LBRR, and was therefore coded at a higher bitrate */
-            psEncC->LBRR_GainIncreases = 7;
-        } else {
-            psEncC->LBRR_GainIncreases = silk_max_int( 7 - silk_SMULWB( (opus_int32)psEncC->PacketLoss_perc, SILK_FIX_CONST( 0.4, 16 ) ), 2 );
-        }
-    }
-
-    return ret;
-}

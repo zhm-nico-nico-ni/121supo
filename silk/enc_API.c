@@ -40,7 +40,7 @@ POSSIBILITY OF SUCH DAMAGE.
 /* Read control structure from encoder */
 /***************************************/
 static opus_int silk_QueryEncoder(                      /* O    Returns error code                              */
-    const void                      *encState,          /* I    State                                           */
+    void                      *encState,          /* I    State                                           */
     silk_EncControlStruct           *encStatus          /* O    Encoder Status                                  */
 );
 
@@ -96,7 +96,7 @@ opus_int silk_InitEncoder(                              /* O    Returns error co
 /* Read control structure from encoder */
 /***************************************/
 static opus_int silk_QueryEncoder(                      /* O    Returns error code                              */
-    const void                      *encState,          /* I    State                                           */
+    void                      *encState,          /* I    State                                           */
     silk_EncControlStruct           *encStatus          /* O    Encoder Status                                  */
 )
 {
@@ -142,11 +142,11 @@ opus_int silk_Encode(                                   /* O    Returns error co
     const opus_int                  prefillFlag         /* I    Flag to indicate prefilling buffers no coding   */
 )
 {
-    opus_int   n, i, nBits, flags, tmp_payloadSize_ms = 0, tmp_complexity = 0, ret = 0;
+    opus_int   n, i, nBits, flags, ret = 0;
     opus_int   nSamplesToBuffer, nSamplesToBufferMax, nBlocksOf10ms;
     opus_int   nSamplesFromInput = 0, nSamplesFromInputMax;
     opus_int   speech_act_thr_for_switch_Q8;
-    opus_int32 TargetRate_bps, MStargetRates_bps[ 2 ], channelRate_bps, LBRR_symbol, sum;
+    opus_int32 TargetRate_bps, MStargetRates_bps[ 2 ], channelRate_bps, LBRR_symbol;
     silk_encoder *psEnc = ( silk_encoder * )encState;
     VARDECL( opus_int16, buf );
     opus_int transition, curr_block, tot_blocks;
@@ -168,22 +168,22 @@ opus_int silk_Encode(                                   /* O    Returns error co
 
     encControl->switchReady = 0;
 
-    if( encControl->nChannelsInternal > psEnc->nChannelsInternal ) {
-        /* Mono -> Stereo transition: init state of second channel and stereo state */
-        ret += silk_init_encoder( &psEnc->state_Fxx[ 1 ], psEnc->state_Fxx[ 0 ].sCmn.arch );
-        silk_memset( psEnc->sStereo.pred_prev_Q13, 0, sizeof( psEnc->sStereo.pred_prev_Q13 ) );
-        silk_memset( psEnc->sStereo.sSide, 0, sizeof( psEnc->sStereo.sSide ) );
-        psEnc->sStereo.mid_side_amp_Q0[ 0 ] = 0;
-        psEnc->sStereo.mid_side_amp_Q0[ 1 ] = 1;
-        psEnc->sStereo.mid_side_amp_Q0[ 2 ] = 0;
-        psEnc->sStereo.mid_side_amp_Q0[ 3 ] = 1;
-        psEnc->sStereo.width_prev_Q14 = 0;
-        psEnc->sStereo.smth_width_Q14 = SILK_FIX_CONST( 1, 14 );
-        if( psEnc->nChannelsAPI == 2 ) {
-            silk_memcpy( &psEnc->state_Fxx[ 1 ].sCmn.resampler_state, &psEnc->state_Fxx[ 0 ].sCmn.resampler_state, sizeof( silk_resampler_state_struct ) );
-            silk_memcpy( &psEnc->state_Fxx[ 1 ].sCmn.In_HP_State,     &psEnc->state_Fxx[ 0 ].sCmn.In_HP_State,     sizeof( psEnc->state_Fxx[ 1 ].sCmn.In_HP_State ) );
-        }
-    }
+//    if( encControl->nChannelsInternal > psEnc->nChannelsInternal ) {
+//        /* Mono -> Stereo transition: init state of second channel and stereo state */
+//        ret += silk_init_encoder( &psEnc->state_Fxx[ 1 ], psEnc->state_Fxx[ 0 ].sCmn.arch );
+//        silk_memset( psEnc->sStereo.pred_prev_Q13, 0, sizeof( psEnc->sStereo.pred_prev_Q13 ) );
+//        silk_memset( psEnc->sStereo.sSide, 0, sizeof( psEnc->sStereo.sSide ) );
+//        psEnc->sStereo.mid_side_amp_Q0[ 0 ] = 0;
+//        psEnc->sStereo.mid_side_amp_Q0[ 1 ] = 1;
+//        psEnc->sStereo.mid_side_amp_Q0[ 2 ] = 0;
+//        psEnc->sStereo.mid_side_amp_Q0[ 3 ] = 1;
+//        psEnc->sStereo.width_prev_Q14 = 0;
+//        psEnc->sStereo.smth_width_Q14 = SILK_FIX_CONST( 1, 14 );
+//        if( psEnc->nChannelsAPI == 2 ) {
+//            silk_memcpy( &psEnc->state_Fxx[ 1 ].sCmn.resampler_state, &psEnc->state_Fxx[ 0 ].sCmn.resampler_state, sizeof( silk_resampler_state_struct ) );
+//            silk_memcpy( &psEnc->state_Fxx[ 1 ].sCmn.In_HP_State,     &psEnc->state_Fxx[ 0 ].sCmn.In_HP_State,     sizeof( psEnc->state_Fxx[ 1 ].sCmn.In_HP_State ) );
+//        }
+//    }
 
     transition = (encControl->payloadSize_ms != psEnc->state_Fxx[ 0 ].sCmn.PacketSize_ms) || (psEnc->nChannelsInternal != encControl->nChannelsInternal);
 
@@ -193,40 +193,20 @@ opus_int silk_Encode(                                   /* O    Returns error co
     nBlocksOf10ms = silk_DIV32( 100 * nSamplesIn, encControl->API_sampleRate );
     tot_blocks = ( nBlocksOf10ms > 1 ) ? nBlocksOf10ms >> 1 : 1;
     curr_block = 0;
-    if( prefillFlag ) {
-        /* Only accept input length of 10 ms */
-        if( nBlocksOf10ms != 1 ) {
-            silk_assert( 0 );
-            RESTORE_STACK;
-            return SILK_ENC_INPUT_INVALID_NO_OF_SAMPLES;
-        }
-        /* Reset Encoder */
-        for( n = 0; n < encControl->nChannelsInternal; n++ ) {
-            ret = silk_init_encoder( &psEnc->state_Fxx[ n ], psEnc->state_Fxx[ n ].sCmn.arch );
-            silk_assert( !ret );
-        }
-        tmp_payloadSize_ms = encControl->payloadSize_ms;
-        encControl->payloadSize_ms = 10;
-        tmp_complexity = encControl->complexity;
-        encControl->complexity = 0;
-        for( n = 0; n < encControl->nChannelsInternal; n++ ) {
-            psEnc->state_Fxx[ n ].sCmn.controlled_since_last_payload = 0;
-            psEnc->state_Fxx[ n ].sCmn.prefillFlag = 1;
-        }
-    } else {
-        /* Only accept input lengths that are a multiple of 10 ms */
-        if( nBlocksOf10ms * encControl->API_sampleRate != 100 * nSamplesIn || nSamplesIn < 0 ) {
-            silk_assert( 0 );
-            RESTORE_STACK;
-            return SILK_ENC_INPUT_INVALID_NO_OF_SAMPLES;
-        }
-        /* Make sure no more than one packet can be produced */
-        if( 1000 * (opus_int32)nSamplesIn > encControl->payloadSize_ms * encControl->API_sampleRate ) {
-            silk_assert( 0 );
-            RESTORE_STACK;
-            return SILK_ENC_INPUT_INVALID_NO_OF_SAMPLES;
-        }
+
+    /* Only accept input lengths that are a multiple of 10 ms */
+    if( nBlocksOf10ms * encControl->API_sampleRate != 100 * nSamplesIn || nSamplesIn < 0 ) {
+        silk_assert( 0 );
+        RESTORE_STACK;
+        return SILK_ENC_INPUT_INVALID_NO_OF_SAMPLES;
     }
+    /* Make sure no more than one packet can be produced */
+    if( 1000 * (opus_int32)nSamplesIn > encControl->payloadSize_ms * encControl->API_sampleRate ) {
+        silk_assert( 0 );
+        RESTORE_STACK;
+        return SILK_ENC_INPUT_INVALID_NO_OF_SAMPLES;
+    }
+
 
     for( n = 0; n < encControl->nChannelsInternal; n++ ) {
         /* Force the side channel to the same rate as the mid */
@@ -258,49 +238,7 @@ opus_int silk_Encode(                                   /* O    Returns error co
         nSamplesToBuffer  = silk_min( nSamplesToBuffer, nSamplesToBufferMax );
         nSamplesFromInput = silk_DIV32_16( nSamplesToBuffer * psEnc->state_Fxx[ 0 ].sCmn.API_fs_Hz, psEnc->state_Fxx[ 0 ].sCmn.fs_kHz * 1000 );
         /* Resample and write to buffer */
-        if( encControl->nChannelsAPI == 2 && encControl->nChannelsInternal == 2 ) {
-            opus_int id = psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded;
-            for( n = 0; n < nSamplesFromInput; n++ ) {
-                buf[ n ] = samplesIn[ 2 * n ];
-            }
-            /* Making sure to start both resamplers from the same state when switching from mono to stereo */
-            if( psEnc->nPrevChannelsInternal == 1 && id==0 ) {
-               silk_memcpy( &psEnc->state_Fxx[ 1 ].sCmn.resampler_state, &psEnc->state_Fxx[ 0 ].sCmn.resampler_state, sizeof(psEnc->state_Fxx[ 1 ].sCmn.resampler_state));
-            }
-
-            ret += silk_resampler( &psEnc->state_Fxx[ 0 ].sCmn.resampler_state,
-                &psEnc->state_Fxx[ 0 ].sCmn.inputBuf[ psEnc->state_Fxx[ 0 ].sCmn.inputBufIx + 2 ], buf, nSamplesFromInput );
-            psEnc->state_Fxx[ 0 ].sCmn.inputBufIx += nSamplesToBuffer;
-
-            nSamplesToBuffer  = psEnc->state_Fxx[ 1 ].sCmn.frame_length - psEnc->state_Fxx[ 1 ].sCmn.inputBufIx;
-            nSamplesToBuffer  = silk_min( nSamplesToBuffer, 10 * nBlocksOf10ms * psEnc->state_Fxx[ 1 ].sCmn.fs_kHz );
-            for( n = 0; n < nSamplesFromInput; n++ ) {
-                buf[ n ] = samplesIn[ 2 * n + 1 ];
-            }
-            ret += silk_resampler( &psEnc->state_Fxx[ 1 ].sCmn.resampler_state,
-                &psEnc->state_Fxx[ 1 ].sCmn.inputBuf[ psEnc->state_Fxx[ 1 ].sCmn.inputBufIx + 2 ], buf, nSamplesFromInput );
-
-            psEnc->state_Fxx[ 1 ].sCmn.inputBufIx += nSamplesToBuffer;
-        } else if( encControl->nChannelsAPI == 2 && encControl->nChannelsInternal == 1 ) {
-            /* Combine left and right channels before resampling */
-            for( n = 0; n < nSamplesFromInput; n++ ) {
-                sum = samplesIn[ 2 * n ] + samplesIn[ 2 * n + 1 ];
-                buf[ n ] = (opus_int16)silk_RSHIFT_ROUND( sum,  1 );
-            }
-            ret += silk_resampler( &psEnc->state_Fxx[ 0 ].sCmn.resampler_state,
-                &psEnc->state_Fxx[ 0 ].sCmn.inputBuf[ psEnc->state_Fxx[ 0 ].sCmn.inputBufIx + 2 ], buf, nSamplesFromInput );
-            /* On the first mono frame, average the results for the two resampler states  */
-            if( psEnc->nPrevChannelsInternal == 2 && psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded == 0 ) {
-               ret += silk_resampler( &psEnc->state_Fxx[ 1 ].sCmn.resampler_state,
-                   &psEnc->state_Fxx[ 1 ].sCmn.inputBuf[ psEnc->state_Fxx[ 1 ].sCmn.inputBufIx + 2 ], buf, nSamplesFromInput );
-               for( n = 0; n < psEnc->state_Fxx[ 0 ].sCmn.frame_length; n++ ) {
-                  psEnc->state_Fxx[ 0 ].sCmn.inputBuf[ psEnc->state_Fxx[ 0 ].sCmn.inputBufIx+n+2 ] =
-                        silk_RSHIFT(psEnc->state_Fxx[ 0 ].sCmn.inputBuf[ psEnc->state_Fxx[ 0 ].sCmn.inputBufIx+n+2 ]
-                                  + psEnc->state_Fxx[ 1 ].sCmn.inputBuf[ psEnc->state_Fxx[ 1 ].sCmn.inputBufIx+n+2 ], 1);
-               }
-            }
-            psEnc->state_Fxx[ 0 ].sCmn.inputBufIx += nSamplesToBuffer;
-        } else {
+        {
             silk_assert( encControl->nChannelsAPI == 1 && encControl->nChannelsInternal == 1 );
             silk_memcpy(buf, samplesIn, nSamplesFromInput*sizeof(opus_int16));
             ret += silk_resampler( &psEnc->state_Fxx[ 0 ].sCmn.resampler_state,
@@ -511,15 +449,8 @@ opus_int silk_Encode(                                   /* O    Returns error co
     encControl->allowBandwidthSwitch = psEnc->allowBandwidthSwitch;
     encControl->inWBmodeWithoutVariableLP = psEnc->state_Fxx[ 0 ].sCmn.fs_kHz == 16 && psEnc->state_Fxx[ 0 ].sCmn.sLP.mode == 0;
     encControl->internalSampleRate = silk_SMULBB( psEnc->state_Fxx[ 0 ].sCmn.fs_kHz, 1000 );
-    encControl->stereoWidth_Q14 = encControl->toMono ? 0 : psEnc->sStereo.smth_width_Q14;
-    if( prefillFlag ) {
-        encControl->payloadSize_ms = tmp_payloadSize_ms;
-        encControl->complexity = tmp_complexity;
-        for( n = 0; n < encControl->nChannelsInternal; n++ ) {
-            psEnc->state_Fxx[ n ].sCmn.controlled_since_last_payload = 0;
-            psEnc->state_Fxx[ n ].sCmn.prefillFlag = 0;
-        }
-    }
+    encControl->stereoWidth_Q14 = psEnc->sStereo.smth_width_Q14;
+
 
     encControl->signalType = psEnc->state_Fxx[0].sCmn.indices.signalType;
     encControl->offset = silk_Quantization_Offsets_Q10

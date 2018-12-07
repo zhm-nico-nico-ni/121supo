@@ -90,7 +90,7 @@ void silk_NLSF_stabilize(
 
         } else if( I == L) {
             /* Move away from higher limit */
-            NLSF_Q15[L-1] = ( 1 << 15 ) - NDeltaMin_Q15[L];
+            NLSF_Q15[L-1] = (opus_int16) (( 1 << 15 ) - NDeltaMin_Q15[L]);
 
         } else {
             /* Find the lower extreme for the location of the current center frequency */
@@ -124,17 +124,17 @@ void silk_NLSF_stabilize(
         silk_insertion_sort_increasing_all_values_int16( &NLSF_Q15[0], L );
 
         /* First NLSF should be no less than NDeltaMin[0] */
-        NLSF_Q15[0] = silk_max_int( NLSF_Q15[0], NDeltaMin_Q15[0] );
+        NLSF_Q15[0] = (opus_int16) silk_max_int(NLSF_Q15[0], NDeltaMin_Q15[0] );
 
         /* Keep delta_min distance between the NLSFs */
         for( i = 1; i < L; i++ )
-            NLSF_Q15[i] = silk_max_int( NLSF_Q15[i], silk_ADD_SAT16( NLSF_Q15[i-1], NDeltaMin_Q15[i] ) );
+            NLSF_Q15[i] = (opus_int16) silk_max_int(NLSF_Q15[i], silk_ADD_SAT16(NLSF_Q15[i - 1], NDeltaMin_Q15[i] ) );
 
         /* Last NLSF should be no higher than 1 - NDeltaMin[L] */
-        NLSF_Q15[L-1] = silk_min_int( NLSF_Q15[L-1], (1<<15) - NDeltaMin_Q15[L] );
+        NLSF_Q15[L-1] = (opus_int16) silk_min_int(NLSF_Q15[L - 1], (1 << 15) - NDeltaMin_Q15[L] );
 
         /* Keep NDeltaMin distance between the NLSFs */
         for( i = L-2; i >= 0; i-- )
-            NLSF_Q15[i] = silk_min_int( NLSF_Q15[i], NLSF_Q15[i+1] - NDeltaMin_Q15[i+1] );
+            NLSF_Q15[i] = (opus_int16) silk_min_int(NLSF_Q15[i], NLSF_Q15[i + 1] - NDeltaMin_Q15[i + 1] );
     }
 }

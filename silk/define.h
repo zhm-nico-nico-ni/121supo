@@ -148,7 +148,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #define SILK_MAX_PULSES                         16
 
 
-# define NSQ_LPC_BUF_LENGTH                     MAX_LPC_ORDER
+#define NSQ_LPC_BUF_LENGTH                     MAX_LPC_ORDER
 
 /***************************/
 /* Voice activity detector */

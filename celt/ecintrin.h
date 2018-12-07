@@ -31,10 +31,10 @@
 #include <limits.h>
 #include "arch.h"
 #if !defined(_ecintrin_H)
-# define _ecintrin_H (1)
+#define _ecintrin_H (1)
 
 
 int ec_ilog(opus_uint32 _v);
-# define EC_ILOG(_x) (ec_ilog(_x))
+#define EC_ILOG(_x) (ec_ilog(_x))
 
 #endif

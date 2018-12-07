@@ -29,7 +29,7 @@
 #include "../opus_include/opus_defines.h"
 
 #if !defined(_entcode_H)
-# define _entcode_H (1)
+#define _entcode_H (1)
 # include <limits.h>
 # include <stddef.h>
 # include "ecintrin.h"
@@ -37,7 +37,7 @@
 /*OPT: ec_window must be at least 32 bits, but if you have fast arithmetic on a
    larger type, you can speed up the decoder by using it here.*/
 typedef opus_uint32           ec_window;
-//typedef struct ec_ctx         ec_ctx;
+
 typedef struct _ec_ctx         ec_enc;
 
 

@@ -86,7 +86,7 @@ opus_int32 silk_NLSF_encode(                                    /* O    Returns 
             NLSF_tmp_Q15[ i ] = silk_LSHIFT16( (opus_int16)pCB_element[ i ], 7 );
             W_tmp_Q9 = pCB_Wght_Q9[ i ];
             res_Q10[ i ] = (opus_int16)silk_RSHIFT( silk_SMULBB( pNLSF_Q15[ i ] - NLSF_tmp_Q15[ i ], W_tmp_Q9 ), 14 );
-            W_adj_Q5[ i ] = silk_DIV32_varQ( (opus_int32)pW_Q2[ i ], silk_SMULBB( W_tmp_Q9, W_tmp_Q9 ), 21 );
+            W_adj_Q5[ i ] = (opus_int16) silk_DIV32_varQ((opus_int32)pW_Q2[ i ], silk_SMULBB(W_tmp_Q9, W_tmp_Q9 ), 21 );
         }
 
         /* Unpack entropy table indices and predictor for current CB1 index */

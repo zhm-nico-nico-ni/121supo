@@ -36,20 +36,20 @@ int ec_ilog(opus_uint32 _v){
      branches, and a 256-entry LUT version.*/
   int ret;
   int m;
-  ret=!!_v;
-  m=!!(_v&0xFFFF0000LL)<<4;
+  ret= _v != 0;
+  m= ((_v & 0xFFFF0000LL) != 0) << 4;
   _v>>=m;
   ret|=m;
-  m=!!(_v&0xFF00)<<3;
+  m= ((_v & 0xFF00) != 0) << 3;
   _v>>=m;
   ret|=m;
-  m=!!(_v&0xF0)<<2;
+  m= ((_v & 0xF0) != 0) << 2;
   _v>>=m;
   ret|=m;
-  m=!!(_v&0xC)<<1;
+  m= ((_v & 0xC) != 0) << 1;
   _v>>=m;
   ret|=m;
-  ret+=!!(_v&0x2);
+  ret+= (_v & 0x2) != 0;
   return ret;
 }
 

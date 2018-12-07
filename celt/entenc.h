@@ -26,7 +26,7 @@
 */
 
 #if !defined(_entenc_H)
-# define _entenc_H (1)
+#define _entenc_H (1)
 # include <stddef.h>
 # include "entcode.h"
 

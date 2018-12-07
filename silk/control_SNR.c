@@ -45,11 +45,11 @@ opus_int silk_control_SNR(
         psEncC->TargetRate_bps = TargetRate_bps;
 
         /* If new TargetRate_bps, translate to SNR_dB value */
-        if( psEncC->fs_kHz == 8 ) {
+       /* if( psEncC->fs_kHz == 8 ) {
 //            rateTable = silk_TargetRate_table_NB;
         } else if( psEncC->fs_kHz == 12 ) {
 //            rateTable = silk_TargetRate_table_MB;
-        } else {
+        } else */{
             rateTable = get_silk_TargetRate_table_WB();
         }
 

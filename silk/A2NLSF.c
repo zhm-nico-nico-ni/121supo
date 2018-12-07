@@ -133,12 +133,12 @@ void silk_A2NLSF(
     opus_int32 nom, den;
     opus_int32 P[ SILK_MAX_ORDER_LPC / 2 + 1 ];
     opus_int32 Q[ SILK_MAX_ORDER_LPC / 2 + 1 ];
-    opus_int32 *PQ[ 2 ];
+    opus_int32 *_PQ[ 2 ];
     opus_int32 *p;
 
     /* Store pointers to array */
-    PQ[ 0 ] = P;
-    PQ[ 1 ] = Q;
+    _PQ[ 0 ] = P;
+    _PQ[ 1 ] = Q;
 
     dd = silk_RSHIFT( d, 1 );
 
@@ -218,7 +218,7 @@ void silk_A2NLSF(
                 break;
             }
             /* Alternate pointer to polynomial */
-            p = PQ[ root_ix & 1 ];
+            p = _PQ[ root_ix & 1 ];
 
             /* Evaluate polynomial */
             xlo = get_silk_LSFCosTab_FIX_Q12()[ k - 1 ]; /* Q12*/

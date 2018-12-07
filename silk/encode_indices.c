@@ -38,7 +38,7 @@ void silk_encode_indices(
 )
 {
     opus_int   i, k, typeOffset;
-    opus_int   encode_absolute_lagIndex;
+//    opus_int   encode_absolute_lagIndex;
     opus_int16 ec_ix[ MAX_LPC_ORDER ];
     opus_uint8 pred_Q8[ MAX_LPC_ORDER ];
     const SideInfoIndices *psIndices;
@@ -112,7 +112,7 @@ void silk_encode_indices(
         /* Encode pitch lags */
         /*********************/
         /* lag index */
-        encode_absolute_lagIndex = 1;
+//        encode_absolute_lagIndex = 1;
 //        if( condCoding == CODE_CONDITIONALLY && psEncC->ec_prevSignalType == TYPE_VOICED ) {
             /* Delta Encoding */
 //            delta_lagIndex = psIndices->lagIndex - psEncC->ec_prevLagIndex;
@@ -125,7 +125,8 @@ void silk_encode_indices(
 //            silk_assert( delta_lagIndex >= 0 && delta_lagIndex < 21 );
 //            ec_enc_icdf( psRangeEnc, delta_lagIndex, silk_pitch_delta_iCDF, 8 );
 //        }
-        if( encode_absolute_lagIndex ) {
+        //if( encode_absolute_lagIndex )
+        {
             /* Absolute encoding */
             opus_int32 pitch_high_bits, pitch_low_bits;
             pitch_high_bits = silk_DIV32_16( psIndices->lagIndex, silk_RSHIFT( psEncC->fs_kHz, 1 ) );

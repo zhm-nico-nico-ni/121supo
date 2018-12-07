@@ -62,8 +62,8 @@
 
 #define IMUL32(a,b) ((a)*(b))
 
-#define MIN16(a,b) ((a) < (b) ? (a) : (b))   /**< Minimum 16-bit value.   */
-#define MAX16(a,b) ((a) > (b) ? (a) : (b))   /**< Maximum 16-bit value.   */
+//#define MIN16(a,b) ((a) < (b) ? (a) : (b))   /**< Minimum 16-bit value.   */
+//#define MAX16(a,b) ((a) > (b) ? (a) : (b))   /**< Maximum 16-bit value.   */
 //#define MIN32(a,b) ((a) < (b) ? (a) : (b))   /**< Minimum 32-bit value.   */
 #define MAX32(a,b) ((a) > (b) ? (a) : (b))   /**< Maximum 32-bit value.   */
 #define IMIN(a,b) ((a) < (b) ? (a) : (b))   /**< Minimum int value.   */
@@ -81,7 +81,7 @@ typedef opus_int32 opus_val32;
    2^31*(1-0.85) to avoid blowing up on DC at deemphasis.*/
 
 
-#define DB_SHIFT 10
+//#define DB_SHIFT 10
 
 
 #include "fixed_generic.h"

@@ -238,7 +238,7 @@ opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return v
     /*********************************/
     /* Speech Probability Estimation */
     /*********************************/
-    SA_Q15 = silk_sigm_Q15( silk_SMULWB( VAD_SNR_FACTOR_Q16, pSNR_dB_Q7 ) - VAD_NEGATIVE_OFFSET_Q5 );
+    SA_Q15 = silk_sigm_Q15((opus_int) (silk_SMULWB(VAD_SNR_FACTOR_Q16, pSNR_dB_Q7 ) - VAD_NEGATIVE_OFFSET_Q5));
 
     /**************************/
     /* Frequency Tilt Measure */
@@ -342,7 +342,7 @@ static OPUS_INLINE void silk_VAD_GetNoiseLevels(
         coef = silk_max_int( coef, min_coef );
 
         /* Smooth inverse energies */
-        psSilk_VAD->inv_NL[ k ] = silk_SMLAWB( psSilk_VAD->inv_NL[ k ], inv_nrg - psSilk_VAD->inv_NL[ k ], coef );
+        psSilk_VAD->inv_NL[ k ] = (opus_int32) silk_SMLAWB(psSilk_VAD->inv_NL[ k ], inv_nrg - psSilk_VAD->inv_NL[ k ], coef );
         silk_assert( psSilk_VAD->inv_NL[ k ] >= 0 );
 
         /* Compute noise level by inverting again */
@@ -350,7 +350,7 @@ static OPUS_INLINE void silk_VAD_GetNoiseLevels(
         silk_assert( nl >= 0 );
 
         /* Limit noise levels (guarantee 7 bits of head room) */
-        nl = silk_min( nl, 0x00FFFFFFUL );
+        nl = silk_min( nl, 0xFFFFFF );
 
         /* Store as part of state */
         psSilk_VAD->NL[ k ] = nl;

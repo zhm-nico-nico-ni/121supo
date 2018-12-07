@@ -70,7 +70,7 @@ static OPUS_INLINE void limit_warped_coefs(
         coefs_Q24[ i - 1 ] = silk_SMLAWB( coefs_Q24[ i - 1 ], coefs_Q24[ i ], lambda_Q16 );
     }
     lambda_Q16 = -lambda_Q16;
-    nom_Q16  = silk_SMLAWB( SILK_FIX_CONST( 1.0, 16 ), -(opus_int32)lambda_Q16, lambda_Q16 );
+    nom_Q16  = silk_SMLAWB( SILK_FIX_CONST( 1.0, 16 ), 0-(opus_int32)lambda_Q16, lambda_Q16 );
     den_Q24  = silk_SMLAWB( SILK_FIX_CONST( 1.0, 24 ), coefs_Q24[ 0 ], lambda_Q16 );
     gain_Q16 = silk_DIV32_varQ( nom_Q16, den_Q24, 24 );
     for( i = 0; i < order; i++ ) {
@@ -105,7 +105,7 @@ static OPUS_INLINE void limit_warped_coefs(
 
         /* Apply bandwidth expansion */
         chirp_Q16 = SILK_FIX_CONST( 0.99, 16 ) - silk_DIV32_varQ(
-            silk_SMULWB( maxabs_Q20 - limit_Q20, silk_SMLABB( SILK_FIX_CONST( 0.8, 10 ), SILK_FIX_CONST( 0.1, 10 ), iter ) ),
+            (const opus_int32) silk_SMULWB(maxabs_Q20 - limit_Q20, silk_SMLABB(SILK_FIX_CONST(0.8, 10 ), SILK_FIX_CONST(0.1, 10 ), iter ) ),
             silk_MUL( maxabs_Q20, ind + 1 ), 22 );
         silk_bwexpander_32( coefs_Q24, order, chirp_Q16 );
 
@@ -115,7 +115,7 @@ static OPUS_INLINE void limit_warped_coefs(
             coefs_Q24[ i - 1 ] = silk_SMLAWB( coefs_Q24[ i - 1 ], coefs_Q24[ i ], lambda_Q16 );
         }
         lambda_Q16 = -lambda_Q16;
-        nom_Q16  = silk_SMLAWB( SILK_FIX_CONST( 1.0, 16 ), -(opus_int32)lambda_Q16,        lambda_Q16 );
+        nom_Q16  = silk_SMLAWB( SILK_FIX_CONST( 1.0, 16 ), 0-(opus_int32)lambda_Q16,        lambda_Q16 );
         den_Q24  = silk_SMLAWB( SILK_FIX_CONST( 1.0, 24 ), coefs_Q24[ 0 ], lambda_Q16 );
         gain_Q16 = silk_DIV32_varQ( nom_Q16, den_Q24, 24 );
         for( i = 0; i < order; i++ ) {
@@ -226,7 +226,7 @@ void silk_noise_shape_analysis_FIX(
     /* More BWE for signals with high prediction gain */
     strength_Q16 = silk_SMULWB( psEncCtrl->predGain_Q16, SILK_FIX_CONST( FIND_PITCH_WHITE_NOISE_FRACTION, 16 ) );
     BWExp_Q16 = silk_DIV32_varQ( SILK_FIX_CONST( BANDWIDTH_EXPANSION, 16 ),
-        silk_SMLAWW( SILK_FIX_CONST( 1.0, 16 ), strength_Q16, strength_Q16 ), 16 );
+        (const opus_int32)silk_SMLAWW( SILK_FIX_CONST( 1.0, 16 ), strength_Q16, strength_Q16 ), 16 );
 
     if( psEnc->sCmn.warping_Q16 > 0 ) {
         /* Slightly more warping in analysis will move quantization noise up in frequency, where it's better masked */
@@ -263,7 +263,7 @@ void silk_noise_shape_analysis_FIX(
         }
 
         /* Add white noise, as a fraction of energy */
-        auto_corr[0] = silk_ADD32( auto_corr[0], silk_max_32( silk_SMULWB( silk_RSHIFT( auto_corr[ 0 ], 4 ),
+        auto_corr[0] = silk_ADD32( auto_corr[0], silk_max_32( (const opus_int32)silk_SMULWB( silk_RSHIFT( auto_corr[ 0 ], 4 ),
             SILK_FIX_CONST( SHAPE_WHITE_NOISE_FRACTION, 20 ) ), 1 ) );
 
         /* Calculate the reflection coefficients using schur */
@@ -325,7 +325,7 @@ void silk_noise_shape_analysis_FIX(
     /* Gain tweaking */
     /*****************/
     /* Increase gains during low speech activity and put lower limit on gains */
-    gain_mult_Q16 = silk_log2lin( -silk_SMLAWB( -SILK_FIX_CONST( 16.0, 7 ), SNR_adj_dB_Q7, SILK_FIX_CONST( 0.16, 16 ) ) );
+    gain_mult_Q16 = silk_log2lin((const opus_int32) (0 - silk_SMLAWB(0 - SILK_FIX_CONST(16.0, 7 ), SNR_adj_dB_Q7, SILK_FIX_CONST(0.16, 16 ) )));
     gain_add_Q16  = silk_log2lin(  silk_SMLAWB(  SILK_FIX_CONST( 16.0, 7 ), SILK_FIX_CONST( MIN_QGAIN_DB, 7 ), SILK_FIX_CONST( 0.16, 16 ) ) );
     silk_assert( gain_mult_Q16 > 0 );
     for( k = 0; k < psEnc->sCmn.nb_subfr; k++ ) {

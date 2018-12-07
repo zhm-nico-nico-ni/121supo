@@ -34,7 +34,9 @@
 #define OPUS_DEFINES_H
 
 #include "opus_types.h"
-
+#if defined(__KALIMBA__)
+#include "capabilities.h"
+#endif
 
 
 /** @defgroup opus_errorcodes Error codes
@@ -90,7 +92,13 @@
 //# elif (defined(_MSC_VER))
 //#  define OPUS_INLINE __inline
 //# else
+#if defined(__KALIMBA__)
+#include "capabilities.h"
+# define OPUS_INLINE inline
+#else
 #  define OPUS_INLINE __inline
+#endif
+
 //# endif
 //#else
 //# define OPUS_INLINE inline
@@ -102,12 +110,12 @@
 //#if defined(__GNUC__) && OPUS_GNUC_PREREQ(3, 4)
 //# define OPUS_WARN_UNUSED_RESULT __attribute__ ((__warn_unused_result__))
 //#else
-# define OPUS_WARN_UNUSED_RESULT
+#define OPUS_WARN_UNUSED_RESULT
 //#endif
 //#if !defined(OPUS_BUILD) && defined(__GNUC__) && OPUS_GNUC_PREREQ(3, 4)
 //# define OPUS_ARG_NONNULL(_x)  __attribute__ ((__nonnull__(_x)))
 //#else
-# define OPUS_ARG_NONNULL(_x)
+#define OPUS_ARG_NONNULL(_x)
 //#endif
 
 /** These are the actual Encoder CTL ID numbers.

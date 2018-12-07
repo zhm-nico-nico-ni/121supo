@@ -70,9 +70,6 @@ typedef struct {
     /* I:   Flag to enable in-band Forward Error Correction (FEC); 0/1                      */
     opus_int useInBandFEC;
 
-    /* I:   Flag to actually code in-band Forward Error Correction (FEC) in the current packet; 0/1 */
-    opus_int LBRR_coded;
-
     /* I:   Flag to enable discontinuous transmission (DTX); 0/1                            */
     opus_int useDTX;
 
@@ -81,9 +78,6 @@ typedef struct {
 
     /* I:   Maximum number of bits allowed for the frame                                    */
     opus_int maxBits;
-
-    /* I:   Causes a smooth downmix to mono                                                 */
-    opus_int toMono;
 
     /* I:   Opus encoder is allowing us to switch bandwidth                                 */
     opus_int opusCanSwitch;

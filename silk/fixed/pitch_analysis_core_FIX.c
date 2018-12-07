@@ -151,7 +151,7 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
 
     ALLOC( frame_8kHz_buf, ( Fs_kHz == 8 ) ? 1 : frame_length_8kHz, opus_int16 );
     /* Resample from input sampled at Fs_kHz to 8 kHz */
-    if( Fs_kHz == 16 ) {
+    /*if( Fs_kHz == 16 )*/ {
         silk_memset( filt_state, 0, 2 * sizeof( opus_int32 ) );
         silk_resampler_down2( filt_state, frame_8kHz_buf, frame, frame_length );
         frame_8kHz = frame_8kHz_buf;
