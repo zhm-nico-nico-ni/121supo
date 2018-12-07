@@ -45,8 +45,6 @@ struct OpusRepacketizer {
 
 
 #define MODE_SILK_ONLY          1000
-#define MODE_HYBRID             1001
-#define MODE_CELT_ONLY          1002
 
 
 typedef void (*downmix_func)(const void *, opus_val32 *, int, int, int, int, int);
@@ -57,9 +55,9 @@ int encode_size(int size, unsigned char *data);
 opus_int32 frame_size_select(opus_int32 frame_size, int variable_duration, opus_int32 Fs);
 
 opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_size,
-      unsigned char *data, opus_int32 out_data_bytes, int lsb_depth,
+      unsigned char *data, opus_int32 out_data_bytes,
       const void *analysis_pcm, opus_int32 analysis_size, int c1, int c2,
-      int analysis_channels, downmix_func downmix, int float_api);
+      int analysis_channels, downmix_func downmix);
 
 /* Make sure everything is properly aligned. */
 static OPUS_INLINE int align(int i)

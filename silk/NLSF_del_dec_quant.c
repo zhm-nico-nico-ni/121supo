@@ -76,7 +76,6 @@ opus_int32 silk_NLSF_del_dec_quant(                             /* O    Returns 
         out1_Q10_table[ i + NLSF_QUANT_MAX_AMPLITUDE_EXT ] = silk_RSHIFT( silk_SMULBB( out1_Q10, quant_step_size_Q16 ), 16 );
     }
 
-    silk_assert( (NLSF_QUANT_DEL_DEC_STATES & (NLSF_QUANT_DEL_DEC_STATES-1)) == 0 );     /* must be power of two */
 
     nStates = 1;
     RD_Q25[ 0 ] = 0;
@@ -202,11 +201,7 @@ opus_int32 silk_NLSF_del_dec_quant(                             /* O    Returns 
     }
     for( j = 0; j < order; j++ ) {
         indices[ j ] = ind[ ind_tmp & ( NLSF_QUANT_DEL_DEC_STATES - 1 ) ][ j ];
-        silk_assert( indices[ j ] >= -NLSF_QUANT_MAX_AMPLITUDE_EXT );
-        silk_assert( indices[ j ] <=  NLSF_QUANT_MAX_AMPLITUDE_EXT );
     }
     indices[ 0 ] += silk_RSHIFT( ind_tmp, NLSF_QUANT_DEL_DEC_STATES_LOG2 );
-    silk_assert( indices[ 0 ] <= NLSF_QUANT_MAX_AMPLITUDE_EXT );
-    silk_assert( min_Q25 >= 0 );
     return min_Q25;
 }

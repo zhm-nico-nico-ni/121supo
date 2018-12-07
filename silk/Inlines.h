@@ -99,9 +99,6 @@ static OPUS_INLINE opus_int32 silk_DIV32_varQ(   /* O    returns a good approxim
     opus_int   a_headrm, b_headrm, lshift;
     opus_int32 b32_inv, a32_nrm, b32_nrm, result;
 
-    silk_assert( b32 != 0 );
-    silk_assert( Qres >= 0 );
-
     /* Compute number of bits head room and normalize inputs */
     a_headrm = silk_CLZ32( silk_abs(a32) ) - 1;
     a32_nrm = silk_LSHIFT(a32, a_headrm);                                       /* Q: a_headrm                  */
@@ -143,9 +140,6 @@ static OPUS_INLINE opus_int32 silk_INVERSE32_varQ(   /* O    returns a good appr
 {
     opus_int   b_headrm, lshift;
     opus_int32 b32_inv, b32_nrm, err_Q32, result;
-
-    silk_assert( b32 != 0 );
-    silk_assert( Qres > 0 );
 
     /* Compute number of bits head room and normalize input */
     b_headrm = silk_CLZ32( silk_abs(b32) ) - 1;

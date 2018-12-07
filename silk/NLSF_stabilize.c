@@ -52,9 +52,6 @@ void silk_NLSF_stabilize(
     opus_int16 center_freq_Q15;
     opus_int32 diff_Q15, min_diff_Q15, min_center_Q15, max_center_Q15;
 
-    /* This is necessary to ensure an output within range of a opus_int16 */
-    silk_assert( NDeltaMin_Q15[L] >= 1 );
-
     for( loops = 0; loops < MAX_LOOPS; loops++ ) {
         /**************************/
         /* Find smallest distance */

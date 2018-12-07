@@ -44,10 +44,6 @@ void silk_insertion_sort_increasing(
     opus_int32    value;
     opus_int        i, j;
 
-    /* Safety checks */
-    silk_assert( K >  0 );
-    silk_assert( L >  0 );
-    silk_assert( L >= K );
 
     /* Write start indices in index vector */
     for( i = 0; i < K; i++ ) {
@@ -92,10 +88,6 @@ void silk_insertion_sort_decreasing_int16(
     opus_int i, j;
     opus_int value;
 
-    /* Safety checks */
-    silk_assert( K >  0 );
-    silk_assert( L >  0 );
-    silk_assert( L >= K );
 
     /* Write start indices in index vector */
     for( i = 0; i < K; i++ ) {
@@ -137,8 +129,6 @@ void silk_insertion_sort_increasing_all_values_int16(
     opus_int    value;
     opus_int    i, j;
 
-    /* Safety checks */
-    silk_assert( L >  0 );
 
     /* Sort vector elements by value, increasing order */
     for( i = 1; i < L; i++ ) {

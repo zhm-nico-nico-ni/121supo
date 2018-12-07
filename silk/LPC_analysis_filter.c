@@ -58,12 +58,6 @@ void silk_LPC_analysis_filter(
     opus_int32       out32_Q12, out32;
     const opus_int16 *in_ptr;
 
-
-    silk_assert( d >= 6 );
-    silk_assert( (d & 1) == 0 );
-    silk_assert( d <= len );
-
-
     (void)arch;
     for( ix = d; ix < len; ix++ ) {
         in_ptr = &in[ ix - 1 ];

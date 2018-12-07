@@ -96,11 +96,6 @@ opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return v
     silk_VAD_state *psSilk_VAD = &psEncC->sVAD;
     SAVE_STACK;
 
-    /* Safety checks */
-    silk_assert( VAD_N_BANDS == 4 );
-    silk_assert( MAX_FRAME_LENGTH >= psEncC->frame_length );
-    silk_assert( psEncC->frame_length <= 512 );
-    silk_assert( psEncC->frame_length == 8 * silk_RSHIFT( psEncC->frame_length, 3 ) );
 
     /***********************/
     /* Filter and Decimate */
@@ -170,8 +165,6 @@ opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return v
                     X[ X_offset[ b ] + i + dec_subframe_offset ], 3 );
                 sumSquared = silk_SMLABB( sumSquared, x_tmp, x_tmp );
 
-                /* Safety check */
-                silk_assert( sumSquared >= 0 );
             }
 
             /* Add/saturate summed energy of current subframe */
@@ -319,15 +312,12 @@ static OPUS_INLINE void silk_VAD_GetNoiseLevels(
     for( k = 0; k < VAD_N_BANDS; k++ ) {
         /* Get old noise level estimate for current band */
         nl = psSilk_VAD->NL[ k ];
-        silk_assert( nl >= 0 );
 
         /* Add bias */
         nrg = silk_ADD_POS_SAT32( pX[ k ], psSilk_VAD->NoiseLevelBias[ k ] );
-        silk_assert( nrg > 0 );
 
         /* Invert energies */
         inv_nrg = silk_DIV32( silk_int32_MAX, nrg );
-        silk_assert( inv_nrg >= 0 );
 
         /* Less update when subband energy is high */
         if( nrg > silk_LSHIFT( nl, 3 ) ) {
@@ -343,11 +333,9 @@ static OPUS_INLINE void silk_VAD_GetNoiseLevels(
 
         /* Smooth inverse energies */
         psSilk_VAD->inv_NL[ k ] = (opus_int32) silk_SMLAWB(psSilk_VAD->inv_NL[ k ], inv_nrg - psSilk_VAD->inv_NL[ k ], coef );
-        silk_assert( psSilk_VAD->inv_NL[ k ] >= 0 );
 
         /* Compute noise level by inverting again */
         nl = silk_DIV32( silk_int32_MAX, psSilk_VAD->inv_NL[ k ] );
-        silk_assert( nl >= 0 );
 
         /* Limit noise levels (guarantee 7 bits of head room) */
         nl = silk_min( nl, 0xFFFFFF );

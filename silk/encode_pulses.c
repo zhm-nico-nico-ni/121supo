@@ -81,17 +81,14 @@ void silk_encode_pulses(
     /* Prepare for shell coding */
     /****************************/
     /* Calculate number of shell blocks */
-    silk_assert( 1 << LOG2_SHELL_CODEC_FRAME_LENGTH == SHELL_CODEC_FRAME_LENGTH );
     iter = silk_RSHIFT( frame_length, LOG2_SHELL_CODEC_FRAME_LENGTH );
     if( iter * SHELL_CODEC_FRAME_LENGTH < frame_length ) {
-        silk_assert( frame_length == 12 * 10 ); /* Make sure only happens for 10 ms @ 12 kHz */
         iter++;
         silk_memset( &pulses[ frame_length ], 0, SHELL_CODEC_FRAME_LENGTH * sizeof(opus_int8));
     }
 
     /* Take the absolute value of the pulses */
     ALLOC( abs_pulses, iter * SHELL_CODEC_FRAME_LENGTH, opus_int );
-    silk_assert( !( SHELL_CODEC_FRAME_LENGTH & 3 ) );
     for( i = 0; i < iter * SHELL_CODEC_FRAME_LENGTH; i+=4 ) {
         abs_pulses[i+0] = ( opus_int )silk_abs( pulses[ i + 0 ] );
         abs_pulses[i+1] = ( opus_int )silk_abs( pulses[ i + 1 ] );
@@ -185,7 +182,7 @@ void silk_encode_pulses(
             pulses_ptr = &pulses[ i * SHELL_CODEC_FRAME_LENGTH ];
             nLS = nRshifts[ i ] - 1;
             for( k = 0; k < SHELL_CODEC_FRAME_LENGTH; k++ ) {
-                abs_q = (opus_int8)silk_abs( pulses_ptr[ k ] );
+                abs_q = silk_abs( pulses_ptr[ k ] );
                 for( j = nLS; j > 0; j-- ) {
                     bit = silk_RSHIFT( abs_q, j ) & 1;
                     ec_enc_icdf( psRangeEnc, bit, silk_lsb_iCDF, 8 );

@@ -31,7 +31,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "../tuning_parameters.h"
 #include "../../celt/pitch.h"
 
-#define MAX_FRAME_SIZE              384             /* subfr_length * nb_subfr = ( 0.005 * 16000 + 16 ) * 4 = 384 */
+//#define MAX_FRAME_SIZE              384             /* subfr_length * nb_subfr = ( 0.005 * 16000 + 16 ) * 4 = 384 */
 
 #define QA                          25
 #define N_BITS_HEAD_ROOM            3
@@ -61,8 +61,6 @@ void silk_burg_modified_c(
     opus_int32       CAb[ SILK_MAX_ORDER_LPC + 1 ];
     opus_int32       xcorr[ SILK_MAX_ORDER_LPC ];
     opus_int64       C0_64;
-
-    silk_assert( subfr_length * nb_subfr <= MAX_FRAME_SIZE );
 
     /* Compute autocorrelations, added over subframes */
     C0_64 = silk_inner_prod16_aligned_64( x, x, subfr_length*nb_subfr, arch );

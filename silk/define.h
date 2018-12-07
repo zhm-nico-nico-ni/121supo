@@ -34,7 +34,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 /* Max number of encoder channels (1/2) */
-#define ENCODER_NUM_CHANNELS                    2
+#define ENCODER_NUM_CHANNELS                    1
 
 #define MAX_FRAMES_PER_PACKET                   3
 
@@ -89,9 +89,6 @@ POSSIBILITY OF SUCH DAMAGE.
 /* Milliseconds of lookahead for noise shape analysis */
 #define LA_SHAPE_MS                             5
 #define LA_SHAPE_MAX                            ( LA_SHAPE_MS * MAX_FS_KHZ )
-
-/* Maximum length of LPC window used in noise shape analysis */
-#define SHAPE_LPC_WIN_MAX                       ( 15 * MAX_FS_KHZ )
 
 /* dB level of lowest gain quantization level */
 #define MIN_QGAIN_DB                            2

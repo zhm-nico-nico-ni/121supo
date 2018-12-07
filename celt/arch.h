@@ -102,12 +102,4 @@ typedef opus_int32 opus_val32;
 
 
 
-
-
-#ifndef GLOBAL_STACK_SIZE
-
-#define GLOBAL_STACK_SIZE 120000 //TODO change this
-
-#endif
-
 #endif /* ARCH_H */

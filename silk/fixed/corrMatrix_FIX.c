@@ -61,7 +61,6 @@ void silk_corrVector_FIX(
             ptr1--; /* Go to next column of X */
         }
     } else {
-        silk_assert( rshifts == 0 );
         for( lag = 0; lag < order; lag++ ) {
             Xt[ lag ] = silk_inner_prod_aligned( ptr1, ptr2, L, arch ); /* X[:,lag]'*t */
             ptr1--; /* Go to next column of X */
@@ -97,13 +96,11 @@ void silk_corrMatrix_FIX(
     /* Calculate energy of remaining columns of X: X[:,j]'*X[:,j] */
     /* Fill out the diagonal of the correlation matrix */
     matrix_ptr( XX, 0, 0, order ) = energy;
-    silk_assert( energy >= 0 );
     ptr1 = &x[ order - 1 ]; /* First sample of column 0 of X */
     for( j = 1; j < order; j++ ) {
         energy = silk_SUB32( energy, silk_RSHIFT32( silk_SMULBB( ptr1[ L - j ], ptr1[ L - j ] ), *rshifts ) );
         energy = silk_ADD32( energy, silk_RSHIFT32( silk_SMULBB( ptr1[ -j ], ptr1[ -j ] ), *rshifts ) );
         matrix_ptr( XX, j, j, order ) = energy;
-        silk_assert( energy >= 0 );
     }
 
     ptr2 = &x[ order - 2 ]; /* First sample of column 1 of X */

@@ -210,8 +210,6 @@ void silk_A2NLSF(
             }
             NLSF[ root_ix ] = (opus_int16)silk_min_32( silk_LSHIFT( (opus_int32)k, 8 ) + ffrac, silk_int16_MAX );
 
-            silk_assert( NLSF[ root_ix ] >= 0 );
-
             root_ix++;        /* Next root */
             if( root_ix >= d ) {
                 /* Found all roots */

@@ -35,7 +35,6 @@ POSSIBILITY OF SUCH DAMAGE.
 static OPUS_INLINE opus_int32 silk_noise_shape_quantizer_short_prediction_c(const opus_int32 *buf32, const opus_int16 *coef16, opus_int order)
 {
     opus_int32 out;
-    silk_assert( order == 10 || order == 16 );
 
     /* Avoids introducing a bias because silk_SMLAWB() always rounds to -inf */
     out = silk_RSHIFT( order, 1 );

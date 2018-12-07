@@ -179,24 +179,10 @@ static unsigned char gen_toc(int mode, int framerate, int bandwidth, int channel
        framerate <<= 1;
        period++;
    }
-   if (mode == MODE_SILK_ONLY)
-   {
-       toc = (bandwidth-OPUS_BANDWIDTH_NARROWBAND)<<5;
-       toc |= (period-2)<<3;
-   } else if (mode == MODE_CELT_ONLY)
-   {
-       int tmp = bandwidth-OPUS_BANDWIDTH_MEDIUMBAND;
-       if (tmp < 0)
-           tmp = 0;
-       toc = 0x80;
-       toc |= tmp << 5;
-       toc |= period<<3;
-   } else /* Hybrid */
-   {
-       toc = 0x60;
-       toc |= (bandwidth-OPUS_BANDWIDTH_SUPERWIDEBAND)<<4;
-       toc |= (period-2)<<3;
-   }
+
+   toc = (bandwidth-OPUS_BANDWIDTH_NARROWBAND)<<5;
+   toc |= (period-2)<<3;
+
    toc |= (channels==2)<<2;
    return toc;
 }
@@ -337,11 +323,6 @@ static opus_int32 compute_equiv_rate(opus_int32 bitrate, int channels,
       if (complexity<2)
          equiv = equiv*4/5;
       equiv -= equiv*loss/(6*loss + 10);
-   } else if (mode == MODE_CELT_ONLY) {
-      /* CELT complexity 0-4 doesn't have the pitch filter, which costs
-         about 10%. */
-      if (complexity<5)
-         equiv = equiv*9/10;
    } else {
       /* Mode not known yet */
       /* Half the SILK loss*/
@@ -353,9 +334,9 @@ static opus_int32 compute_equiv_rate(opus_int32 bitrate, int channels,
 
 
 opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_size,
-                unsigned char *data, opus_int32 out_data_bytes, int lsb_depth,
+                unsigned char *data, opus_int32 out_data_bytes,
                 const void *analysis_pcm, opus_int32 analysis_size, int c1, int c2,
-                int analysis_channels, downmix_func downmix, int float_api)
+                int analysis_channels, downmix_func downmix)
 {
     void *silk_enc;
     int i;
@@ -628,7 +609,6 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
         } else if (curr_bandwidth == OPUS_BANDWIDTH_MEDIUMBAND) {
             st->silk_mode.desiredInternalSampleRate = 12000;
         } else {
-            silk_assert( st->mode == MODE_HYBRID || curr_bandwidth == OPUS_BANDWIDTH_WIDEBAND );
             st->silk_mode.desiredInternalSampleRate = 16000;
         }
         st->silk_mode.minInternalSampleRate = 8000;
@@ -771,8 +751,8 @@ opus_int32 opus_encode(OpusEncoder *st, const opus_int16 *pcm, int analysis_fram
 {
    int frame_size;
    frame_size = frame_size_select(analysis_frame_size, st->variable_duration, st->Fs);
-   return opus_encode_native(st, pcm, frame_size, data, out_data_bytes, 16,
-                             pcm, analysis_frame_size, 0, -2, st->channels, downmix_int, 0);
+   return opus_encode_native(st, pcm, frame_size, data, out_data_bytes,
+                             pcm, analysis_frame_size, 0, -2, st->channels, downmix_int);
 }
 
 void opus_encoder_destroy(OpusEncoder *st)

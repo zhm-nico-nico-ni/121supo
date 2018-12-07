@@ -44,8 +44,6 @@ void silk_NLSF_VQ(
     const opus_int16 *w_Q9_ptr;
     const opus_uint8 *cb_Q8_ptr;
 
-    silk_assert( ( LPC_order & 1 ) == 0 );
-
     /* Loop over codebook */
     cb_Q8_ptr = pCB_Q8;
     w_Q9_ptr = pWght_Q9;
@@ -65,7 +63,6 @@ void silk_NLSF_VQ(
             sum_error_Q24 = silk_ADD32( sum_error_Q24, silk_abs( silk_SUB_RSHIFT32( diffw_Q24, pred_Q24, 1 ) ) );
             pred_Q24 = diffw_Q24;
 
-            silk_assert( sum_error_Q24 >= 0 );
         }
         err_Q24[ i ] = sum_error_Q24;
         cb_Q8_ptr += LPC_order;

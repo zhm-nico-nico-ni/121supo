@@ -122,7 +122,6 @@ static OPUS_INLINE void limit_warped_coefs(
             coefs_Q24[ i ] = silk_SMULWW( gain_Q16, coefs_Q24[ i ] );
         }
     }
-    silk_assert( 0 );
 }
 
 
@@ -268,14 +267,11 @@ void silk_noise_shape_analysis_FIX(
 
         /* Calculate the reflection coefficients using schur */
         nrg = silk_schur64( refl_coef_Q16, auto_corr, psEnc->sCmn.shapingLPCOrder );
-        silk_assert( nrg >= 0 );
 
         /* Convert reflection coefficients to prediction coefficients */
         silk_k2a_Q16( AR_Q24, refl_coef_Q16, psEnc->sCmn.shapingLPCOrder );
 
         Qnrg = -scale;          /* range: -12...30*/
-        silk_assert( Qnrg >= -12 );
-        silk_assert( Qnrg <=  30 );
 
         /* Make sure that Qnrg is an even number */
         if( Qnrg & 1 ) {
@@ -291,7 +287,6 @@ void silk_noise_shape_analysis_FIX(
         if( psEnc->sCmn.warping_Q16 > 0 ) {
             /* Adjust gain for warping */
             gain_mult_Q16 = warped_gain( AR_Q24, warping_Q16, psEnc->sCmn.shapingLPCOrder );
-            silk_assert( psEncCtrl->Gains_Q16[ k ] > 0 );
             if( psEncCtrl->Gains_Q16[ k ] < SILK_FIX_CONST( 0.25, 16 ) ) {
                 psEncCtrl->Gains_Q16[ k ] = silk_SMULWW( psEncCtrl->Gains_Q16[ k ], gain_mult_Q16 );
             } else {
@@ -302,7 +297,6 @@ void silk_noise_shape_analysis_FIX(
                     psEncCtrl->Gains_Q16[ k ] = silk_LSHIFT32( psEncCtrl->Gains_Q16[ k ], 1 );
                 }
             }
-            silk_assert( psEncCtrl->Gains_Q16[ k ] > 0 );
         }
 
         /* Bandwidth expansion */
@@ -327,10 +321,8 @@ void silk_noise_shape_analysis_FIX(
     /* Increase gains during low speech activity and put lower limit on gains */
     gain_mult_Q16 = silk_log2lin((const opus_int32) (0 - silk_SMLAWB(0 - SILK_FIX_CONST(16.0, 7 ), SNR_adj_dB_Q7, SILK_FIX_CONST(0.16, 16 ) )));
     gain_add_Q16  = silk_log2lin(  silk_SMLAWB(  SILK_FIX_CONST( 16.0, 7 ), SILK_FIX_CONST( MIN_QGAIN_DB, 7 ), SILK_FIX_CONST( 0.16, 16 ) ) );
-    silk_assert( gain_mult_Q16 > 0 );
     for( k = 0; k < psEnc->sCmn.nb_subfr; k++ ) {
         psEncCtrl->Gains_Q16[ k ] = silk_SMULWW( psEncCtrl->Gains_Q16[ k ], gain_mult_Q16 );
-        silk_assert( psEncCtrl->Gains_Q16[ k ] >= 0 );
         psEncCtrl->Gains_Q16[ k ] = silk_ADD_POS_SAT32( psEncCtrl->Gains_Q16[ k ], gain_add_Q16 );
     }
 
@@ -352,7 +344,6 @@ void silk_noise_shape_analysis_FIX(
             psEncCtrl->LF_shp_Q14[ k ]  = silk_LSHIFT( SILK_FIX_CONST( 1.0, 14 ) - b_Q14 - silk_SMULWB( strength_Q16, b_Q14 ), 16 );
             psEncCtrl->LF_shp_Q14[ k ] |= (opus_uint16)( b_Q14 - SILK_FIX_CONST( 1.0, 14 ) );
         }
-        silk_assert( SILK_FIX_CONST( HARM_HP_NOISE_COEF, 24 ) < SILK_FIX_CONST( 0.5, 24 ) ); /* Guarantees that second argument to SMULWB() is within range of an opus_int16*/
         Tilt_Q16 = - SILK_FIX_CONST( HP_NOISE_COEF, 16 ) -
             silk_SMULWB( SILK_FIX_CONST( 1.0, 16 ) - SILK_FIX_CONST( HP_NOISE_COEF, 16 ),
                 silk_SMULWB( SILK_FIX_CONST( HARM_HP_NOISE_COEF, 24 ), psEnc->sCmn.speech_activity_Q8 ) );

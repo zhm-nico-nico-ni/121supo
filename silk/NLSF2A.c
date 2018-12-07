@@ -69,26 +69,19 @@ void silk_NLSF2A(
 {
     /* This ordering was found to maximize quality. It improves numerical accuracy of
        silk_NLSF2A_find_poly() compared to "standard" ordering. */
-    static const unsigned char ordering16[16] = {
+    static const unsigned char ordering[16] = {
       0, 15, 8, 7, 4, 11, 12, 3, 2, 13, 10, 5, 6, 9, 14, 1
     };
-    static const unsigned char ordering10[10] = {
-      0, 9, 6, 3, 4, 5, 8, 1, 2, 7
-    };
-    const unsigned char *ordering;
+
     opus_int   k, i, dd;
     opus_int32 cos_LSF_QA[ SILK_MAX_ORDER_LPC ];
     opus_int32 P[ SILK_MAX_ORDER_LPC / 2 + 1 ], Q[ SILK_MAX_ORDER_LPC / 2 + 1 ];
     opus_int32 Ptmp, Qtmp, f_int, f_frac, cos_val, delta;
     opus_int32 a32_QA1[ SILK_MAX_ORDER_LPC ];
 
-    silk_assert( LSF_COS_TAB_SZ_FIX == 128 );
-    silk_assert( d==10 || d==16 );
 
     /* convert LSFs to 2*cos(LSF), using piecewise linear curve from table */
-    ordering = d == 16 ? ordering16 : ordering10;
     for( k = 0; k < d; k++ ) {
-        silk_assert( NLSF[k] >= 0 );
 
         /* f_int on a scale 0-127 (rounded down) */
         f_int = silk_RSHIFT( NLSF[k], 15 - 7 );
@@ -96,8 +89,6 @@ void silk_NLSF2A(
         /* f_frac, range: 0..255 */
         f_frac = NLSF[k] - silk_LSHIFT( f_int, 15 - 7 );
 
-        silk_assert(f_int >= 0);
-        silk_assert(f_int < LSF_COS_TAB_SZ_FIX );
 
         /* Read start and end value from table */
         cos_val = get_silk_LSFCosTab_FIX_Q12()[ f_int ];                /* Q12 */

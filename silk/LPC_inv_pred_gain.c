@@ -57,14 +57,10 @@ static opus_int32 LPC_inverse_pred_gain_QA_c(               /* O   Returns inver
 
         /* rc_mult1_Q30 range: [ 1 : 2^30 ] */
         rc_mult1_Q30 = silk_SUB32( SILK_FIX_CONST( 1, 30 ), silk_SMMUL( rc_Q31, rc_Q31 ) );
-        silk_assert( rc_mult1_Q30 > ( 1 << 15 ) );                   /* reduce A_LIMIT if fails */
-        silk_assert( rc_mult1_Q30 <= ( 1 << 30 ) );
 
         /* Update inverse gain */
         /* invGain_Q30 range: [ 0 : 2^30 ] */
         invGain_Q30 = silk_LSHIFT( silk_SMMUL( invGain_Q30, rc_mult1_Q30 ), 2 );
-        silk_assert( invGain_Q30 >= 0           );
-        silk_assert( invGain_Q30 <= ( 1 << 30 ) );
         if( invGain_Q30 < SILK_FIX_CONST( 1.0f / MAX_PREDICTION_POWER_GAIN, 30 ) ) {
             return 0;
         }
@@ -107,8 +103,6 @@ static opus_int32 LPC_inverse_pred_gain_QA_c(               /* O   Returns inver
     /* Update inverse gain */
     /* Range: [ 0 : 2^30 ] */
     invGain_Q30 = silk_LSHIFT( silk_SMMUL( invGain_Q30, rc_mult1_Q30 ), 2 );
-    silk_assert( invGain_Q30 >= 0           );
-    silk_assert( invGain_Q30 <= ( 1 << 30 ) );
     if( invGain_Q30 < SILK_FIX_CONST( 1.0f / MAX_PREDICTION_POWER_GAIN, 30 ) ) {
         return 0;
     }

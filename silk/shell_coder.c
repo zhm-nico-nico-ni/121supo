@@ -165,8 +165,6 @@ void silk_shell_encoder(
 {
     opus_int pulses1[ 8 ], pulses2[ 4 ], pulses3[ 2 ], pulses4[ 1 ];
 
-    /* this function operates on one shell code frame of 16 pulses */
-    silk_assert( SHELL_CODEC_FRAME_LENGTH == 16 );
 
     /* tree representation per pulse-subframe */
     combine_pulses( pulses1, pulses0, 8 );

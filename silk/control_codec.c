@@ -217,8 +217,6 @@ static opus_int silk_setup_fs(
     }
 
     /* Set internal sampling frequency */
-    silk_assert( fs_kHz == 8 || fs_kHz == 12 || fs_kHz == 16 );
-    silk_assert( psEnc->sCmn.nb_subfr == 2 || psEnc->sCmn.nb_subfr == 4 );
     if( psEnc->sCmn.fs_kHz != fs_kHz ) {
         /* reset part of the state */
         silk_memset( &psEnc->sShape,               0, sizeof( psEnc->sShape ) );
@@ -278,8 +276,6 @@ static opus_int silk_setup_fs(
         }
     }
 
-    /* Check that settings are valid */
-    silk_assert( ( psEnc->sCmn.subfr_length * psEnc->sCmn.nb_subfr ) == psEnc->sCmn.frame_length );
 
     return ret;
 }
@@ -292,7 +288,6 @@ static opus_int silk_setup_complexity(
     opus_int ret = 0;
 
     /* Set encoding complexity */
-    silk_assert( Complexity >= 0 && Complexity <= 10 );
     if( Complexity < 1 ) {
         psEncC->pitchEstimationComplexity       = SILK_PE_MIN_COMPLEX;
         psEncC->pitchEstimationThreshold_Q16    = SILK_FIX_CONST( 0.8, 16 );
@@ -369,13 +364,6 @@ static opus_int silk_setup_complexity(
     psEncC->pitchEstimationLPCOrder = silk_min_int( psEncC->pitchEstimationLPCOrder, psEncC->predictLPCOrder );
     psEncC->shapeWinLength          = SUB_FRAME_LENGTH_MS * psEncC->fs_kHz + 2 * psEncC->la_shape;
     psEncC->Complexity              = Complexity;
-
-    silk_assert( psEncC->pitchEstimationLPCOrder <= MAX_FIND_PITCH_LPC_ORDER );
-    silk_assert( psEncC->shapingLPCOrder         <= MAX_SHAPE_LPC_ORDER      );
-    silk_assert( psEncC->nStatesDelayedDecision  <= MAX_DEL_DEC_STATES       );
-    silk_assert( psEncC->warping_Q16             <= 32767                    );
-    silk_assert( psEncC->la_shape                <= LA_SHAPE_MAX             );
-    silk_assert( psEncC->shapeWinLength          <= SHAPE_LPC_WIN_MAX        );
 
     return ret;
 }

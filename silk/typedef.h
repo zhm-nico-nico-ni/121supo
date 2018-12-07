@@ -67,7 +67,7 @@ POSSIBILITY OF SUCH DAMAGE.
 //}
 //#  define silk_assert(COND) {if (!(COND)) {silk_fatal("assertion failed: " #COND);}}
 //# else
-#  define silk_assert(COND)
+//#  define silk_assert(COND)
 //# endif
 //#endif
 
