@@ -137,7 +137,6 @@ void ec_enc_icdf(ec_enc *_this,int _s,const unsigned char *_icdf,unsigned _ftb){
 void ec_enc_patch_initial_bits(ec_enc *_this,unsigned _val,unsigned _nbits){
   int      shift;
   unsigned mask;
-  celt_assert(_nbits<=EC_SYM_BITS);
   shift=EC_SYM_BITS-_nbits;
   mask=((1<<_nbits)-1)<<shift;
   if(_this->offs>0){

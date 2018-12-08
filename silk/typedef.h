@@ -41,10 +41,9 @@ POSSIBILITY OF SUCH DAMAGE.
 #define silk_int16_MIN   ((opus_int16)0x8000)                 /* -2^15     = -32768 */
 //#define silk_int8_MAX    0x7F                                 /*  2^7 - 1  =  127 */
 //#define silk_int8_MIN    ((opus_int8)0x80)                    /* -2^7      = -128 */
-#define silk_uint8_MAX   0xFF                                 /*  2^8 - 1 = 255 */
+//#define silk_uint8_MAX   0xFF                                 /*  2^8 - 1 = 255 */
 
-#define silk_TRUE        1
-#define silk_FALSE       0
+
 
 /* assertions */
 //#if (defined _WIN32 && !defined _WINCE && !defined(__GNUC__) && !defined(NO_ASSERTS))

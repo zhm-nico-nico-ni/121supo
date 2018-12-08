@@ -51,8 +51,6 @@ int _celt_autocorr(
    VARDECL(opus_val16, xx);
    SAVE_STACK;
    ALLOC(xx, n, opus_val16);
-   celt_assert(n>0);
-   celt_assert(overlap>=0);
    if (overlap == 0)
    {
       xptr = x;

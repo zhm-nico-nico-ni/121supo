@@ -534,24 +534,24 @@ opus_int32 opus_encode_native(OpusEncoder *st, const opus_val16 *pcm, int frame_
         st->bandwidth = st->user_bandwidth;
 
     /* This prevents us from using hybrid at unsafe CBR/max rates */
-    if (max_rate < 15000)
-    {
-       st->bandwidth = IMIN(st->bandwidth, OPUS_BANDWIDTH_WIDEBAND);
-    }
+//    if (max_rate < 15000)
+//    {
+//       st->bandwidth = IMIN(st->bandwidth, OPUS_BANDWIDTH_WIDEBAND);
+//    }
 
     /* Prevents Opus from wasting bits on frequencies that are above
        the Nyquist rate of the input signal */
-    if (st->Fs <= 24000 && st->bandwidth > OPUS_BANDWIDTH_SUPERWIDEBAND)
-        st->bandwidth = OPUS_BANDWIDTH_SUPERWIDEBAND;
-    if (st->Fs <= 16000 && st->bandwidth > OPUS_BANDWIDTH_WIDEBAND)
-        st->bandwidth = OPUS_BANDWIDTH_WIDEBAND;
-    if (st->Fs <= 12000 && st->bandwidth > OPUS_BANDWIDTH_MEDIUMBAND)
-        st->bandwidth = OPUS_BANDWIDTH_MEDIUMBAND;
-    if (st->Fs <= 8000 && st->bandwidth > OPUS_BANDWIDTH_NARROWBAND)
-        st->bandwidth = OPUS_BANDWIDTH_NARROWBAND;
-
-    if (st->lfe)
-       st->bandwidth = OPUS_BANDWIDTH_NARROWBAND;
+//    if (st->Fs <= 24000 && st->bandwidth > OPUS_BANDWIDTH_SUPERWIDEBAND)
+//        st->bandwidth = OPUS_BANDWIDTH_SUPERWIDEBAND;
+//    if (st->Fs <= 16000 && st->bandwidth > OPUS_BANDWIDTH_WIDEBAND)
+//        st->bandwidth = OPUS_BANDWIDTH_WIDEBAND;
+//    if (st->Fs <= 12000 && st->bandwidth > OPUS_BANDWIDTH_MEDIUMBAND)
+//        st->bandwidth = OPUS_BANDWIDTH_MEDIUMBAND;
+//    if (st->Fs <= 8000 && st->bandwidth > OPUS_BANDWIDTH_NARROWBAND)
+//        st->bandwidth = OPUS_BANDWIDTH_NARROWBAND;
+//
+//    if (st->lfe)
+//       st->bandwidth = OPUS_BANDWIDTH_NARROWBAND;
 
     curr_bandwidth = st->bandwidth;
 

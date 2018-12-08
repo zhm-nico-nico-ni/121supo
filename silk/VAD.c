@@ -263,7 +263,7 @@ opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return v
     }
 
     /* Copy the resulting speech activity in Q8 */
-    psEncC->speech_activity_Q8 = silk_min_int( silk_RSHIFT( SA_Q15, 7 ), silk_uint8_MAX );
+    psEncC->speech_activity_Q8 = silk_min_int( silk_RSHIFT( SA_Q15, 7 ), 0xFF );
 
     /***********************************/
     /* Energy Level and SNR estimation */

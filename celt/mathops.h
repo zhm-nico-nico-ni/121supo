@@ -44,7 +44,6 @@
 /** Integer log in base2. Undefined for zero and negative numbers */
 static OPUS_INLINE opus_int16 celt_ilog2(opus_int32 x)
 {
-   celt_assert2(x>0, "celt_ilog2() only defined for strictly positive numbers");
    return EC_ILOG(x)-1;
 }
 

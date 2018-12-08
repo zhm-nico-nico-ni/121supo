@@ -111,24 +111,24 @@ void silk_find_LPC_FIX(
             shift = res_nrg_interp_Q - res_nrg_Q;
             if( shift >= 0 ) {
                 if( silk_RSHIFT( res_nrg_interp, shift ) < res_nrg ) {
-                    isInterpLower = silk_TRUE;
+                    isInterpLower = 1;
                 } else {
-                    isInterpLower = silk_FALSE;
+                    isInterpLower = 0;
                 }
             } else {
                 if( -shift < 32 ) {
                     if( res_nrg_interp < silk_RSHIFT( res_nrg, -shift ) ) {
-                        isInterpLower = silk_TRUE;
+                        isInterpLower = 1;
                     } else {
-                        isInterpLower = silk_FALSE;
+                        isInterpLower = 0;
                     }
                 } else {
-                    isInterpLower = silk_FALSE;
+                    isInterpLower = 0;
                 }
             }
 
             /* Determine whether current interpolated NLSFs are best so far */
-            if( isInterpLower == silk_TRUE ) {
+            if( isInterpLower == 1 ) {
                 /* Interpolation has lower residual energy */
                 res_nrg   = res_nrg_interp;
                 res_nrg_Q = res_nrg_interp_Q;
