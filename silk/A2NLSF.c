@@ -37,7 +37,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 /* Number of binary divisions, when not in low complexity mode */
 #define BIN_DIV_STEPS_A2NLSF_FIX      3 /* must be no higher than 16 - log2( LSF_COS_TAB_SZ_FIX ) */
-#define MAX_ITERATIONS_A2NLSF_FIX    16
+//#define MAX_ITERATIONS_A2NLSF_FIX    16
 
 /* Helper function for A2NLSF(..)                    */
 /* Transforms polynomials from cos(n*f) to cos(f)^n  */
@@ -230,7 +230,7 @@ void silk_A2NLSF(
 
             if( k > LSF_COS_TAB_SZ_FIX ) {
                 i++;
-                if( i > MAX_ITERATIONS_A2NLSF_FIX ) {
+                if( i > 16 ) {
                     /* Set NLSFs to white spectrum and exit */
                     NLSF[ 0 ] = (opus_int16)silk_DIV32_16( 1 << 15, d + 1 );
                     for( k = 1; k < d; k++ ) {

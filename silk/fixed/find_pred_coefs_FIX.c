@@ -44,7 +44,6 @@ void silk_find_pred_coefs_FIX(
     opus_int16       *x_pre_ptr;
     VARDECL( opus_int16, LPC_in_pre );
     opus_int32       min_gain_Q16, minInvGain_Q30;
-    SAVE_STACK;
 
     /* weighting for weighted least squares */
     min_gain_Q16 = silk_int32_MAX >> 6;
@@ -133,5 +132,4 @@ void silk_find_pred_coefs_FIX(
 
     /* Copy to prediction struct for use in next frame for interpolation */
     silk_memcpy( psEnc->sCmn.prev_NLSFq_Q15, NLSF_Q15, sizeof( psEnc->sCmn.prev_NLSFq_Q15 ) );
-    RESTORE_STACK;
 }

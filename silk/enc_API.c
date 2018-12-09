@@ -112,9 +112,7 @@ static opus_int silk_QueryEncoder(                      /* O    Returns error co
     encStatus->bitRate                   = state_Fxx[ 0 ].sCmn.TargetRate_bps;
     encStatus->packetLossPercentage      = state_Fxx[ 0 ].sCmn.PacketLoss_perc;
     encStatus->complexity                = state_Fxx[ 0 ].sCmn.Complexity;
-    encStatus->useInBandFEC              = state_Fxx[ 0 ].sCmn.useInBandFEC;
-    encStatus->useDTX                    = state_Fxx[ 0 ].sCmn.useDTX;
-    encStatus->useCBR                    = state_Fxx[ 0 ].sCmn.useCBR;
+    encStatus->useCBR                    = 1;//state_Fxx[ 0 ].sCmn.useCBR;
     encStatus->internalSampleRate        = silk_SMULBB( state_Fxx[ 0 ].sCmn.fs_kHz, 1000 );
     encStatus->allowBandwidthSwitch      = state_Fxx[ 0 ].sCmn.allow_bandwidth_switch;
     encStatus->inWBmodeWithoutVariableLP = state_Fxx[ 0 ].sCmn.fs_kHz == 16 && state_Fxx[ 0 ].sCmn.sLP.mode == 0;
@@ -146,19 +144,12 @@ opus_int silk_Encode(                                   /* O    Returns error co
     silk_encoder *psEnc = ( silk_encoder * )encState;
     VARDECL( opus_int16, buf );
     opus_int transition, curr_block, tot_blocks;
-    SAVE_STACK;
 
     if (encControl->reducedDependency)
     {
        psEnc->state_Fxx[0].sCmn.first_frame_after_reset = 1;
     }
     psEnc->state_Fxx[ 0 ].sCmn.nFramesEncoded = 0;
-
-    /* Check values in encoder control structure */
-    if( ( ret = check_control_input( encControl ) ) != 0 ) {
-        RESTORE_STACK;
-        return ret;
-    }
 
     encControl->switchReady = 0;
 
@@ -190,12 +181,10 @@ opus_int silk_Encode(                                   /* O    Returns error co
 
     /* Only accept input lengths that are a multiple of 10 ms */
     if( nBlocksOf10ms * encControl->API_sampleRate != 100 * nSamplesIn || nSamplesIn < 0 ) {
-        RESTORE_STACK;
         return SILK_ENC_INPUT_INVALID_NO_OF_SAMPLES;
     }
     /* Make sure no more than one packet can be produced */
     if( 1000 * (opus_int32)nSamplesIn > encControl->payloadSize_ms * encControl->API_sampleRate ) {
-        RESTORE_STACK;
         return SILK_ENC_INPUT_INVALID_NO_OF_SAMPLES;
     }
 
@@ -204,7 +193,6 @@ opus_int silk_Encode(                                   /* O    Returns error co
         /* Force the side channel to the same rate as the mid */
         opus_int force_fs_kHz = (n==1) ? psEnc->state_Fxx[0].sCmn.fs_kHz : 0;
         if( ( ret = silk_control_encoder( &psEnc->state_Fxx[ n ], encControl, psEnc->allowBandwidthSwitch, n, force_fs_kHz ) ) != 0 ) {
-            RESTORE_STACK;
             return ret;
         }
         if( psEnc->state_Fxx[n].sCmn.first_frame_after_reset || transition ) {
@@ -212,7 +200,6 @@ opus_int silk_Encode(                                   /* O    Returns error co
                 psEnc->state_Fxx[ n ].sCmn.LBRR_flags[ i ] = 0;
             }
         }
-        psEnc->state_Fxx[ n ].sCmn.inDTX = psEnc->state_Fxx[ n ].sCmn.useDTX;
     }
 
     /* Input buffering/resampling and encoding */
@@ -400,9 +387,9 @@ opus_int silk_Encode(                                   /* O    Returns error co
                 }
 
                 /* Return zero bytes if all channels DTXed */
-                if( psEnc->state_Fxx[ 0 ].sCmn.inDTX && ( encControl->nChannelsInternal == 1 ) ) {
-                    *nBytesOut = 0;
-                }
+//                if( psEnc->state_Fxx[ 0 ].sCmn.inDTX && ( encControl->nChannelsInternal == 1 ) ) {
+//                    *nBytesOut = 0;
+//                }
 
                 psEnc->nBitsExceeded += *nBytesOut * 8;
                 psEnc->nBitsExceeded -= silk_DIV32_16( silk_MUL( encControl->bitRate, encControl->payloadSize_ms ), 1000 );
@@ -437,11 +424,9 @@ opus_int silk_Encode(                                   /* O    Returns error co
     encControl->stereoWidth_Q14 = psEnc->sStereo.smth_width_Q14;
 
 
-    encControl->signalType = psEnc->state_Fxx[0].sCmn.indices.signalType;
     encControl->offset = get_silk_Quantization_Offsets_Q10()
                          [ psEnc->state_Fxx[0].sCmn.indices.signalType >> 1 ]
                          [ psEnc->state_Fxx[0].sCmn.indices.quantOffsetType ];
-    RESTORE_STACK;
     return ret;
 }
 

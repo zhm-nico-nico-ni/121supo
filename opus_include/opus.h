@@ -143,7 +143,6 @@ OPUS_EXPORT int opus_encoder_init(
 OPUS_EXPORT OPUS_WARN_UNUSED_RESULT opus_int32 opus_encode(
     OpusEncoder *st,
     const opus_int16 *pcm,
-    int frame_size,
     unsigned char *data,
     opus_int32 max_data_bytes
 ) OPUS_ARG_NONNULL(1) OPUS_ARG_NONNULL(2) OPUS_ARG_NONNULL(4);

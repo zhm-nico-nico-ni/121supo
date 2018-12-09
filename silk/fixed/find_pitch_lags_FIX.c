@@ -48,7 +48,6 @@ void silk_find_pitch_lags_FIX(
     opus_int16 rc_Q15[    MAX_FIND_PITCH_LPC_ORDER ];
     opus_int32 A_Q24[     MAX_FIND_PITCH_LPC_ORDER ];
     opus_int16 A_Q12[     MAX_FIND_PITCH_LPC_ORDER ];
-    SAVE_STACK;
 
     /******************************************/
     /* Set up buffer lengths etc based on Fs  */
@@ -134,5 +133,4 @@ void silk_find_pitch_lags_FIX(
         psEnc->sCmn.indices.contourIndex = 0;
         psEnc->LTPCorr_Q15 = 0;
     }
-    RESTORE_STACK;
 }

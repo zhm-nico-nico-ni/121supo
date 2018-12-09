@@ -153,7 +153,7 @@ typedef struct {
     opus_int                     PacketSize_ms;                     /* Number of milliseconds to put in each packet                     */
     opus_int                     PacketLoss_perc;                   /* Packet loss rate measured by farend                              */
     opus_int32                   frameCounter;
-    opus_int                     Complexity;                        /* Complexity setting                                               */
+    opus_int8                     Complexity;                        /* Complexity setting                                               */
     opus_int                     nStatesDelayedDecision;            /* Number of states in delayed decision quantization                */
     opus_int                     useInterpolatedNLSFs;              /* Flag for using NLSF interpolation                                */
     opus_int                     shapingLPCOrder;                   /* Filter order for noise shaping filters                           */
@@ -166,7 +166,6 @@ typedef struct {
     opus_int                     first_frame_after_reset;           /* Flag for deactivating NLSF interpolation, pitch prediction       */
     opus_int                     controlled_since_last_payload;     /* Flag for ensuring codec_control only runs once per packet        */
     opus_int                     warping_Q16;                       /* Warping parameter for warped noise shaping                       */
-    opus_int                     useCBR;                            /* Flag to enable constant bitrate                                  */
     opus_int                     prefillFlag;                       /* Flag to indicate that only buffers are prefilled, no coding      */
     const opus_uint8             *pitch_lag_low_bits_iCDF;          /* Pointer to iCDF table for low bits of pitch lag index            */
     const opus_uint8             *pitch_contour_iCDF;               /* Pointer to iCDF table for pitch contour index                    */
@@ -182,7 +181,7 @@ typedef struct {
     SideInfoIndices              indices;
     opus_int8                    pulses[ MAX_FRAME_LENGTH ];
 
-    int                          arch;
+    opus_int8                          arch;
 
     /* Input/output buffering */
     opus_int16                   inputBuf[ MAX_FRAME_LENGTH + 2 ];  /* Buffer containing input signal                                   */
@@ -204,13 +203,10 @@ typedef struct {
     silk_resampler_state_struct resampler_state;
 
     /* DTX */
-    opus_int                     useDTX;                            /* Flag to enable DTX                                               */
-    opus_int                     inDTX;                             /* Flag to signal DTX period                                        */
     opus_int                     noSpeechCounter;                   /* Counts concecutive nonactive frames, used by DTX                 */
 
     /* Inband Low Bitrate Redundancy (LBRR) data */
-    opus_int                     useInBandFEC;                      /* Saves the API setting for query                                  */
-    SideInfoIndices              indices_LBRR[ MAX_FRAMES_PER_PACKET ];
+    SideInfoIndices               indices_LBRR[ MAX_FRAMES_PER_PACKET ];
     opus_int8                    pulses_LBRR[ MAX_FRAMES_PER_PACKET ][ MAX_FRAME_LENGTH ];
 } silk_encoder_state;
 

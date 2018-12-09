@@ -61,13 +61,10 @@ opus_int silk_control_encoder(
 {
     opus_int   fs_kHz, ret = 0;
 
-    psEnc->sCmn.useDTX                 = encControl->useDTX;
-    psEnc->sCmn.useCBR                 = encControl->useCBR;
     psEnc->sCmn.API_fs_Hz              = encControl->API_sampleRate;
     psEnc->sCmn.maxInternal_fs_Hz      = encControl->maxInternalSampleRate;
     psEnc->sCmn.minInternal_fs_Hz      = encControl->minInternalSampleRate;
     psEnc->sCmn.desiredInternal_fs_Hz  = encControl->desiredInternalSampleRate;
-    psEnc->sCmn.useInBandFEC           = encControl->useInBandFEC;
     psEnc->sCmn.nChannelsAPI           = encControl->nChannelsAPI;
     psEnc->sCmn.nChannelsInternal      = encControl->nChannelsInternal;
     psEnc->sCmn.allow_bandwidth_switch = allow_bw_switch;
@@ -126,7 +123,6 @@ static opus_int silk_setup_resamplers(
 )
 {
     opus_int   ret = SILK_NO_ERROR;
-    SAVE_STACK;
 
     if( psEnc->sCmn.fs_kHz != fs_kHz || psEnc->sCmn.prev_API_fs_Hz != psEnc->sCmn.API_fs_Hz )
     {
@@ -171,7 +167,6 @@ static opus_int silk_setup_resamplers(
 
     psEnc->sCmn.prev_API_fs_Hz = psEnc->sCmn.API_fs_Hz;
 
-    RESTORE_STACK;
     return ret;
 }
 

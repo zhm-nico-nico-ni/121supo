@@ -115,7 +115,6 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
     opus_int   nb_cbk_search, cbk_size;
     opus_int32 delta_lag_log2_sqr_Q7, lag_log2_Q7, prevLag_log2_Q7, prev_lag_bias_Q13;
     const opus_int8 *Lag_CB_ptr;
-    SAVE_STACK;
 
     /* Set up frame lengths max / min lag for the sampling frequency */
     frame_length      = ( PE_LTP_MEM_LENGTH_MS + nb_subfr * PE_SUBFR_LENGTH_MS ) * Fs_kHz;
@@ -209,13 +208,13 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
             sum = silk_SMLAWB( sum, sum, silk_LSHIFT( -i, 4 ) );                                /* Q14 */
             C[ i - MIN_LAG_4KHZ ] = (opus_int16)sum;                                            /* Q14 */
         }
-    } else {
-        /* Only short-lag bias */
-        for( i = MAX_LAG_4KHZ; i >= MIN_LAG_4KHZ; i-- ) {
-            sum = silk_LSHIFT( (opus_int32)C[ i - MIN_LAG_4KHZ ], 1 );                          /* Q14 */
-            sum = silk_SMLAWB( sum, sum, silk_LSHIFT( -i, 4 ) );                                /* Q14 */
-            C[ i - MIN_LAG_4KHZ ] = (opus_int16)sum;                                            /* Q14 */
-        }
+//    } else {
+//        /* Only short-lag bias */
+//        for( i = MAX_LAG_4KHZ; i >= MIN_LAG_4KHZ; i-- ) {
+//            sum = silk_LSHIFT( (opus_int32)C[ i - MIN_LAG_4KHZ ], 1 );                          /* Q14 */
+//            sum = silk_SMLAWB( sum, sum, silk_LSHIFT( -i, 4 ) );                                /* Q14 */
+//            C[ i - MIN_LAG_4KHZ ] = (opus_int16)sum;                                            /* Q14 */
+//        }
     }
 
     /* Sort */
@@ -230,7 +229,6 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
         *LTPCorr_Q15  = 0;
         *lagIndex     = 0;
         *contourIndex = 0;
-        RESTORE_STACK;
         return 1;
     }
 
@@ -280,10 +278,6 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
             length_d_comp++;
         }
     }
-
-    /**********************************************************************************
-    ** SECOND STAGE, operating at 8 kHz, on lag sections with high correlation
-    *************************************************************************************/
 
     /*********************************************************************************
     * Find energy of each subframe projected onto its history, for a range of delays
@@ -404,7 +398,6 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
         *LTPCorr_Q15  = 0;
         *lagIndex     = 0;
         *contourIndex = 0;
-        RESTORE_STACK;
         return 1;
     }
 
@@ -416,13 +409,13 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
 
         CBimax_old = CBimax;
         /* Compensate for decimation */
-        if( Fs_kHz == 12 ) {
-            lag = silk_RSHIFT( silk_SMULBB( lag, 3 ), 1 );
-        } else if( Fs_kHz == 16 ) {
+//        if( Fs_kHz == 12 ) {
+//            lag = silk_RSHIFT( silk_SMULBB( lag, 3 ), 1 );
+//        } else if( Fs_kHz == 16 ) {
             lag = silk_LSHIFT( lag, 1 );
-        } else {
-            lag = silk_SMULBB( lag, 3 );
-        }
+//        } else {
+//            lag = silk_SMULBB( lag, 3 );
+//        }
 
         lag = silk_LIMIT_int( lag, min_lag, max_lag );
         start_lag = silk_max_int( lag - 2, min_lag );
@@ -504,7 +497,6 @@ opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 
         *contourIndex = (opus_int8)CBimax;
     }
     /* return as voiced */
-    RESTORE_STACK;
     return 0;
 }
 
@@ -537,7 +529,6 @@ static void silk_P_Ana_calc_corr_st3(
     VARDECL( opus_int32, scratch_mem );
     VARDECL( opus_int32, xcorr32 );
     const opus_int8 *Lag_range_ptr, *Lag_CB_ptr;
-    SAVE_STACK;
 
     if( nb_subfr == PE_MAX_NB_SUBFR ) {
         Lag_range_ptr = &(get_pitch_analysis_core_table_struct()->silk_Lag_range_stage3[ complexity ][ 0 ][ 0 ]);
@@ -578,7 +569,6 @@ static void silk_P_Ana_calc_corr_st3(
         }
         target_ptr += sf_length;
     }
-    RESTORE_STACK;
 }
 
 /********************************************************************/
@@ -601,7 +591,6 @@ static void silk_P_Ana_calc_energy_st3(
     opus_int   nb_cbk_search, delta, idx, cbk_size, lag_diff;
     VARDECL( opus_int32, scratch_mem );
     const opus_int8 *Lag_range_ptr, *Lag_CB_ptr;
-    SAVE_STACK;
 
     if( nb_subfr == PE_MAX_NB_SUBFR ) {
         Lag_range_ptr = &(get_pitch_analysis_core_table_struct()->silk_Lag_range_stage3[ complexity ][ 0 ][ 0 ]);
@@ -649,5 +638,4 @@ static void silk_P_Ana_calc_energy_st3(
         }
         target_ptr += sf_length;
     }
-    RESTORE_STACK;
 }

@@ -56,7 +56,6 @@ opus_int32 silk_NLSF_encode(                                    /* O    Returns 
     opus_int16       ec_ix[        MAX_LPC_ORDER ];
     const opus_uint8 *pCB_element, *iCDF_ptr;
     const opus_int16 *pCB_Wght_Q9;
-    SAVE_STACK;
 
     /* NLSF stabilization */
     silk_NLSF_stabilize( pNLSF_Q15, psNLSF_CB->deltaMin_Q15, psNLSF_CB->order );
@@ -114,6 +113,5 @@ opus_int32 silk_NLSF_encode(                                    /* O    Returns 
     silk_NLSF_decode( pNLSF_Q15, NLSFIndices, psNLSF_CB );
 
     ret = RD_Q25[ 0 ];
-    RESTORE_STACK;
     return ret;
 }

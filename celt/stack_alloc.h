@@ -85,11 +85,4 @@
 #  define ALLOC(var, size, type) var = ((type*)alloca(sizeof(type)*(size)))
 
 
-#define SAVE_STACK
-#define RESTORE_STACK
-#define ALLOC_STACK
-//#define ALLOC_NONE 0
-
-
-
 #endif /* STACK_ALLOC_H */

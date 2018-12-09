@@ -141,7 +141,6 @@ void silk_NSQ_del_dec_c(
     VARDECL( opus_int32, delayedGain_Q10 );
     VARDECL( NSQ_del_dec_struct, psDelDec );
     NSQ_del_dec_struct  *psDD;
-    SAVE_STACK;
 
     /* Set unvoiced lag to the previous one, overwrite later for voiced */
     lag = NSQ->lagPrev;
@@ -299,7 +298,6 @@ void silk_NSQ_del_dec_c(
     /* Save quantized speech signal */
     silk_memmove( NSQ->xq,           &NSQ->xq[           psEncC->frame_length ], psEncC->ltp_mem_length * sizeof( opus_int16 ) );
     silk_memmove( NSQ->sLTP_shp_Q14, &NSQ->sLTP_shp_Q14[ psEncC->frame_length ], psEncC->ltp_mem_length * sizeof( opus_int32 ) );
-    RESTORE_STACK;
 }
 
 /******************************************/
@@ -347,7 +345,6 @@ static OPUS_INLINE void silk_noise_shape_quantizer_del_dec(
     VARDECL( NSQ_sample_pair, psSampleState );
     NSQ_del_dec_struct *psDD;
     NSQ_sample_struct  *psSS;
-    SAVE_STACK;
 
     ALLOC( psSampleState, nStatesDelayedDecision, NSQ_sample_pair );
 
@@ -625,7 +622,6 @@ static OPUS_INLINE void silk_noise_shape_quantizer_del_dec(
         psDD = &psDelDec[ k ];
         silk_memcpy( psDD->sLPC_Q14, &psDD->sLPC_Q14[ length ], NSQ_LPC_BUF_LENGTH * sizeof( opus_int32 ) );
     }
-    RESTORE_STACK;
 }
 
 

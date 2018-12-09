@@ -49,7 +49,6 @@ void silk_find_LPC_FIX(
     opus_int     res_nrg_interp_Q, res_nrg_Q, res_tmp_nrg_Q;
     opus_int16   a_tmp_Q12[ MAX_LPC_ORDER ];
     opus_int16   NLSF0_Q15[ MAX_LPC_ORDER ];
-    SAVE_STACK;
 
     subfr_length = psEncC->subfr_length + psEncC->predictLPCOrder;
 
@@ -142,5 +141,4 @@ void silk_find_LPC_FIX(
         silk_A2NLSF( NLSF_Q15, a_Q16, psEncC->predictLPCOrder );
     }
 
-    RESTORE_STACK;
 }

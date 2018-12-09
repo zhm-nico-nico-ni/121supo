@@ -148,7 +148,6 @@ void silk_noise_shape_analysis_FIX(
     opus_int32   AR_Q24[       MAX_SHAPE_LPC_ORDER ];
     VARDECL( opus_int16, x_windowed );
     const opus_int16 *x_ptr, *pitch_res_ptr;
-    SAVE_STACK;
 
     /* Point to start of first LPC analysis block */
     x_ptr = x - psEnc->sCmn.la_shape;
@@ -167,7 +166,7 @@ void silk_noise_shape_analysis_FIX(
         SILK_FIX_CONST( 20.0, 7 ), 4 ) ), 1 );
 
     /* Reduce coding SNR during low speech activity */
-    if( psEnc->sCmn.useCBR == 0 ) {
+    {
         b_Q8 = SILK_FIX_CONST( 1.0, 8 ) - psEnc->sCmn.speech_activity_Q8;
         b_Q8 = silk_SMULWB( silk_LSHIFT( b_Q8, 8 ), b_Q8 );
         SNR_adj_dB_Q7 = silk_SMLAWB( SNR_adj_dB_Q7,
@@ -387,6 +386,5 @@ void silk_noise_shape_analysis_FIX(
         psEncCtrl->HarmShapeGain_Q14[ k ] = ( opus_int )silk_RSHIFT_ROUND( psShapeSt->HarmShapeGain_smth_Q16, 2 );
         psEncCtrl->Tilt_Q14[ k ]          = ( opus_int )silk_RSHIFT_ROUND( psShapeSt->Tilt_smth_Q16,          2 );
     }
-    RESTORE_STACK;
 }
 

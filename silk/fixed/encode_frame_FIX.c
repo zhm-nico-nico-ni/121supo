@@ -47,15 +47,12 @@ void silk_encode_do_VAD_FIX(
         psEnc->sCmn.indices.signalType = TYPE_NO_VOICE_ACTIVITY;
         psEnc->sCmn.noSpeechCounter++;
         if( psEnc->sCmn.noSpeechCounter < NB_SPEECH_FRAMES_BEFORE_DTX ) {
-            psEnc->sCmn.inDTX = 0;
         } else if( psEnc->sCmn.noSpeechCounter > MAX_CONSECUTIVE_DTX + NB_SPEECH_FRAMES_BEFORE_DTX ) {
             psEnc->sCmn.noSpeechCounter = NB_SPEECH_FRAMES_BEFORE_DTX;
-            psEnc->sCmn.inDTX           = 0;
         }
         psEnc->sCmn.VAD_flags[ psEnc->sCmn.nFramesEncoded ] = 0;
     } else {
         psEnc->sCmn.noSpeechCounter    = 0;
-        psEnc->sCmn.inDTX              = 0;
         psEnc->sCmn.indices.signalType = TYPE_UNVOICED;
         psEnc->sCmn.VAD_flags[ psEnc->sCmn.nFramesEncoded ] = 1;
     }
@@ -87,7 +84,6 @@ opus_int silk_encode_frame_FIX(
     opus_int     gain_lock[ MAX_NB_SUBFR ] = {0};
     opus_int16   best_gain_mult[ MAX_NB_SUBFR ];
     opus_int     best_sum[ MAX_NB_SUBFR ];
-    SAVE_STACK;
 
     /* This is totally unnecessary but many compilers (including gcc) are too dumb to realise it */
     LastGainIndex_copy2 = nBits_lower = nBits_upper = gainMult_lower = gainMult_upper = 0;
@@ -349,7 +345,6 @@ opus_int silk_encode_frame_FIX(
     if( psEnc->sCmn.prefillFlag ) {
         /* No payload */
         *pnBytesOut = 0;
-        RESTORE_STACK;
         return ret;
     }
 
@@ -364,7 +359,6 @@ opus_int silk_encode_frame_FIX(
     /* Payload size */
     *pnBytesOut = silk_RSHIFT( ec_tell( psRangeEnc ) + 7, 3 );
 
-    RESTORE_STACK;
     return ret;
 }
 

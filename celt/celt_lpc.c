@@ -49,7 +49,7 @@ int _celt_autocorr(
    int shift;
    const opus_val16 *xptr;
    VARDECL(opus_val16, xx);
-   SAVE_STACK;
+
    ALLOC(xx, n, opus_val16);
    if (overlap == 0)
    {
@@ -114,6 +114,5 @@ int _celt_autocorr(
    }
 
 
-   RESTORE_STACK;
    return shift;
 }

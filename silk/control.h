@@ -38,49 +38,49 @@ POSSIBILITY OF SUCH DAMAGE.
 /***********************************************/
 typedef struct {
     /* I:   Number of channels; 1/2                                                         */
-    opus_int32 nChannelsAPI;
+    opus_int16 nChannelsAPI;
 
     /* I:   Number of channels; 1/2                                                         */
-    opus_int32 nChannelsInternal;
+    opus_int16 nChannelsInternal;
 
     /* I:   Input signal sampling rate in Hertz; 8000/12000/16000/24000/32000/44100/48000   */
-    opus_int32 API_sampleRate;
+    opus_int16 API_sampleRate;
 
     /* I:   Maximum internal sampling rate in Hertz; 8000/12000/16000                       */
-    opus_int32 maxInternalSampleRate;
+    opus_int16 maxInternalSampleRate;
 
     /* I:   Minimum internal sampling rate in Hertz; 8000/12000/16000                       */
-    opus_int32 minInternalSampleRate;
+    opus_int16 minInternalSampleRate;
 
     /* I:   Soft request for internal sampling rate in Hertz; 8000/12000/16000              */
-    opus_int32 desiredInternalSampleRate;
+    opus_int16 desiredInternalSampleRate;
 
     /* I:   Number of samples per packet in milliseconds; 10/20/40/60                       */
-    opus_int payloadSize_ms;
+    opus_int16 payloadSize_ms;
 
     /* I:   Bitrate during active speech in bits/second; internally limited                 */
-    opus_int32 bitRate;
+    opus_int16 bitRate;
 
     /* I:   Uplink packet loss in percent (0-100)                                           */
-    opus_int packetLossPercentage;
+    opus_int8 packetLossPercentage;
 
     /* I:   Complexity mode; 0 is lowest, 10 is highest complexity                          */
-    opus_int complexity;
+    opus_int8 complexity;
 
     /* I:   Flag to enable in-band Forward Error Correction (FEC); 0/1                      */
-    opus_int useInBandFEC;
+//    opus_int useInBandFEC;
 
     /* I:   Flag to enable discontinuous transmission (DTX); 0/1                            */
-    opus_int useDTX;
+//    opus_int useDTX;
 
     /* I:   Flag to use constant bitrate                                                    */
-    opus_int useCBR;
+    opus_int8 useCBR;
 
     /* I:   Maximum number of bits allowed for the frame                                    */
     opus_int maxBits;
 
     /* I:   Opus encoder is allowing us to switch bandwidth                                 */
-    opus_int opusCanSwitch;
+    opus_int8 opusCanSwitch;
 
     /* I: Make frames as independent as possible (but still use LPC)                        */
     opus_int reducedDependency;
@@ -100,11 +100,8 @@ typedef struct {
     /* O:   Tells the Opus encoder we're ready to switch                                    */
     opus_int switchReady;
 
-    /* O: SILK Signal type */
-    opus_int signalType;
-
     /* O: SILK offset (dithering) */
-    opus_int offset;
+    opus_int16 offset;
 } silk_EncControlStruct;
 
 /**************************************************************************/
