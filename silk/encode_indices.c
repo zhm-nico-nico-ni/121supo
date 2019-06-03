@@ -99,61 +99,6 @@ void silk_encode_indices(
         ec_enc_icdf( psRangeEnc, psIndices->NLSFInterpCoef_Q2, get_silk_NLSF_interpolation_factor_iCDF(), 8 );
     }
 
-    if( psIndices->signalType == TYPE_VOICED )
-    {
-        /*********************/
-        /* Encode pitch lags */
-        /*********************/
-        /* lag index */
-//        encode_absolute_lagIndex = 1;
-//        if( condCoding == CODE_CONDITIONALLY && psEncC->ec_prevSignalType == TYPE_VOICED ) {
-            /* Delta Encoding */
-//            delta_lagIndex = psIndices->lagIndex - psEncC->ec_prevLagIndex;
-//            if( delta_lagIndex < -8 || delta_lagIndex > 11 ) {
-//                delta_lagIndex = 0;
-//            } else {
-//                delta_lagIndex = delta_lagIndex + 9;
-//                encode_absolute_lagIndex = 0; /* Only use delta */
-//            }
-//            silk_assert( delta_lagIndex >= 0 && delta_lagIndex < 21 );
-//            ec_enc_icdf( psRangeEnc, delta_lagIndex, silk_pitch_delta_iCDF, 8 );
-//        }
-        //if( encode_absolute_lagIndex )
-        {
-            /* Absolute encoding */
-            opus_int32 pitch_high_bits, pitch_low_bits;
-            pitch_high_bits = silk_DIV32_16( psIndices->lagIndex, silk_RSHIFT( psEncC->fs_kHz, 1 ) );
-            pitch_low_bits = psIndices->lagIndex - silk_SMULBB( pitch_high_bits, silk_RSHIFT( psEncC->fs_kHz, 1 ) );
-            ec_enc_icdf( psRangeEnc, pitch_high_bits, get_silk_pitch_lag_iCDF(), 8 );
-            ec_enc_icdf( psRangeEnc, pitch_low_bits, psEncC->pitch_lag_low_bits_iCDF, 8 );
-        }
-        psEncC->ec_prevLagIndex = psIndices->lagIndex;
-
-        /* Countour index */
-        ec_enc_icdf( psRangeEnc, psIndices->contourIndex, psEncC->pitch_contour_iCDF, 8 );
-
-        /********************/
-        /* Encode LTP gains */
-        /********************/
-        /* PERIndex value */
-        const opus_uint8 silk_LTP_per_index_iCDF[3] = {
-                179,     99,      0
-        };
-        ec_enc_icdf( psRangeEnc, psIndices->PERIndex, silk_LTP_per_index_iCDF, 8 );
-
-        /* Codebook Indices */
-        for( k = 0; k < psEncC->nb_subfr; k++ ) {
-            ec_enc_icdf( psRangeEnc, psIndices->LTPIndex[ k ], get_silk_LTP_gain_iCDF_ptrs()[ psIndices->PERIndex ], 8 );
-        }
-
-        /**********************/
-        /* Encode LTP scaling */
-        /**********************/
-        if( condCoding == CODE_INDEPENDENTLY ) {
-            ec_enc_icdf( psRangeEnc, psIndices->LTP_scaleIndex, get_silk_LTPscale_iCDF(), 8 );
-        }
-    }
-
     psEncC->ec_prevSignalType = psIndices->signalType;
 
     /***************/

@@ -15,12 +15,12 @@ int main(int argc, char *argv[]) {
     OpusEncoder *enc=NULL;
 
     int frame_size, channels = 1;
-    int application=OPUS_APPLICATION_AUDIO;
+    int application=OPUS_APPLICATION_RESTRICTED_LOWDELAY;//OPUS_APPLICATION_AUDIO;
     opus_int32 sampling_rate = 16000;
     opus_int32 bitrate_bps = 32000;
     int use_inbandfec = 0;
 
-    frame_size = sampling_rate/50;
+    frame_size = 320;//sampling_rate/50;
     int stop=0;
 
 
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
     unsigned char *fbytes;
     int remaining=0, curr_read=0, nb_encoded=0, toggle = 0
     , curr_mode_count=0, mode_switch_time = 48000, curr_mode=0,nb_modes_in_list=0;
-    opus_uint64 tot_in;
+    opus_uint64 tot_in = 0;
     opus_int32 count=0, count_act=0;
     short *in;
     int len[2];
@@ -72,7 +72,8 @@ int main(int argc, char *argv[]) {
     int k;
 
     int max_frame_size = 48000*2;
-    in = (short*)malloc(max_frame_size*channels*sizeof(short));
+//    in = (short*)malloc(max_frame_size*channels*sizeof(short));
+    in = (short*)malloc(160*sizeof(short));
     /* We need to allocate for 16-bit PCM data, but we store it as unsigned char. */
     fbytes = (unsigned char*)malloc(max_frame_size*channels*sizeof(short));
     data[0] = (unsigned char*)calloc(MAX_PACKET,sizeof(unsigned char));
@@ -98,7 +99,7 @@ int main(int argc, char *argv[]) {
                     in[i] = 0;
                 stop = 1;
             }
-            len[toggle] = opus_encode(enc, in, frame_size, data[toggle], MAX_PACKET);
+            len[toggle] = opus_encode(enc, in, data[toggle], MAX_PACKET);
             nb_encoded = opus_packet_get_samples_per_frame(data[toggle], sampling_rate)*opus_packet_get_nb_frames(data[toggle], len[toggle]);
             remaining = frame_size-nb_encoded;
             for(i=0;i<remaining*channels;i++)
@@ -172,6 +173,7 @@ int main(int argc, char *argv[]) {
     fclose(fin);
     fclose(fout);
     free(in);
+
     free(fbytes);
     return 0;
 }

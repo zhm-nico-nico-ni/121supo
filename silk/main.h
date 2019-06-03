@@ -103,20 +103,6 @@ void silk_interpolate(
     const opus_int              d                               /* I    number of parameters                        */
 );
 
-/* LTP tap quantizer */
-void silk_quant_LTP_gains(
-    opus_int16                  B_Q14[ MAX_NB_SUBFR * LTP_ORDER ],          /* O    Quantized LTP gains             */
-    opus_int8                   cbk_index[ MAX_NB_SUBFR ],                  /* O    Codebook Index                  */
-    opus_int8                   *periodicity_index,                         /* O    Periodicity Index               */
-    opus_int32                  *sum_gain_dB_Q7,                            /* I/O  Cumulative max prediction gain  */
-    opus_int                    *pred_gain_dB_Q7,                           /* O    LTP prediction gain             */
-    const opus_int32            XX_Q17[ MAX_NB_SUBFR*LTP_ORDER*LTP_ORDER ], /* I    Correlation matrix in Q18       */
-    const opus_int32            xX_Q17[ MAX_NB_SUBFR*LTP_ORDER ],           /* I    Correlation vector in Q18       */
-    const opus_int              subfr_len,                                  /* I    Number of samples per subframe  */
-    const opus_int              nb_subfr,                                   /* I    Number of subframes             */
-    int                         arch                                        /* I    Run-time architecture           */
-);
-
 /* Entropy constrained matrix-weighted VQ, for a single input data vector */
 void silk_VQ_WMat_EC_c(
     opus_int8                   *ind,                           /* O    index of best codebook vector               */
@@ -165,23 +151,6 @@ void silk_NSQ_del_dec_c(
                            HarmShapeGain_Q14, Tilt_Q14, LF_shp_Q14, Gains_Q16, pitchL, Lambda_Q10, LTP_scale_Q14))
 
 
-/************/
-/* Silk VAD */
-/************/
-/* Initialize the Silk VAD */
-opus_int silk_VAD_Init(                                         /* O    Return value, 0 if success                  */
-    silk_VAD_state              *psSilk_VAD                     /* I/O  Pointer to Silk VAD state                   */
-);
-
-/* Get speech activity level in Q8 */
-opus_int silk_VAD_GetSA_Q8_c(                                   /* O    Return value, 0 if success                  */
-    silk_encoder_state          *psEncC,                        /* I/O  Encoder state                               */
-    const opus_int16            pIn[]                           /* I    PCM input                                   */
-);
-
-#if !defined(OVERRIDE_silk_VAD_GetSA_Q8)
-#define silk_VAD_GetSA_Q8(psEnC, pIn, arch) ((void)(arch),silk_VAD_GetSA_Q8_c(psEnC, pIn))
-#endif
 
 /* Low-pass filter with variable cutoff frequency based on  */
 /* piece-wise linear interpolation between elliptic filters */

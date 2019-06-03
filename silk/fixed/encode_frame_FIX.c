@@ -31,33 +31,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "../../celt/stack_alloc.h"
 #include "../tuning_parameters.h"
 
-void silk_encode_do_VAD_FIX(
-    silk_encoder_state_FIX          *psEnc                                  /* I/O  Pointer to Silk FIX encoder state                                           */
-)
-{
-    /****************************/
-    /* Voice Activity Detection */
-    /****************************/
-    silk_VAD_GetSA_Q8( &psEnc->sCmn, psEnc->sCmn.inputBuf + 1, psEnc->sCmn.arch );
-
-    /**************************************************/
-    /* Convert speech activity into VAD and DTX flags */
-    /**************************************************/
-    if( psEnc->sCmn.speech_activity_Q8 < SILK_FIX_CONST( SPEECH_ACTIVITY_DTX_THRES, 8 ) ) {
-        psEnc->sCmn.indices.signalType = TYPE_NO_VOICE_ACTIVITY;
-        psEnc->sCmn.noSpeechCounter++;
-        if( psEnc->sCmn.noSpeechCounter < NB_SPEECH_FRAMES_BEFORE_DTX ) {
-        } else if( psEnc->sCmn.noSpeechCounter > MAX_CONSECUTIVE_DTX + NB_SPEECH_FRAMES_BEFORE_DTX ) {
-            psEnc->sCmn.noSpeechCounter = NB_SPEECH_FRAMES_BEFORE_DTX;
-        }
-        psEnc->sCmn.VAD_flags[ psEnc->sCmn.nFramesEncoded ] = 0;
-    } else {
-        psEnc->sCmn.noSpeechCounter    = 0;
-        psEnc->sCmn.indices.signalType = TYPE_UNVOICED;
-        psEnc->sCmn.VAD_flags[ psEnc->sCmn.nFramesEncoded ] = 1;
-    }
-}
-
 /****************/
 /* Encode frame */
 /****************/

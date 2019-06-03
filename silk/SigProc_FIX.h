@@ -68,38 +68,6 @@ opus_int silk_resampler(
     opus_int32                  inLen               /* I    Number of input samples                                     */
 );
 
-/*!
-* Downsample 2x, mediocre quality
-*/
-void silk_resampler_down2(
-    opus_int32                  *S,                 /* I/O  State vector [ 2 ]                                          */
-    opus_int16                  *out,               /* O    Output signal [ len ]                                       */
-    const opus_int16            *in,                /* I    Input signal [ floor(len/2) ]                               */
-    opus_int32                  inLen               /* I    Number of input samples                                     */
-);
-
-/*!
- * second order ARMA filter;
- * slower than biquad() but uses more precise coefficients
- * can handle (slowly) varying coefficients
- */
-//void silk_biquad_alt_stride1(
-//    const opus_int16            *in,                /* I     input signal                                               */
-//    const opus_int32            *B_Q28,             /* I     MA coefficients [3]                                        */
-//    const opus_int32            *A_Q28,             /* I     AR coefficients [2]                                        */
-//    opus_int32                  *S,                 /* I/O   State vector [2]                                           */
-//    opus_int16                  *out,               /* O     output signal                                              */
-//    const opus_int32            len                 /* I     signal length (must be even)                               */
-//);
-
-//void silk_biquad_alt_stride2_c(
-//    const opus_int16            *in,                /* I     input signal                                               */
-//    const opus_int32            *B_Q28,             /* I     MA coefficients [3]                                        */
-//    const opus_int32            *A_Q28,             /* I     AR coefficients [2]                                        */
-//    opus_int32                  *S,                 /* I/O   State vector [4]                                           */
-//    opus_int16                  *out,               /* O     output signal                                              */
-//    const opus_int32            len                 /* I     signal length (must be even)                               */
-//);
 
 /* Variable order MA prediction error filter. */
 void silk_LPC_analysis_filter(
@@ -130,15 +98,6 @@ void silk_bwexpander_32(
 opus_int32 silk_LPC_inverse_pred_gain_c(            /* O   Returns inverse prediction gain in energy domain, Q30        */
     const opus_int16            *A_Q12,             /* I   Prediction coefficients, Q12 [order]                         */
     const opus_int              order               /* I   Prediction order                                             */
-);
-
-/* Split signal in two decimated bands using first-order allpass filters */
-void silk_ana_filt_bank_1(
-    const opus_int16            *in,                /* I    Input signal [N]                                            */
-    opus_int32                  *S,                 /* I/O  State vector [2]                                            */
-    opus_int16                  *outL,              /* O    Low band [N/2]                                              */
-    opus_int16                  *outH,              /* O    High band [N/2]                                             */
-    const opus_int32            N                   /* I    Number of input samples                                     */
 );
 
 
@@ -233,21 +192,6 @@ void silk_autocorr(
     int                         arch                /* I    Run-time architecture                                       */
 );
 
-opus_int silk_pitch_analysis_core(                  /* O    Voicing estimate: 0 voiced, 1 unvoiced                      */
-    const opus_int16            *frame,             /* I    Signal of length PE_FRAME_LENGTH_MS*Fs_kHz                  */
-    opus_int                    *pitch_out,         /* O    4 pitch lag values                                          */
-    opus_int16                  *lagIndex,          /* O    Lag Index                                                   */
-    opus_int8                   *contourIndex,      /* O    Pitch contour Index                                         */
-    opus_int                    *LTPCorr_Q15,       /* I/O  Normalized correlation; input: value from previous frame    */
-    opus_int                    prevLag,            /* I    Last lag of previous frame; set to zero is unvoiced         */
-    const opus_int32            search_thres1_Q16,  /* I    First stage threshold for lag candidates 0 - 1              */
-    const opus_int              search_thres2_Q13,  /* I    Final threshold for lag candidates 0 - 1                    */
-    const opus_int              Fs_kHz,             /* I    Sample frequency (kHz)                                      */
-    const opus_int              complexity,         /* I    Complexity setting, 0-2, where 2 is highest                 */
-    const opus_int              nb_subfr,           /* I    number of 5 ms subframes                                    */
-    int                         arch                /* I    Run-time architecture                                       */
-);
-
 /* Compute Normalized Line Spectral Frequencies (NLSFs) from whitening filter coefficients      */
 /* If not all roots are found, the a_Q16 coefficients are bandwidth expanded until convergence. */
 void silk_A2NLSF(
@@ -275,13 +219,6 @@ void silk_LPC_fit(
 
 void silk_insertion_sort_increasing(
     opus_int32                  *a,                 /* I/O   Unsorted / Sorted vector                                   */
-    opus_int                    *idx,               /* O     Index vector for the sorted elements                       */
-    const opus_int              L,                  /* I     Vector length                                              */
-    const opus_int              K                   /* I     Number of correctly sorted positions                       */
-);
-
-void silk_insertion_sort_decreasing_int16(
-    opus_int16                  *a,                 /* I/O   Unsorted / Sorted vector                                   */
     opus_int                    *idx,               /* O     Index vector for the sorted elements                       */
     const opus_int              L,                  /* I     Vector length                                              */
     const opus_int              K                   /* I     Number of correctly sorted positions                       */

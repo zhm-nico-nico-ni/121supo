@@ -61,13 +61,10 @@ POSSIBILITY OF SUCH DAMAGE.
 /***********************/
 
 /* Smoothing parameters for low end of pitch frequency range estimation */
-#define VARIABLE_HP_SMTH_COEF1                          0.1f
 #define VARIABLE_HP_SMTH_COEF2                          0.015f
-#define VARIABLE_HP_MAX_DELTA_FREQ                      0.4f
 
 /* Min and max cut-off frequency values (-3 dB points) */
 #define VARIABLE_HP_MIN_CUTOFF_HZ                       60
-#define VARIABLE_HP_MAX_CUTOFF_HZ                       100
 
 /***********/
 /* Various */
@@ -99,17 +96,8 @@ POSSIBILITY OF SUCH DAMAGE.
 /* noise shaping filter chirp factor */
 #define BANDWIDTH_EXPANSION                             0.94f
 
-/* harmonic noise shaping */
-#define HARMONIC_SHAPING                                0.3f
-
-/* extra harmonic noise shaping for high bitrates or noisy input */
-#define HIGH_RATE_OR_LOW_QUALITY_HARMONIC_SHAPING       0.2f
-
 /* parameter for shaping noise towards higher frequencies */
 #define HP_NOISE_COEF                                   0.25f
-
-/* parameter for shaping noise even more towards higher frequencies during voiced speech */
-#define HARM_HP_NOISE_COEF                              0.35f
 
 
 /* parameter for reducing noise at the very low frequencies */

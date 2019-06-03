@@ -29,32 +29,6 @@ POSSIBILITY OF SUCH DAMAGE.
 #include "tables.h"
 
 
-opus_uint8 *s_silk_pitch_lag_iCDF = 0;
-const opus_uint8 * get_silk_pitch_lag_iCDF(void){
-    if(s_silk_pitch_lag_iCDF==0){
-        s_silk_pitch_lag_iCDF = opus_alloc(32);
-
-        s_silk_pitch_lag_iCDF[0] = 253; s_silk_pitch_lag_iCDF[1] = 250;
-        s_silk_pitch_lag_iCDF[2] = 244; s_silk_pitch_lag_iCDF[3] = 233;
-        s_silk_pitch_lag_iCDF[4] = 212; s_silk_pitch_lag_iCDF[5] = 182;
-        s_silk_pitch_lag_iCDF[6] = 150; s_silk_pitch_lag_iCDF[7] = 131;
-        s_silk_pitch_lag_iCDF[8] = 120; s_silk_pitch_lag_iCDF[9] = 110;
-        s_silk_pitch_lag_iCDF[10] = 98; s_silk_pitch_lag_iCDF[11] = 85;
-        s_silk_pitch_lag_iCDF[12] = 72; s_silk_pitch_lag_iCDF[13] = 60;
-        s_silk_pitch_lag_iCDF[14] = 49; s_silk_pitch_lag_iCDF[15] = 40;
-        s_silk_pitch_lag_iCDF[16] = 32; s_silk_pitch_lag_iCDF[17] = 25;
-        s_silk_pitch_lag_iCDF[18] = 19; s_silk_pitch_lag_iCDF[19] = 15;
-        s_silk_pitch_lag_iCDF[20] = 13; s_silk_pitch_lag_iCDF[21] = 11;
-        s_silk_pitch_lag_iCDF[22] = 9; s_silk_pitch_lag_iCDF[23] = 8;
-        s_silk_pitch_lag_iCDF[24] = 7; s_silk_pitch_lag_iCDF[25] = 6;
-        s_silk_pitch_lag_iCDF[26] = 5; s_silk_pitch_lag_iCDF[27] = 4;
-        s_silk_pitch_lag_iCDF[28] = 3; s_silk_pitch_lag_iCDF[29] = 2;
-        s_silk_pitch_lag_iCDF[30] = 1; s_silk_pitch_lag_iCDF[31] = 0;
-    }
-    return s_silk_pitch_lag_iCDF;
-}
-
-
 opus_uint8 *s_silk_pitch_contour_iCDF = 0;
 const opus_uint8 * get_silk_pitch_contour_iCDF(void) {
     if (s_silk_pitch_contour_iCDF == 0) {

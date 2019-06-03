@@ -39,7 +39,7 @@ const opus_uint8 **get_silk_gain_iCDF(void);                                 /* 
 const opus_uint8 *get_silk_delta_gain_iCDF(void);  /* 41 */
 
 
-const opus_uint8 * get_silk_pitch_lag_iCDF(void);/* 32 */
+/* 32 */
 const opus_uint8 * get_silk_pitch_contour_iCDF(void);/*  34 */
 
 const opus_uint8 **get_silk_pulses_per_block_iCDF(void);        /* 180 */

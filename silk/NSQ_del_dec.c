@@ -165,15 +165,8 @@ void silk_NSQ_del_dec_c(
 
     decisionDelay = silk_min_int( DECISION_DELAY, psEncC->subfr_length );
 
-    /* For voiced frames limit the decision delay to lower than the pitch lag */
-    if( psIndices->signalType == TYPE_VOICED ) {
-        for( k = 0; k < psEncC->nb_subfr; k++ ) {
-            decisionDelay = silk_min_int( decisionDelay, pitchL[ k ] - LTP_ORDER / 2 - 1 );
-        }
-    } else {
-        if( lag > 0 ) {
-            decisionDelay = silk_min_int( decisionDelay, lag - LTP_ORDER / 2 - 1 );
-        }
+    if( lag > 0 ) {
+        decisionDelay = silk_min_int( decisionDelay, lag - LTP_ORDER / 2 - 1 );
     }
 
     if( psIndices->NLSFInterpCoef_Q2 == 4 ) {
@@ -201,54 +194,6 @@ void silk_NSQ_del_dec_c(
         HarmShapeFIRPacked_Q14 |= silk_LSHIFT( (opus_int32)silk_RSHIFT( HarmShapeGain_Q14[ k ], 1 ), 16 );
 
         NSQ->rewhite_flag = 0;
-        if( psIndices->signalType == TYPE_VOICED ) {
-            /* Voiced */
-            lag = pitchL[ k ];
-
-            /* Re-whitening */
-            if( ( k & ( 3 - silk_LSHIFT( LSF_interpolation_flag, 1 ) ) ) == 0 ) {
-                if( k == 2 ) {
-                    /* RESET DELAYED DECISIONS */
-                    /* Find winner */
-                    RDmin_Q10 = psDelDec[ 0 ].RD_Q10;
-                    Winner_ind = 0;
-                    for( i = 1; i < psEncC->nStatesDelayedDecision; i++ ) {
-                        if( psDelDec[ i ].RD_Q10 < RDmin_Q10 ) {
-                            RDmin_Q10 = psDelDec[ i ].RD_Q10;
-                            Winner_ind = i;
-                        }
-                    }
-                    for( i = 0; i < psEncC->nStatesDelayedDecision; i++ ) {
-                        if( i != Winner_ind ) {
-                            psDelDec[ i ].RD_Q10 += ( silk_int32_MAX >> 4 );
-                        }
-                    }
-
-                    /* Copy final part of signals from winner state to output and long-term filter states */
-                    psDD = &psDelDec[ Winner_ind ];
-                    last_smple_idx = smpl_buf_idx + decisionDelay;
-                    for( i = 0; i < decisionDelay; i++ ) {
-                        last_smple_idx = ( last_smple_idx - 1 ) % DECISION_DELAY;
-                        if( last_smple_idx < 0 ) last_smple_idx += DECISION_DELAY;
-                        pulses[   i - decisionDelay ] = (opus_int8)silk_RSHIFT_ROUND( psDD->Q_Q10[ last_smple_idx ], 10 );
-                        pxq[ i - decisionDelay ] = (opus_int16)silk_SAT16( silk_RSHIFT_ROUND(
-                            silk_SMULWW( psDD->Xq_Q14[ last_smple_idx ], Gains_Q16[ 1 ] ), 14 ) );
-                        NSQ->sLTP_shp_Q14[ NSQ->sLTP_shp_buf_idx - decisionDelay + i ] = psDD->Shape_Q14[ last_smple_idx ];
-                    }
-
-                    subfr = 0;
-                }
-
-                /* Rewhiten with new A coefs */
-                start_idx = psEncC->ltp_mem_length - lag - psEncC->predictLPCOrder - LTP_ORDER / 2;
-
-                silk_LPC_analysis_filter( &sLTP[ start_idx ], &NSQ->xq[ start_idx + k * psEncC->subfr_length ],
-                    A_Q12, psEncC->ltp_mem_length - start_idx, psEncC->predictLPCOrder, psEncC->arch );
-
-                NSQ->sLTP_buf_idx = psEncC->ltp_mem_length;
-                NSQ->rewhite_flag = 1;
-            }
-        }
 
         silk_nsq_del_dec_scale_states( psEncC, NSQ, psDelDec, x16, x_sc_Q10, sLTP, sLTP_Q15, k,
             psEncC->nStatesDelayedDecision, LTP_scale_Q14, Gains_Q16, pitchL, psIndices->signalType, decisionDelay );
@@ -340,7 +285,7 @@ static OPUS_INLINE void silk_noise_shape_quantizer_del_dec(
     opus_int32   n_LF_Q14, r_Q10, rr_Q10, rd1_Q10, rd2_Q10, RDmin_Q10, RDmax_Q10;
     opus_int32   q1_Q0, q1_Q10, q2_Q10, exc_Q14, LPC_exc_Q14, xq_Q14, Gain_Q10;
     opus_int32   tmp1, tmp2, sLF_AR_shp_Q14;
-    opus_int32   *pred_lag_ptr, *shp_lag_ptr, *psLPC_Q14;
+    opus_int32   *shp_lag_ptr, *psLPC_Q14;
 
     VARDECL( NSQ_sample_pair, psSampleState );
     NSQ_del_dec_struct *psDD;
@@ -349,28 +294,13 @@ static OPUS_INLINE void silk_noise_shape_quantizer_del_dec(
     ALLOC( psSampleState, nStatesDelayedDecision, NSQ_sample_pair );
 
     shp_lag_ptr  = &NSQ->sLTP_shp_Q14[ NSQ->sLTP_shp_buf_idx - lag + HARM_SHAPE_FIR_TAPS / 2 ];
-    pred_lag_ptr = &sLTP_Q15[ NSQ->sLTP_buf_idx - lag + LTP_ORDER / 2 ];
     Gain_Q10     = silk_RSHIFT( Gain_Q16, 6 );
 
 
     for( i = 0; i < length; i++ ) {
         /* Perform common calculations used in all states */
 
-        /* Long-term prediction */
-        if( signalType == TYPE_VOICED ) {
-            /* Unrolled loop */
-            /* Avoids introducing a bias because silk_SMLAWB() always rounds to -inf */
-            LTP_pred_Q14 = 2;
-            LTP_pred_Q14 = silk_SMLAWB( LTP_pred_Q14, pred_lag_ptr[  0 ], b_Q14[ 0 ] );
-            LTP_pred_Q14 = silk_SMLAWB( LTP_pred_Q14, pred_lag_ptr[ -1 ], b_Q14[ 1 ] );
-            LTP_pred_Q14 = silk_SMLAWB( LTP_pred_Q14, pred_lag_ptr[ -2 ], b_Q14[ 2 ] );
-            LTP_pred_Q14 = silk_SMLAWB( LTP_pred_Q14, pred_lag_ptr[ -3 ], b_Q14[ 3 ] );
-            LTP_pred_Q14 = silk_SMLAWB( LTP_pred_Q14, pred_lag_ptr[ -4 ], b_Q14[ 4 ] );
-            LTP_pred_Q14 = silk_LSHIFT( LTP_pred_Q14, 1 );                          /* Q13 -> Q14 */
-            pred_lag_ptr++;
-        } else {
-            LTP_pred_Q14 = 0;
-        }
+        LTP_pred_Q14 = 0;
 
         /* Long-term shaping */
         if( lag > 0 ) {
@@ -673,13 +603,6 @@ static OPUS_INLINE void silk_nsq_del_dec_scale_states(
         /* Scale long-term shaping state */
         for( i = NSQ->sLTP_shp_buf_idx - psEncC->ltp_mem_length; i < NSQ->sLTP_shp_buf_idx; i++ ) {
             NSQ->sLTP_shp_Q14[ i ] = silk_SMULWW( gain_adj_Q16, NSQ->sLTP_shp_Q14[ i ] );
-        }
-
-        /* Scale long-term prediction state */
-        if( signal_type == TYPE_VOICED && NSQ->rewhite_flag == 0 ) {
-            for( i = NSQ->sLTP_buf_idx - lag - LTP_ORDER / 2; i < NSQ->sLTP_buf_idx - decisionDelay; i++ ) {
-                sLTP_Q15[ i ] = silk_SMULWW( gain_adj_Q16, sLTP_Q15[ i ] );
-            }
         }
 
         for( k = 0; k < nStatesDelayedDecision; k++ ) {

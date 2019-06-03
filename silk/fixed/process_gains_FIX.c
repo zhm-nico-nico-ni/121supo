@@ -40,15 +40,6 @@ void silk_process_gains_FIX(
     opus_int     k;
     opus_int32   s_Q16, InvMaxSqrVal_Q16, gain, gain_squared, ResNrg, ResNrgPart, quant_offset_Q10;
 
-    /* Gain reduction when LTP coding gain is high */
-    if( psEnc->sCmn.indices.signalType == TYPE_VOICED ) {
-        /*s = -0.5f * silk_sigmoid( 0.25f * ( psEncCtrl->LTPredCodGain - 12.0f ) ); */
-        s_Q16 = -silk_sigm_Q15( silk_RSHIFT_ROUND( psEncCtrl->LTPredCodGain_Q7 - SILK_FIX_CONST( 12.0, 7 ), 4 ) );
-        for( k = 0; k < psEnc->sCmn.nb_subfr; k++ ) {
-            psEncCtrl->Gains_Q16[ k ] = silk_SMLAWB( psEncCtrl->Gains_Q16[ k ], psEncCtrl->Gains_Q16[ k ], s_Q16 );
-        }
-    }
-
     /* Limit the quantized signal */
     /* InvMaxSqrVal = pow( 2.0f, 0.33f * ( 21.0f - SNR_dB ) ) / subfr_length; */
     InvMaxSqrVal_Q16 = silk_DIV32_16( silk_log2lin(
@@ -89,15 +80,6 @@ void silk_process_gains_FIX(
     /* Quantize gains */
     silk_gains_quant( psEnc->sCmn.indices.GainsIndices, psEncCtrl->Gains_Q16,
         &psShapeSt->LastGainIndex, condCoding == CODE_CONDITIONALLY, psEnc->sCmn.nb_subfr );
-
-    /* Set quantizer offset for voiced signals. Larger offset when LTP coding gain is low or tilt is high (ie low-pass) */
-    if( psEnc->sCmn.indices.signalType == TYPE_VOICED ) {
-        if( psEncCtrl->LTPredCodGain_Q7 + silk_RSHIFT( psEnc->sCmn.input_tilt_Q15, 8 ) > SILK_FIX_CONST( 1.0, 7 ) ) {
-            psEnc->sCmn.indices.quantOffsetType = 0;
-        } else {
-            psEnc->sCmn.indices.quantOffsetType = 1;
-        }
-    }
 
     /* Quantizer boundary adjustment */
     quant_offset_Q10 = get_silk_Quantization_Offsets_Q10()[ psEnc->sCmn.indices.signalType >> 1 ][ psEnc->sCmn.indices.quantOffsetType ];

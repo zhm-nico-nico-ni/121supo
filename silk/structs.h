@@ -53,21 +53,6 @@ typedef struct {
     opus_int                    rewhite_flag;
 } silk_nsq_state;
 
-/********************************/
-/* VAD state                    */
-/********************************/
-typedef struct {
-    opus_int32                  AnaState[ 2 ];                  /* Analysis filterbank state: 0-8 kHz                                   */
-    opus_int32                  AnaState1[ 2 ];                 /* Analysis filterbank state: 0-4 kHz                                   */
-    opus_int32                  AnaState2[ 2 ];                 /* Analysis filterbank state: 0-2 kHz                                   */
-    opus_int32                  XnrgSubfr[ VAD_N_BANDS ];       /* Subframe energies                                                    */
-    opus_int32                  NrgRatioSmth_Q8[ VAD_N_BANDS ]; /* Smoothed energy level in each band                                   */
-    opus_int16                  HPstate;                        /* State of differentiator in the lowest band                           */
-    opus_int32                  NL[ VAD_N_BANDS ];              /* Noise energy level in each band                                      */
-    opus_int32                  inv_NL[ VAD_N_BANDS ];          /* Inverse noise energy level in each band                              */
-    opus_int32                  NoiseLevelBias[ VAD_N_BANDS ];  /* Noise level estimator bias/offset                                    */
-    opus_int32                  counter;                        /* Frame counter used in the initial phase                              */
-} silk_VAD_state;
 
 /* Variable cut-off low-pass filter state */
 typedef struct {
@@ -126,7 +111,6 @@ typedef struct {
     opus_int32                   variable_HP_smth1_Q15;             /* State of first smoother                                          */
     opus_int32                   variable_HP_smth2_Q15;             /* State of second smoother                                         */
     silk_LP_state                sLP;                               /* Low pass filter state                                            */
-    silk_VAD_state               sVAD;                              /* Voice activity detector state                                    */
     silk_nsq_state               sNSQ;                              /* Noise Shape Quantizer State                                      */
     opus_int16                   prev_NLSFq_Q15[ MAX_LPC_ORDER ];   /* Previously quantized NLSF vector                                 */
     opus_int                     speech_activity_Q8;                /* Speech activity                                                  */

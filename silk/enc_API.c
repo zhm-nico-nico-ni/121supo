@@ -286,8 +286,6 @@ opus_int silk_Encode(                                   /* O    Returns error co
                 psEnc->nBitsUsedLBRR = ec_tell( psRangeEnc );
             }
 
-            silk_HP_variable_cutoff( psEnc->state_Fxx );
-
             /* Total target bits for packet */
             nBits = silk_DIV32_16( silk_MUL( encControl->bitRate, encControl->payloadSize_ms ), 1000 );
             /* Subtract bits used for LBRR */
@@ -318,7 +316,6 @@ opus_int silk_Encode(                                   /* O    Returns error co
                 silk_memcpy( psEnc->state_Fxx[ 0 ].sCmn.inputBuf, psEnc->sStereo.sMid, 2 * sizeof( opus_int16 ) );
                 silk_memcpy( psEnc->sStereo.sMid, &psEnc->state_Fxx[ 0 ].sCmn.inputBuf[ psEnc->state_Fxx[ 0 ].sCmn.frame_length ], 2 * sizeof( opus_int16 ) );
             }
-            silk_encode_do_VAD_Fxx( &psEnc->state_Fxx[ 0 ] );
 
             /* Encode */
             for( n = 0; n < encControl->nChannelsInternal; n++ ) {

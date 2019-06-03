@@ -52,8 +52,5 @@ opus_int silk_init_encoder(
     /* Used to deactivate LSF interpolation, pitch prediction */
     psEnc->sCmn.first_frame_after_reset = 1;
 
-    /* Initialize Silk VAD */
-    ret += silk_VAD_Init( &psEnc->sCmn.sVAD );
-
     return  ret;
 }

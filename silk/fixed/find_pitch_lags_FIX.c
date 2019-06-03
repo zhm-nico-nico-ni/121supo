@@ -40,7 +40,7 @@ void silk_find_pitch_lags_FIX(
 )
 {
     opus_int   buf_len, i, scale;
-    opus_int32 thrhld_Q13, res_nrg;
+    opus_int32 res_nrg;
     const opus_int16 *x_ptr;
     VARDECL( opus_int16, Wsig );
     opus_int16 *Wsig_ptr;
@@ -106,31 +106,9 @@ void silk_find_pitch_lags_FIX(
     /*****************************************/
     silk_LPC_analysis_filter( res, x, A_Q12, buf_len, psEnc->sCmn.pitchEstimationLPCOrder, psEnc->sCmn.arch );
 
-    if( psEnc->sCmn.indices.signalType != TYPE_NO_VOICE_ACTIVITY && psEnc->sCmn.first_frame_after_reset == 0 ) {
-        /* Threshold for pitch estimator */
-        thrhld_Q13 = SILK_FIX_CONST( 0.6, 13 );
-        thrhld_Q13 = silk_SMLABB( thrhld_Q13, SILK_FIX_CONST( -0.004, 13 ), psEnc->sCmn.pitchEstimationLPCOrder );
-        thrhld_Q13 = silk_SMLAWB( thrhld_Q13, SILK_FIX_CONST( -0.1,   21  ), psEnc->sCmn.speech_activity_Q8 );
-        thrhld_Q13 = silk_SMLABB( thrhld_Q13, SILK_FIX_CONST( -0.15,  13 ), silk_RSHIFT( psEnc->sCmn.prevSignalType, 1 ) );
-        thrhld_Q13 = silk_SMLAWB( thrhld_Q13, SILK_FIX_CONST( -0.1,   14 ), psEnc->sCmn.input_tilt_Q15 );
-        thrhld_Q13 = silk_SAT16(  thrhld_Q13 );
 
-        /*****************************************/
-        /* Call pitch estimator                  */
-        /*****************************************/
-        if( silk_pitch_analysis_core( res, psEncCtrl->pitchL, &psEnc->sCmn.indices.lagIndex, &psEnc->sCmn.indices.contourIndex,
-                &psEnc->LTPCorr_Q15, psEnc->sCmn.prevLag, psEnc->sCmn.pitchEstimationThreshold_Q16,
-                (opus_int)thrhld_Q13, psEnc->sCmn.fs_kHz, psEnc->sCmn.pitchEstimationComplexity, psEnc->sCmn.nb_subfr,
-                psEnc->sCmn.arch) == 0 )
-        {
-            psEnc->sCmn.indices.signalType = TYPE_VOICED;
-        } else {
-            psEnc->sCmn.indices.signalType = TYPE_UNVOICED;
-        }
-    } else {
-        silk_memset( psEncCtrl->pitchL, 0, sizeof( psEncCtrl->pitchL ) );
-        psEnc->sCmn.indices.lagIndex = 0;
-        psEnc->sCmn.indices.contourIndex = 0;
-        psEnc->LTPCorr_Q15 = 0;
-    }
+    silk_memset( psEncCtrl->pitchL, 0, sizeof( psEncCtrl->pitchL ) );
+    psEnc->sCmn.indices.lagIndex = 0;
+    psEnc->sCmn.indices.contourIndex = 0;
+    psEnc->LTPCorr_Q15 = 0;
 }

@@ -65,33 +65,7 @@ void silk_find_pred_coefs_FIX(
     ALLOC( LPC_in_pre,
            psEnc->sCmn.nb_subfr * psEnc->sCmn.predictLPCOrder
                + psEnc->sCmn.frame_length, opus_int16 );
-    if( psEnc->sCmn.indices.signalType == TYPE_VOICED ) {
-        VARDECL( opus_int32, xXLTP_Q17 );
-        VARDECL( opus_int32, XXLTP_Q17 );
-
-        /**********/
-        /* VOICED */
-        /**********/
-
-        ALLOC( xXLTP_Q17, psEnc->sCmn.nb_subfr * LTP_ORDER, opus_int32 );
-        ALLOC( XXLTP_Q17, psEnc->sCmn.nb_subfr * LTP_ORDER * LTP_ORDER, opus_int32 );
-
-        /* LTP analysis */
-        silk_find_LTP_FIX( XXLTP_Q17, xXLTP_Q17, res_pitch,
-            psEncCtrl->pitchL, psEnc->sCmn.subfr_length, psEnc->sCmn.nb_subfr, psEnc->sCmn.arch );
-
-        /* Quantize LTP gain parameters */
-        silk_quant_LTP_gains( psEncCtrl->LTPCoef_Q14, psEnc->sCmn.indices.LTPIndex, &psEnc->sCmn.indices.PERIndex,
-            &psEnc->sCmn.sum_log_gain_Q7, &psEncCtrl->LTPredCodGain_Q7, XXLTP_Q17, xXLTP_Q17, psEnc->sCmn.subfr_length, psEnc->sCmn.nb_subfr, psEnc->sCmn.arch );
-
-        /* Control LTP scaling */
-        silk_LTP_scale_ctrl_FIX( psEnc, psEncCtrl, condCoding );
-
-        /* Create LTP residual */
-        silk_LTP_analysis_filter_FIX( LPC_in_pre, x - psEnc->sCmn.predictLPCOrder, psEncCtrl->LTPCoef_Q14,
-            psEncCtrl->pitchL, invGains_Q16, psEnc->sCmn.subfr_length, psEnc->sCmn.nb_subfr, psEnc->sCmn.predictLPCOrder );
-
-    } else {
+    {
         /************/
         /* UNVOICED */
         /************/

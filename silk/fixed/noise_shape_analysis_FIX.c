@@ -174,10 +174,7 @@ void silk_noise_shape_analysis_FIX(
             silk_SMULWB( SILK_FIX_CONST( 1.0, 14 ) + psEncCtrl->input_quality_Q14, psEncCtrl->coding_quality_Q14 ) );     /* Q12*/
     }
 
-    if( psEnc->sCmn.indices.signalType == TYPE_VOICED ) {
-        /* Reduce gains for periodic signals */
-        SNR_adj_dB_Q7 = silk_SMLAWB( SNR_adj_dB_Q7, SILK_FIX_CONST( HARM_SNR_INCR_dB, 8 ), psEnc->LTPCorr_Q15 );
-    } else {
+    {
         /* For unvoiced signals and low-quality input, adjust the quality slower than SNR_dB setting */
         SNR_adj_dB_Q7 = silk_SMLAWB( SNR_adj_dB_Q7,
             silk_SMLAWB( SILK_FIX_CONST( 6.0, 9 ), -SILK_FIX_CONST( 0.4, 18 ), psEnc->sCmn.SNR_dB_Q7 ),
@@ -188,10 +185,7 @@ void silk_noise_shape_analysis_FIX(
     /* SPARSENESS PROCESSING */
     /*************************/
     /* Set quantizer offset */
-    if( psEnc->sCmn.indices.signalType == TYPE_VOICED ) {
-        /* Initially set to 0; may be overruled in process_gains(..) */
-        psEnc->sCmn.indices.quantOffsetType = 0;
-    } else {
+    {
         /* Sparseness measure, based on relative fluctuations of energy per 2 milliseconds */
         nSamples = silk_LSHIFT( psEnc->sCmn.fs_kHz, 1 );
         energy_variation_Q7 = 0;
@@ -333,20 +327,7 @@ void silk_noise_shape_analysis_FIX(
     strength_Q16 = silk_MUL( SILK_FIX_CONST( LOW_FREQ_SHAPING, 4 ), silk_SMLAWB( SILK_FIX_CONST( 1.0, 12 ),
         SILK_FIX_CONST( LOW_QUALITY_LOW_FREQ_SHAPING_DECR, 13 ), psEnc->sCmn.input_quality_bands_Q15[ 0 ] - SILK_FIX_CONST( 1.0, 15 ) ) );
     strength_Q16 = silk_RSHIFT( silk_MUL( strength_Q16, psEnc->sCmn.speech_activity_Q8 ), 8 );
-    if( psEnc->sCmn.indices.signalType == TYPE_VOICED ) {
-        /* Reduce low frequencies quantization noise for periodic signals, depending on pitch lag */
-        /*f = 400; freqz([1, -0.98 + 2e-4 * f], [1, -0.97 + 7e-4 * f], 2^12, Fs); axis([0, 1000, -10, 1])*/
-        opus_int fs_kHz_inv = silk_DIV32_16( SILK_FIX_CONST( 0.2, 14 ), psEnc->sCmn.fs_kHz );
-        for( k = 0; k < psEnc->sCmn.nb_subfr; k++ ) {
-            b_Q14 = fs_kHz_inv + silk_DIV32_16( SILK_FIX_CONST( 3.0, 14 ), psEncCtrl->pitchL[ k ] );
-            /* Pack two coefficients in one int32 */
-            psEncCtrl->LF_shp_Q14[ k ]  = silk_LSHIFT( SILK_FIX_CONST( 1.0, 14 ) - b_Q14 - silk_SMULWB( strength_Q16, b_Q14 ), 16 );
-            psEncCtrl->LF_shp_Q14[ k ] |= (opus_uint16)( b_Q14 - SILK_FIX_CONST( 1.0, 14 ) );
-        }
-        Tilt_Q16 = - SILK_FIX_CONST( HP_NOISE_COEF, 16 ) -
-            silk_SMULWB( SILK_FIX_CONST( 1.0, 16 ) - SILK_FIX_CONST( HP_NOISE_COEF, 16 ),
-                silk_SMULWB( SILK_FIX_CONST( HARM_HP_NOISE_COEF, 24 ), psEnc->sCmn.speech_activity_Q8 ) );
-    } else {
+    {
         b_Q14 = silk_DIV32_16( 21299, psEnc->sCmn.fs_kHz ); /* 1.3_Q0 = 21299_Q14*/
         /* Pack two coefficients in one int32 */
         psEncCtrl->LF_shp_Q14[ 0 ]  = silk_LSHIFT( SILK_FIX_CONST( 1.0, 14 ) - b_Q14 -
@@ -358,19 +339,7 @@ void silk_noise_shape_analysis_FIX(
         Tilt_Q16 = -SILK_FIX_CONST( HP_NOISE_COEF, 16 );
     }
 
-    /****************************/
-    /* HARMONIC SHAPING CONTROL */
-    /****************************/
-    if( USE_HARM_SHAPING && psEnc->sCmn.indices.signalType == TYPE_VOICED ) {
-        /* More harmonic noise shaping for high bitrates or noisy input */
-        HarmShapeGain_Q16 = silk_SMLAWB( SILK_FIX_CONST( HARMONIC_SHAPING, 16 ),
-                SILK_FIX_CONST( 1.0, 16 ) - silk_SMULWB( SILK_FIX_CONST( 1.0, 18 ) - silk_LSHIFT( psEncCtrl->coding_quality_Q14, 4 ),
-                psEncCtrl->input_quality_Q14 ), SILK_FIX_CONST( HIGH_RATE_OR_LOW_QUALITY_HARMONIC_SHAPING, 16 ) );
-
-        /* Less harmonic noise shaping for less periodic signals */
-        HarmShapeGain_Q16 = silk_SMULWB( silk_LSHIFT( HarmShapeGain_Q16, 1 ),
-            silk_SQRT_APPROX( silk_LSHIFT( psEnc->LTPCorr_Q15, 15 ) ) );
-    } else {
+    {
         HarmShapeGain_Q16 = 0;
     }
 

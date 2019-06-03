@@ -53,7 +53,6 @@ POSSIBILITY OF SUCH DAMAGE.
 
 /* Signal types */
 #define TYPE_NO_VOICE_ACTIVITY                  0
-#define TYPE_UNVOICED                           1
 #define TYPE_VOICED                             2
 
 /* Conditional coding types */
@@ -70,7 +69,7 @@ POSSIBILITY OF SUCH DAMAGE.
 #define MAX_NB_SUBFR                            4
 
 /* Number of samples per frame */
-#define LTP_MEM_LENGTH_MS                       20
+#define LTP_MEM_LENGTH_MS                       10
 #define SUB_FRAME_LENGTH_MS                     5
 #define MAX_SUB_FRAME_LENGTH                    ( SUB_FRAME_LENGTH_MS * MAX_FS_KHZ )
 #define MAX_FRAME_LENGTH_MS                     ( SUB_FRAME_LENGTH_MS * MAX_NB_SUBFR )
@@ -121,7 +120,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 
 /* Flag to use harmonic noise shaping */
-#define USE_HARM_SHAPING                        1
+#define USE_HARM_SHAPING                        0
 
 /* Max LPC order of noise shaping filters */
 #define MAX_SHAPE_LPC_ORDER                     24
@@ -150,20 +149,7 @@ POSSIBILITY OF SUCH DAMAGE.
 /***************************/
 /* Voice activity detector */
 /***************************/
-#define VAD_N_BANDS                             4
-
-#define VAD_INTERNAL_SUBFRAMES_LOG2             2
-#define VAD_INTERNAL_SUBFRAMES                  ( 1 << VAD_INTERNAL_SUBFRAMES_LOG2 )
-
-#define VAD_NOISE_LEVEL_SMOOTH_COEF_Q16         1024    /* Must be <  4096 */
-#define VAD_NOISE_LEVELS_BIAS                   50
-
-/* Sigmoid settings */
-#define VAD_NEGATIVE_OFFSET_Q5                  128     /* sigmoid is 0 at -128 */
-#define VAD_SNR_FACTOR_Q16                      45000
-
-/* smoothing for SNR measurement */
-#define VAD_SNR_SMOOTH_COEF_Q18                 4096
+#define VAD_N_BANDS                             2
 
 /* Size of the piecewise linear cosine approximation table for the LSFs */
 #define LSF_COS_TAB_SZ_FIX                      128
